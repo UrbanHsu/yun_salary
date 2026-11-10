@@ -1,0 +1,30 @@
+rules_version = '2';
+
+// 惠韻牙醫診所 助理薪資系統
+// 只有白名單內的 Google 帳號可以讀寫薪資資料。
+// 使用方式：把下面 allowed() 裡的 Email 換成實際要放行的帳號，
+// 然後在 Firebase 主控台 → Firestore Database → 規則，整段貼上並「發布」。
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function allowed() {
+      return request.auth != null
+        && request.auth.token.email_verified == true
+        && request.auth.token.email in [
+             'EMAIL_1@gmail.com',
+             'EMAIL_2@gmail.com'
+           ];
+    }
+
+    // 薪資主檔（payroll/state）
+    match /payroll/{doc} {
+      allow read, write: if allowed();
+    }
+
+    // 其他路徑一律禁止
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}
