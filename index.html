@@ -92,6 +92,8 @@ table.grid tfoot td{background:var(--surface2);font-weight:700;border-top:2px so
 td.sep,th.sep{border-left:1px solid var(--line-s)}
 .cell-in{width:100%;min-width:56px;max-width:88px;border:1px solid transparent;background:#FCFEFD;border-radius:3px;padding:3px 5px;text-align:right;font-family:var(--mono);font-size:13px;color:var(--ink)}
 .cell-in:hover{border-color:var(--line)}
+.cell-in.txt{text-align:left;font-family:var(--sans);font-size:12.5px;max-width:150px;min-width:110px}
+td .memo{font-size:12px;color:var(--ink2);font-family:var(--sans)}
 .cell-in:focus{border-color:var(--pine);background:#fff;outline:none;box-shadow:0 0 0 2px var(--celadon-l)}
 .cell-in[disabled]{background:transparent;color:var(--ink2);border-color:transparent}
 .cell-sel{border:1px solid var(--line);background:#FCFEFD;border-radius:3px;padding:3px 4px;
@@ -764,7 +766,7 @@ function seed(){
       laborRate:0.115,empRate:0.01,laborSelf:0.2,laborBoss:0.7,occRate:0.0011,
       nhiRate:0.0517,nhiSelf:0.3,nhiBoss:0.6,nhiAvgDep:1.58,suppRate:0.0211,
       pensionRate:0.06,showDutyDetail:false,birthdayGift:2000,giftMonth:'same',perfectTiers:'1:250, 2:125',minWage:29500,otCapMin:2760,lookbackMonths:36,penaltyMult:4,
-      wageItems:{base:1,coinPay:1,guarantee:1,duty:1,perfect:1,otPay:1,bonus:0,gift:0}}}
+      wageItems:{base:1,coinPay:1,guarantee:1,duty:1,perfect:1,otPay:1,bonus:0,gift:0,special:0}}}
 }
 
 let DB=null;
@@ -779,7 +781,7 @@ function rhe(v){
 // 投保基準組成：哪些給付項目屬於「工資」而應計入月薪資總額
 const WAGE_ITEMS=[
   ['base','底薪',1],['coinPay','金幣獎金',1],['guarantee','保障差額',1],
-  ['duty','職務津貼',1],['perfect','全勤獎金',1],['otPay','加班費',1],['bonus','紅利獎金',0],['gift','生日禮金',0]
+  ['duty','職務津貼',1],['perfect','全勤獎金',1],['otPay','加班費',1],['bonus','紅利獎金',0],['gift','生日禮金',0],['special','特殊獎金',0]
 ];
 function wageBase(R,v){
   const W=R.wageItems||{};
@@ -851,9 +853,10 @@ function calc(st,row,R){
     autoPerfect=Math.round(autoPerfect*(R.perfectMens==null?0.5:R.perfectMens));
   const perfect=(row.perfect===''||row.perfect==null)?autoPerfect:(+row.perfect||0);
   const bonus=+row.bonus||0, gift=+row.gift||0;
+  const special=+row.special||0, specialNote=row.specialNote||'';   // 特殊獎金：一次性，需註明事由
   // 主帳戶固定匯款：該月有填就以該月為準，否則用設定值
   const bk1=(row.bank1Amt===''||row.bank1Amt==null)?(+st.bank1Amt||0):(+row.bank1Amt||0);
-  const payable=gross+otPay-lateCut-leaveCut+perfect+bonus+gift;
+  const payable=gross+otPay-lateCut-leaveCut+perfect+bonus+gift+special;
   const net=payable-nhiSelf-labSelf;
   const labBoss=rhe((+st.insL||0)*((R.laborRate+R.empRate)*R.laborBoss+R.occRate));
   const nhiBoss=rhe((+st.insH||0)*R.nhiRate*R.nhiBoss*R.nhiAvgDep);
@@ -861,7 +864,7 @@ function calc(st,row,R){
   return{coins,coinPay,guarantee,guarBase,duty,base,gross,perMin,otPerMin,otMin,otPay,
     lateCount,lateTotal,latePaidMin,lateMax,lateCut,perDay,perSes,sessions,lp,lt,ls,lm,la,leaveCut,
     leaveAnnual:la,leavePersonal:lp,leaveTyphoon:lt,leaveSick:ls,leaveMens:lm,   // 與欄位鍵名一致的別名
-    nhiSelf,labSelf,autoNhi,autoLab,perfect,autoPerfect,bonus,gift,payable,net,labBoss,nhiBoss,pension,
+    nhiSelf,labSelf,autoNhi,autoLab,perfect,autoPerfect,bonus,gift,special,specialNote,payable,net,labBoss,nhiBoss,pension,
     bank1:Math.min(Math.max(0,bk1),Math.max(0,net)),
     bank2:Math.max(0,net)-Math.min(Math.max(0,bk1),Math.max(0,net)),
     bank1Fixed:bk1,
@@ -878,12 +881,14 @@ function getMonth(k,create){const id=mk2(k);if(!DB.months[id]&&create)DB.months[
 function rowOf(M,st){
   if(!M.rows[st.id])M.rows[st.id]={coins:0,guarantee:'',duty:st.duty,lateLog:[],leavePersonal:'',
     leaveTyphoon:'',leaveSick:'',leaveMens:'',otMin:'',leaveAnnual:'',lateTotal:'',lateCount:'',
-    perfect:'',bonus:0,gift:0,note:''};
+    perfect:'',bonus:0,gift:0,special:'',specialNote:'',note:''};
   const r=M.rows[st.id];
   if(!Array.isArray(r.lateLog)) r.lateLog = (+r.late>0)?[{d:'',m:(+r.late)+(DB.rules.lateGrace||30)}]:[];
   if(r.guarantee===undefined)r.guarantee='';
   if(r.leaveAnnual===undefined)r.leaveAnnual='';
   if(r.leaveMens===undefined)r.leaveMens='';
+  if(r.special===undefined)r.special='';
+  if(r.specialNote===undefined)r.specialNote='';
   if(r.gift===undefined)r.gift=0;
   if(r.giftBday===undefined)r.giftBday=0;
   if(r.bonusAuto===undefined)r.bonusAuto=0;
@@ -953,6 +958,9 @@ function cols(){
   {g:'獎金',k:'perfect',t:'全勤',    type:'in',step:100,lock:'bonus',ph:c=>c.autoPerfect,rof:c=>n0(c.perfect)},
   {g:'獎金',k:'bonus',  t:'紅利獎金',type:'in',step:100,lock:'bonus',ph:c=>c.bonus,rof:c=>n0(c.bonus)},
   {g:'獎金',k:'gift',   t:'生日禮金',type:'ro',f:c=>n0(c.gift),cls:'gold'},
+  {g:'獎金',k:'special',t:'特殊獎金',type:'in',step:500,lock:'bonus',rof:c=>blankNum(c.special),cls:'gold'},
+  {g:'獎金',k:'specialNote',t:'發放事由',type:'txt',lock:'bonus',
+    rof:c=>c.specialNote?`<span class="memo">${esc(c.specialNote)}</span>`:''},
   {g:'合計',k:'net',t:'實發總計',type:'ro',f:c=>n0(c.net),cls:'tot'},
   ];
 }
@@ -960,15 +968,17 @@ const blankNum=v=>(v===''||v==null||+v===0)?'':n1(v);
 const ZONES=[['pay','給付項目'],['att','出勤'],['ins','代扣'],['bonus','獎金']];
 let payEdit={};   // 各區是否開放編輯
 // 留白＝自動或未填；ZERO_BLANK 的欄位連 0 也顯示為空白
-const BLANK_COLS=['guarantee','base','nhiSelf','labSelf','perfect',
+const BLANK_COLS=['guarantee','base','nhiSelf','labSelf','perfect','special',
   'leaveAnnual','leavePersonal','leaveTyphoon','leaveSick','leaveMens','otMin','lateTotal','lateCount'];
 const ZERO_BLANK=['leaveAnnual','leavePersonal','leaveTyphoon','leaveSick','leaveMens','otMin','lateTotal','lateCount'];
+const TEXT_COLS=['specialNote'];
+const esc=t=>String(t==null?'':t).replace(/[&<>"]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[m]));
 const INT_COLS=['coins','lateCount','lateTotal','latePaidMin','leaveAnnual','leavePersonal','leaveTyphoon','leaveSick','otMin'];
 const LOOKUP_FIELDS=[
   // 最常看的出勤在最前，再來是獎金，金額總計放最後
   ['leaveSick','病假診數','診'],['leaveMens','生理假診數','診'],['la','特休診數','診'],['lp','事假診數','診'],
   ['lateTotal','遲到總分鐘','分'],['lt','颱風假','診'],['otMin','加班分鐘','分'],
-  ['bonus','紅利獎金','$'],['gift','生日禮金','$'],['perfect','全勤獎金','$'],
+  ['bonus','紅利獎金','$'],['gift','生日禮金','$'],['special','特殊獎金','$'],['perfect','全勤獎金','$'],
   ['net','實發總計','$'],['gross','合計薪資','$'],['coins','金幣數','枚'],
   // 以下預設收起，可在「選擇顯示的項目」開啟
   ['coinPay','金幣獎金','$'],['guarantee','保障差額','$'],['duty','職務津貼','$'],
@@ -1044,6 +1054,10 @@ function renderMonth(){
       const val=BLANK_COLS.includes(col.k)
         ? ((v0===''||v0==null||(ZERO_BLANK.includes(col.k)&&+v0===0))?'':v0)
         : (v0??0);
+      if(col.type==='txt')
+        return `<td class="${sep.trim()}"><input class="cell-in txt" type="text"
+          data-s="${st.id}" data-k="${col.k}" value="${esc(row[col.k]||'')}"
+          placeholder="例如：年終、專案獎勵" ${locked?'disabled':''}></td>`;
       const ph=col.ph?` placeholder="${col.ph(c)}"`:'';
       return `<td class="n${sep}"><input class="cell-in" type="number" step="${col.step||1}"
         data-s="${st.id}" data-k="${col.k}" value="${val}"${ph} ${locked?'disabled':''}></td>`;
@@ -1058,6 +1072,7 @@ function renderMonth(){
   wrap.querySelectorAll('.cell-in').forEach(inp=>inp.addEventListener('input',e=>{
     const{s,k}=e.target.dataset,M2=getMonth(DB.month,false);
     if(!M2||M2.locked)return;
+    if(TEXT_COLS.includes(k)){ M2.rows[s][k]=e.target.value; save(); return; }
     M2.rows[s][k]=e.target.value===''?(BLANK_COLS.includes(k)?'':0):+e.target.value;
     refreshRow(s);save();
   }));
@@ -1280,7 +1295,7 @@ document.getElementById('btnCopyPrev').onclick=()=>{
   if(!pm)return toast('沒有上個月的資料');
   activeStaff().forEach(st=>{const p=pm.rows[st.id];if(!p)return;
     M.rows[st.id]={...p,lateLog:[],lateTotal:'',lateCount:'',leaveAnnual:'',leavePersonal:'',
-      leaveTyphoon:'',leaveSick:'',leaveMens:'',otMin:'',perfect:'',gift:0,giftBday:0,bonusAuto:1,coinsAuto:1,note:''};});
+      leaveTyphoon:'',leaveSick:'',leaveMens:'',otMin:'',perfect:'',gift:0,giftBday:0,bonusAuto:1,coinsAuto:1,special:'',specialNote:'',note:''};});
   save();renderAll();toast('已複製上月的金幣、津貼與獎金（出勤歸零）');
 };
 // 本月該發生日禮金的人：依「生日當月」或「生日次月」判定
@@ -2009,6 +2024,7 @@ function renderSlips(){
           ${c.perfect?li('全勤獎金',n0(c.perfect)):''}
           ${c.bonus?li('紅利獎金',n0(c.bonus)):''}
           ${c.gift?li('生日禮金',n0(c.gift)):''}
+          ${c.special?li('特殊獎金'+(c.specialNote?`（${esc(c.specialNote)}）`:''),n0(c.special)):''}
           ${li('應發小計',n0(c.gross+c.otPay+c.perfect+c.bonus+c.gift),'st')}
         </div>
         <div class="grp"><div class="gt">扣除</div>
