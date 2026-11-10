@@ -22,6 +22,7 @@
   --r:4px;
 }
 *{box-sizing:border-box}
+[hidden]{display:none!important}   /* 獨立網頁沒有 artifact 環境的基礎樣式，必須自己補 */
 html,body{margin:0;padding:0}
 body{font-family:var(--sans);color:var(--ink);background:var(--paper);font-size:14px;line-height:1.55;-webkit-font-smoothing:antialiased}
 .num,input[type=number],td.n,th.n{font-family:var(--mono);font-variant-numeric:tabular-nums}
