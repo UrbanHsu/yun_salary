@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="惠韻薪資">
+  <defs>
+    <linearGradient id="bg2" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#14483C"/>
+      <stop offset="1" stop-color="#0B2E26"/>
+    </linearGradient>
+    <radialGradient id="coin2" cx="36%" cy="30%" r="78%">
+      <stop offset="0" stop-color="#F6E3AC"/>
+      <stop offset="52%" stop-color="#E7C56A"/>
+      <stop offset="100%" stop-color="#A8761F"/>
+    </radialGradient>
+  </defs>
+
+  <!-- 滿版底色：不透明、不切圓角，圓角由作業系統處理 -->
+  <rect width="512" height="512" fill="url(#bg2)"/>
+
+  <!-- 金幣：直徑約佔 55%，在各家遮罩（含圓形）下都不會被切到 -->
+  <circle cx="256" cy="256" r="156" fill="none" stroke="#A8761F" stroke-opacity=".34" stroke-width="7"/>
+  <circle cx="256" cy="256" r="141" fill="url(#coin2)"/>
+  <circle cx="256" cy="256" r="141" fill="none" stroke="#8A6118" stroke-opacity=".45" stroke-width="5"/>
+  <circle cx="256" cy="256" r="117" fill="none" stroke="#8A6118" stroke-opacity=".30" stroke-width="4"/>
+
+  <text x="256" y="258" fill="#0B2E26" text-anchor="middle" dominant-baseline="central"
+        font-family="'Noto Serif TC','Songti TC','PingFang TC','Microsoft JhengHei',serif"
+        font-size="156" font-weight="700">韻</text>
+</svg>
