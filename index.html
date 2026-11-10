@@ -489,9 +489,9 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
   <button class="btn sm" onclick="forceSave()">以這個分頁為準，強制覆蓋</button>
 </div>
 <div id="localWarn" hidden>
-  <b>這份不是雲端版</b>
+  <b>沒有連上雲端資料庫</b>
   <span>目前的資料只存在這台裝置的這個瀏覽器，不會跟手機或其他電腦同步，清除瀏覽資料就會消失。
-  請改用 claude.ai 上的雲端版本編輯，這個檔案只當離線備份。</span>
+  請重新整理頁面並確認已登入；若持續出現，先用「匯出備份」把資料保存下來。</span>
 </div>
 <div class="wrap">
   <aside class="rail">
@@ -994,6 +994,15 @@ function renderMonth(){
   document.getElementById('mTitle').textContent=`${DB.year} 年 ${DB.month} 月`;
   const wrap=document.getElementById('mTableWrap'),strip=document.getElementById('lockStrip');
   if(!M){strip.style.display='none';document.getElementById('mWarns').innerHTML='';
+    if(!DB.staff.length){                       // 全新的資料庫，先把備份搬進來
+      wrap.innerHTML=`<div class="empty" style="line-height:2">
+        <b style="font-family:var(--serif);font-size:16px">這個資料庫還是空的</b><br>
+        第一次使用請先把備份檔匯進來，19 個月的歷史資料就會一次補齊。<br>
+        <span style="font-size:12px;color:var(--ink3)">之後存檔都會直接寫進雲端，不用再匯入。</span><br>
+        <button class="btn pri" style="margin-top:14px"
+          onclick="document.getElementById('btnRestore').click()">選擇備份檔匯入</button></div>`;
+      return;
+    }
     wrap.innerHTML=`<div class="empty">這個月還沒有薪資資料。<br>
       <button class="btn pri" style="margin-top:12px" onclick="createMonth()">建立 ${DB.month} 月薪資表</button></div>`;return;}
   let _auto=autoBirthdayGift(M); if(autoBonus(M))_auto=true; if(autoCoins(M))_auto=true; if(_auto)save();
