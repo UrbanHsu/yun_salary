@@ -4,81 +4,153 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
 <title>惠韻每月回饋</title>
-<link rel="icon" type="image/png" sizes="192x192" href="icon-round-192.png">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="form-icon-192.png">
+<link rel="apple-touch-icon" href="form-apple-touch-icon.png">
 <link rel="manifest" href="form.webmanifest">
-<meta name="theme-color" content="#14483C">
+<meta name="theme-color" content="#0f7b7b">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="惠韻每月回饋">
 <style>
-:root{--ink:#0F1F1A;--ink2:#3A544B;--ink3:#6B837A;--paper:#E9EEEC;--surface:#fff;--surface2:#F5F8F7;
-  --pine:#14483C;--pine-d:#0B2E26;--celadon:#7FAE9D;--celadon-l:#DCE9E4;--brass:#A8761F;--brass-l:#E7C56A;--brass-bg:#FBF3DF;
-  --seal:#A6332B;--line:#CBD6D1;--line-s:#E2EAE7;--sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+:root{
+  --bg:#f4f6f7; --surface:#ffffff; --surface-2:#eef1f3; --line:#dde3e7;
+  --fg:#1b2529; --muted:#5f6f78; --accent:#0f7b7b; --accent-fg:#ffffff;
+  --warn:#b4690e; --good:#2f7d46; --danger:#b23b3b;
+  --shadow:0 1px 2px rgba(16,40,48,.06),0 2px 8px rgba(16,40,48,.05);
+  --cell-fill:#fff8e6; --self:#e9edef;
+  --sky1:#e7f3ff; --sky2:#f4f6f7; --ink:#1b2529; --ink-use:var(--ink); --page-bg:var(--sky2); --halo:var(--halo-s,var(--sky1)); --scene-filter:none;
+  --glass:color-mix(in srgb,var(--surface) 84%,transparent);
+  --font:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --bg:#0f1618; --surface:#172124; --surface-2:#1d292d; --line:#2a393e;
+  --fg:#e7eef0; --muted:#95a7ae; --accent:#2bb3ac; --accent-fg:#06211f;
+  --warn:#e0a048; --good:#5fc27e; --danger:#e07a7a; --shadow:0 1px 2px rgba(0,0,0,.3);
+  --cell-fill:#2a2415; --self:#202c30; color-scheme:dark;
+  --ink-use:#eef3f1; --page-bg:color-mix(in srgb,var(--sky2) 12%,#0f1618); --halo:rgba(0,0,0,.55); --scene-filter:brightness(.5) saturate(.85);
+  --glass:color-mix(in srgb,var(--surface) 82%,transparent);
+}}
+:root[data-theme="dark"]{
+  --bg:#0f1618; --surface:#172124; --surface-2:#1d292d; --line:#2a393e;
+  --fg:#e7eef0; --muted:#95a7ae; --accent:#2bb3ac; --accent-fg:#06211f;
+  --warn:#e0a048; --good:#5fc27e; --danger:#e07a7a; --shadow:0 1px 2px rgba(0,0,0,.3);
+  --cell-fill:#2a2415; --self:#202c30; color-scheme:dark;
+  --ink-use:#eef3f1; --page-bg:color-mix(in srgb,var(--sky2) 12%,#0f1618); --halo:rgba(0,0,0,.55); --scene-filter:brightness(.5) saturate(.85);
+  --glass:color-mix(in srgb,var(--surface) 82%,transparent);
+}
 *{box-sizing:border-box}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
-[hidden]{display:none!important}
-button,input,textarea{font-family:inherit;font-size:15px}
-button{cursor:pointer}
-:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
-header{background:var(--pine-d);color:#EAF2EF;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;border-bottom:3px solid var(--brass)}
-header .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
-.mark{width:28px;height:28px;border-radius:50%;flex:none;background:radial-gradient(circle at 34% 30%,var(--brass-l),var(--brass) 62%,#7A5514)}
-header h1{font-size:17px;margin:0;letter-spacing:.06em}
-header small{display:block;font-size:12px;color:var(--celadon);font-weight:400;letter-spacing:.1em}
-main{max-width:720px;margin:0 auto;padding:18px 16px 60px;display:flex;flex-direction:column;gap:14px}
-.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
-.card h2{font-size:16px;margin:0 0 4px;color:var(--pine-d);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
-.sub{font-size:13px;color:var(--ink3);margin-bottom:12px}
-.hello{font-size:15px;color:var(--ink2);padding:2px 4px}
-.hello b{color:var(--pine)}
-.chips{display:flex;flex-wrap:wrap;gap:8px}
-.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:600}
-.chip[aria-pressed="true"]{background:var(--pine);color:#fff;border-color:var(--pine)}
-.chip .ok{font-size:11px;color:var(--pine);margin-left:6px}
-.chip[aria-pressed="true"] .ok{color:var(--brass-l)}
-.field{display:flex;flex-direction:column;gap:5px;flex:1 1 200px;min-width:0}
-.field label{font-size:12.5px;color:var(--ink3);font-weight:600}
-input[type=password],input[type=text]{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:10px 12px;width:100%;min-width:0;color:var(--ink)}
-textarea{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:10px 12px;width:100%;min-height:92px;resize:vertical;color:var(--ink);line-height:1.6}
-.row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
-.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:9px;padding:10px 16px;font-weight:600}
-.btn.pri{background:var(--pine);border-color:var(--pine);color:#fff}
+body{background:var(--page-bg);color:var(--fg);font-family:var(--font);font-size:14px;line-height:1.5;-webkit-text-size-adjust:100%}
+h1,h2{margin:0;text-wrap:balance}
+button{font-family:inherit;cursor:pointer}
+input,textarea{font-family:inherit;font-size:14px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:1px}
+
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--surface) 72%,transparent);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border-bottom:1px solid color-mix(in srgb,var(--line) 60%,transparent)}
+.bar-in{max-width:880px;margin:0 auto;display:flex;align-items:center;gap:12px;padding:12px 16px}
+.logo{width:30px;height:30px;border-radius:8px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font-weight:700;flex:0 0 auto}
+.brand{font-weight:700;font-size:16px}
+.brand small{display:block;font-weight:400;font-size:11px;color:var(--muted)}
+.sp{flex:1}
+.theme-btn{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;padding:6px 10px;font-size:12px}
+
+.wrap{max-width:880px;margin:0 auto;padding-block:20px 40px;padding-inline:16px;display:flex;flex-direction:column;gap:16px}
+.card{background:var(--glass);-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);border:1px solid color-mix(in srgb,var(--line) 70%,transparent);border-radius:18px;box-shadow:var(--shadow);padding:18px}
+.card h2{font-size:16px;display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:4px}
+.sub{color:var(--muted);font-size:12.5px;margin-bottom:14px}
+.row{display:flex;flex-wrap:wrap;gap:12px}
+.field{display:flex;flex-direction:column;gap:5px;min-width:0;flex:0 1 130px}
+.field.wide{flex-basis:220px}
+.field label{font-size:12px;color:var(--muted);font-weight:600}
+.field input{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
+.pill{display:inline-block;font-size:11px;font-weight:700;padding:2px 8px;border-radius:999px;background:var(--surface-2);color:var(--muted);border:1px solid var(--line)}
+.pill.ok{color:var(--good);border-color:color-mix(in srgb,var(--good) 40%,transparent)}
+.btn{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:9px;padding:9px 14px;font-size:14px;font-weight:600}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:transparent}
 .btn.ghost{background:transparent}
-.btn.mini{padding:5px 11px;font-size:13px}
-.err{color:var(--seal);font-size:13.5px;margin-top:8px;min-height:0}
+.btn.mini{padding:5px 11px;font-size:12px}
+.btnrow{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.hint{font-size:12px;color:var(--muted)}
+
+/* season backdrop — the 節氣 scene is the page's own ground; content floats over it */
+.stage{position:absolute;left:0;right:0;top:0;height:var(--stage-h);z-index:0;overflow:hidden;pointer-events:none;
+  background:linear-gradient(180deg,var(--sky1),var(--sky2));filter:var(--scene-filter)}
+:root{--stage-h:clamp(400px,42vw,500px)}
+.stage svg{position:absolute;left:0;right:0;bottom:0;width:100%;height:78%;display:block}
+.stage::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,var(--sky1) 0%,color-mix(in srgb,var(--sky1) 60%,transparent) 30%,transparent 58%)}
+.stage-fade{position:absolute;left:0;right:0;top:calc(var(--stage-h) - 130px);height:130px;z-index:0;pointer-events:none;background:linear-gradient(180deg,transparent,var(--page-bg))}
+.wrap{position:relative;z-index:1}
+.hero{min-height:clamp(170px,22vw,230px);display:flex;flex-direction:column;justify-content:center;gap:4px;padding:8px 6px 0;color:var(--ink-use);text-shadow:0 1px 14px var(--halo),0 0 2px var(--halo)}
+.mh-yr{font-size:12.5px;letter-spacing:.14em;font-weight:600;opacity:.85}
+.mh-mo{font-size:78px;font-weight:800;line-height:.92;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.mh-mo small{font-size:22px;font-weight:700;margin-left:6px;letter-spacing:.06em}
+.mh-terms{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.mh-term{font-size:12px;font-weight:700;letter-spacing:.2em;padding:3px 8px 3px 10px;border-radius:999px;text-shadow:none;background:color-mix(in srgb,var(--ink-use) 12%,transparent);border:1px solid color-mix(in srgb,var(--ink-use) 28%,transparent)}
+.mh-tag{font-size:14px;font-weight:600;letter-spacing:.1em;margin-top:2px}
+main .intro{color:var(--ink-use);text-shadow:0 1px 10px var(--halo),0 0 2px var(--halo)}
+main .intro .msg{color:inherit}main .intro .due{color:inherit;opacity:.85}main .intro .due b{color:inherit;opacity:1}
+.fx{position:fixed;inset:0;z-index:0;pointer-events:none;overflow:hidden}
+.fx i{position:absolute;top:-4%;display:block;animation:fall var(--d) linear var(--dl) infinite}
+.fx.up i{top:auto;bottom:-4%;animation-name:rise}
+.fx.tw i{top:var(--y);animation-name:twinkle}
+@keyframes fall{0%{transform:translate(0,0) rotate(0)}50%{transform:translate(var(--sw),55vh) rotate(180deg)}100%{transform:translate(0,110vh) rotate(360deg)}}
+@keyframes rise{0%{transform:translateY(0);opacity:0}10%{opacity:.9}100%{transform:translate(var(--sw),-110vh);opacity:0}}
+@keyframes twinkle{0%,100%{opacity:.15;transform:scale(.7)}50%{opacity:1;transform:scale(1)}}
+@media(max-width:520px){:root{--stage-h:400px}.stage svg{height:62%}.mh-mo{font-size:64px}.mh-mo small{font-size:18px}}
+@media (prefers-reduced-motion:reduce){.fx{display:none}}
+
+.intro{display:flex;flex-direction:column;gap:6px;padding-inline:6px;margin-top:-2px}
+.intro .msg{font-size:15.5px;line-height:1.75;white-space:pre-wrap;color:var(--fg);margin:0;text-wrap:pretty}
+.intro .due{font-size:13px;color:var(--muted);margin:0}
+.intro .due b{color:var(--accent);font-weight:700}
+
+/* ===== 牙科填單元件（沿用內科填單的色票與質感） ===== */
+.hello{font-size:15.5px;line-height:1.75}
+.hello b{font-weight:800}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:999px;padding:9px 16px;font-weight:600;font-size:14px}
+.chip[aria-pressed="true"]{background:var(--accent);color:var(--accent-fg);border-color:transparent}
+.chip .ok{font-size:11px;color:var(--good);margin-left:6px;font-weight:700}
+.chip[aria-pressed="true"] .ok{color:var(--accent-fg)}
+.field{flex:1 1 200px}
+.field input{font-size:15px}
+textarea{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:10px;padding:10px 12px;width:100%;min-height:92px;resize:vertical;line-height:1.6;font-family:inherit;font-size:15px}
+input[type=text]{border:1px solid var(--line);background:var(--surface-2);color:var(--fg);border-radius:8px;padding:9px 11px;width:100%;font-family:inherit;font-size:14px}
+.err{color:var(--danger);font-size:13.5px;margin-top:8px}
 .err:empty{display:none}
-.note{color:var(--pine);font-weight:700;font-size:14px;margin-top:10px}
-/* 0–10 分數按鈕 */
+.note{color:var(--accent);font-weight:700;font-size:14px;margin-top:12px}
 .scale{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
-.scale button{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:7px;padding:9px 0;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
-.scale button[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff}
-.scale-cap{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);margin-top:4px}
-.peer{border-top:1px solid var(--line-s);padding:14px 0 10px}
+.scale button{border:1px solid var(--line);background:var(--surface-2);color:var(--muted);border-radius:8px;padding:9px 0;font-weight:800;font-variant-numeric:tabular-nums;font-size:14px}
+.scale button[aria-pressed="true"]{background:var(--accent);border-color:transparent;color:var(--accent-fg)}
+.scale-cap{display:flex;justify-content:space-between;font-size:11.5px;color:var(--muted);margin-top:4px}
+.peer{border-top:1px dashed var(--line);padding:14px 0 10px}
 .peer:first-of-type{border-top:0;padding-top:4px}
-.peer .nm{font-weight:700;margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
-.peer .nm span{font-size:12px;color:var(--ink3);font-weight:400}
-.peer input[type=text]{margin-top:8px;font-size:14px}
-.talk{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);cursor:pointer}
-.talk input{width:20px;height:20px;margin-top:2px;accent-color:var(--pine);flex:none}
+.peer .nm{font-weight:700;margin-bottom:8px}
+.peer input[type=text]{margin-top:8px}
+.talk{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:var(--surface-2);cursor:pointer}
+.talk input{width:20px;height:20px;margin-top:2px;accent-color:var(--accent);flex:none}
 .talk b{display:block}
-.talk span{font-size:13px;color:var(--ink3)}
+.talk span{font-size:13px;color:var(--muted)}
 .done{display:flex;gap:14px;align-items:center}
 .done .ic{font-size:34px}
-.done b{color:var(--pine);font-size:17px}
-.bar{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,var(--paper) 30%);padding:16px 0 calc(8px + env(safe-area-inset-bottom,0px))}
-.bar .in{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
-.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pine-d);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50}
+.done b{color:var(--good);font-size:17px}
+.sendbar{position:sticky;bottom:0;padding:16px 0 calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,var(--page-bg) 35%)}
+.sendbar .in{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.privacy{font-size:12.5px;color:var(--muted);text-align:center}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s;pointer-events:none;z-index:50}
 .toast.on{opacity:1}
-.privacy{font-size:12.5px;color:var(--ink3);text-align:center}
 @media(max-width:420px){.scale button{padding:8px 0;font-size:13px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
 <body>
-<header><div class="in"><div class="mark"></div><h1>惠韻每月回饋<small id="hMonth">　</small></h1></div></header>
-<main>
-  <div class="hello" id="hello"></div>
+<div class="bar"><div class="bar-in"><img class="logo" src="form-icon-192.png" alt="" style="background:none;object-fit:cover">
+  <div class="brand">惠韻每月回饋 <small>惠韻牙醫 · 自評 · 互評 · 想說的話</small></div><div class="sp"></div>
+  <button class="theme-btn" id="themeBtn" type="button">切換深色</button></div></div>
+<div class="stage" id="stage" aria-hidden="true"></div><div class="stage-fade" aria-hidden="true"></div><div id="fxLayer"></div>
+<main class="wrap">
+  <div class="hero" id="hero"></div>
+  <div class="intro"><p class="msg hello" id="hello"></p></div>
   <section class="card" id="loginCard" hidden></section>
-  <div id="formArea" hidden></div>
+  <div id="formArea" hidden style="display:flex;flex-direction:column;gap:16px"></div>
   <section class="card" id="doneCard" hidden></section>
   <p class="privacy">你填的內容只有劉醫師看得到，同事看不到彼此的評分。</p>
 </main>
@@ -99,7 +171,113 @@ function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clea
 // 填的是「上個月」的回饋（每月初填上月）
 function reportMonth(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return {y:d.getFullYear(),m:d.getMonth()+1,key:""+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")};}
 const RM=reportMonth();
-$("#hMonth").textContent=`${RM.y} 年 ${RM.m} 月`;
+/* ---------- 節氣插畫（與惠騰月報表共用） ---------- */
+const H={
+  back:(c,y=170)=>`<path d="M0 ${y+20} Q140 ${y-30} 290 ${y+5} T560 ${y-10} T800 ${y-20} V240 H0Z" fill="${c}"/>`,
+  front:(c,y=205)=>`<path d="M0 ${y+10} Q170 ${y-20} 340 ${y} T660 ${y-8} T800 ${y-4} V240 H0Z" fill="${c}"/>`,
+  cloud:(x,y,s,c="#fff",o=.85)=>`<g fill="${c}" opacity="${o}" transform="translate(${x} ${y}) scale(${s})"><ellipse cx="0" cy="0" rx="34" ry="13"/><circle cx="-12" cy="-8" r="13"/><circle cx="10" cy="-12" r="16"/></g>`,
+  flower:(x,y,r,c,ctr)=>{let p="";for(let k=0;k<5;k++){const a=k*72*Math.PI/180;p+=`<circle cx="${(x+Math.cos(a)*r*.6).toFixed(1)}" cy="${(y+Math.sin(a)*r*.6).toFixed(1)}" r="${(r*.55).toFixed(1)}" fill="${c}"/>`;}return p+`<circle cx="${x}" cy="${y}" r="${(r*.3).toFixed(1)}" fill="${ctr}"/>`;}
+};
+const SEASONS={
+ 1:{terms:["小寒","大寒"],tag:"寒梅迎春",sky:["#dfe8f2","#f5eef2"],ink:"#2c3442",fx:{type:"snow",n:22},
+   art:()=>H.back("#cdd9e6",165)+H.front("#f4f7fb",205)+H.cloud(470,60,1.1)+
+   `<path d="M820 20 C740 40 700 34 640 78 C610 100 575 96 530 128" stroke="#5b3a2e" stroke-width="7" fill="none" stroke-linecap="round"/>
+    <path d="M700 44 C690 78 668 96 655 128 M610 92 C618 120 612 140 600 160" stroke="#5b3a2e" stroke-width="4" fill="none" stroke-linecap="round"/>`+
+   [[640,78],[600,104],[560,118],[655,128],[700,44],[682,90],[612,140],[600,160],[750,34],[530,128],[668,64]].map(([x,y],i)=>H.flower(x,y,i%3?10:12,"#e2445c","#ffd36e")).join("")},
+ 2:{terms:["立春","雨水"],tag:"新春納福",sky:["#ffe6d8","#fff5e3"],ink:"#5a2018",fx:{type:"spark",n:18},
+   art:()=>H.back("#f6d2b8",172)+H.front("#ffe9d2",208)+
+   `<path d="M400 18 Q600 78 820 26" stroke="#8a5a2b" stroke-width="2" fill="none"/>`+
+   [[500,50,1],[590,64,1.15],[680,60,1],[765,44,.9]].map(([x,y,s])=>`<g transform="translate(${x} ${y}) scale(${s})"><line x1="0" y1="-26" x2="0" y2="-16" stroke="#8a5a2b" stroke-width="2"/><rect x="-9" y="-18" width="18" height="5" rx="2" fill="#e8b33d"/><ellipse cx="0" cy="4" rx="19" ry="21" fill="#e23b3b"/><path d="M-12 4 Q0 -12 12 4 Q0 20 -12 4" fill="none" stroke="#ffd36e" stroke-width="1.5" opacity=".7"/><rect x="-9" y="23" width="18" height="5" rx="2" fill="#e8b33d"/><line x1="0" y1="28" x2="0" y2="44" stroke="#e8b33d" stroke-width="2"/></g>`).join("")+
+   `<text x="590" y="70" font-size="16" font-weight="800" fill="#ffd36e" text-anchor="middle" font-family="serif">春</text>`},
+ 3:{terms:["驚蟄","春分"],tag:"春暖花開",sky:["#e7f3ff","#fde9f0"],ink:"#3b2a44",fx:{type:"petal",n:20},
+   art:()=>H.back("#bfe0b9",168)+H.front("#d9efcf",206)+H.cloud(480,52,.9)+
+   `<path d="M650 220 C652 180 640 150 648 120 M648 150 C620 130 600 126 585 110 M650 140 C680 120 700 118 720 104" stroke="#6b4636" stroke-width="9" fill="none" stroke-linecap="round"/>`+
+   [[600,100,34,"#f7b6c8"],[650,82,42,"#f39bb5"],[710,96,36,"#f7b6c8"],[560,118,26,"#fbd0dc"],[750,118,24,"#fbd0dc"],[640,116,30,"#f9c3d2"]].map(([x,y,r,c])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="${c}"/>`).join("")+
+   `<path d="M470 196 q6 -14 0 -22 M478 196 q-6 -12 2 -20" stroke="#5aa36b" stroke-width="3" fill="none" stroke-linecap="round"/>`},
+ 4:{terms:["清明","穀雨"],tag:"細雨茶香",sky:["#dcebe4","#eef6ee"],ink:"#1f3a2c",fx:{type:"rain",n:34},
+   art:()=>H.back("#9dc9a6",150)+
+   [0,1,2,3,4,5].map(i=>`<path d="M${400+i*10} ${236-i*14} Q${600} ${200-i*18} 820 ${214-i*16}" stroke="${i%2?"#4f9a62":"#67b278"}" stroke-width="11" fill="none" stroke-linecap="round"/>`).join("")+
+   H.cloud(520,120,1.6,"#ffffff",.55)+H.cloud(720,96,1.3,"#ffffff",.5)+
+   `<g transform="translate(470 196)"><path d="M0 0 C-14 -14 -8 -32 10 -40 C14 -22 12 -10 0 0Z" fill="#3f8f57"/><path d="M0 0 L8 -34" stroke="#2e6e42" stroke-width="1.5"/></g>`},
+ 5:{terms:["立夏","小滿"],tag:"五月雪．桐花開",sky:["#e3f4e8","#fafbef"],ink:"#22402e",fx:{type:"blossom",n:16},
+   art:()=>H.back("#7fbf8f",150)+H.front("#a9d7ad",200)+
+   `<path d="M660 210 L660 130" stroke="#5a4636" stroke-width="10" stroke-linecap="round"/>`+
+   [[620,110,40],[690,96,46],[650,72,36],[730,124,30],[590,132,26]].map(([x,y,r])=>`<circle cx="${x}" cy="${y}" r="${r}" fill="#3e8a55"/>`).join("")+
+   [[610,96],[640,70],[672,88],[700,110],[728,120],[598,128],[660,112],[690,72],[720,98],[630,124]].map(([x,y])=>H.flower(x,y,7,"#ffffff","#e9a44a")).join("")},
+ 6:{terms:["芒種","夏至"],tag:"端午龍舟",sky:["#bfe6ff","#fff4d2"],ink:"#163a52",fx:{type:"spark",n:12},
+   art:()=>`<circle cx="700" cy="62" r="34" fill="#ffd54a"/><circle cx="700" cy="62" r="50" fill="#ffd54a" opacity=".25"/>`+H.cloud(520,58,1)+
+   `<rect x="0" y="168" width="800" height="72" fill="#5fb6e6"/>`+
+   [180,200,220].map(y=>`<path d="M380 ${y} q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#ffffff" stroke-width="2" fill="none" opacity=".55"/>`).join("")+
+   `<g transform="translate(470 160)"><path d="M0 12 Q140 30 270 12 L262 22 Q140 38 8 22Z" fill="#d93a2f"/><path d="M262 12 q16 -22 6 -36 q-6 10 -16 6 q10 14 4 30" fill="#2f8f5b"/><circle cx="266" cy="-14" r="2.5" fill="#fff"/><path d="M0 12 q-14 -14 -6 -24" stroke="#2f8f5b" stroke-width="5" fill="none" stroke-linecap="round"/>`+
+   [30,70,110,150,190,230].map(x=>`<circle cx="${x}" cy="0" r="6" fill="#2b2b2b"/><line x1="${x}" y1="6" x2="${x-10}" y2="26" stroke="#8a5a2b" stroke-width="2.5"/>`).join("")+`</g>`},
+ 7:{terms:["小暑","大暑"],tag:"盛夏海風",sky:["#86d0ff","#dff5ff"],ink:"#0f3550",fx:{type:"bubble",n:14},
+   art:()=>`<circle cx="720" cy="56" r="38" fill="#fff1a8"/>`+H.cloud(560,50,1.1)+
+   `<rect x="0" y="150" width="800" height="90" fill="#2fa6d9"/><path d="M380 196 Q560 170 820 186 V240 H380Z" fill="#f3dfae"/>`+
+   `<g transform="translate(640 120)"><line x1="0" y1="0" x2="0" y2="80" stroke="#7a5a3a" stroke-width="4"/><path d="M-56 4 Q0 -52 56 4Z" fill="#ff6b5b"/><path d="M-19 4 Q0 -52 19 4Z" fill="#ffffff"/></g>`+
+   `<g transform="translate(520 206)"><path d="M-30 0 A30 30 0 0 0 30 0Z" fill="#3d9a4f"/><path d="M-25 0 A25 25 0 0 0 25 0Z" fill="#ff5a6e"/>${[-12,0,12].map(x=>`<ellipse cx="${x}" cy="9" rx="1.6" ry="3" fill="#222"/>`).join("")}</g>`},
+ 8:{terms:["立秋","處暑"],tag:"荷風送爽",sky:["#ffd2b3","#fff0d6"],ink:"#4a2a1c",fx:{type:"firefly",n:16},
+   art:()=>`<circle cx="700" cy="72" r="30" fill="#ffb27a" opacity=".85"/>`+H.back("#e7b48f",170)+
+   `<rect x="0" y="182" width="800" height="58" fill="#7fb7b0"/>`+
+   [[480,196,40],[600,206,46],[720,192,38]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="${r}" ry="${r*.3}" fill="#3f8a5a"/>`).join("")+
+   [[560,150],[680,138]].map(([x,y])=>`<line x1="${x}" y1="${y+10}" x2="${x}" y2="${y+50}" stroke="#3f7a4f" stroke-width="3"/><g transform="translate(${x} ${y})"><path d="M0 10 C-18 0 -16 -18 0 -26 C16 -18 18 0 0 10Z" fill="#f48fb1"/><path d="M0 10 C-26 6 -30 -6 -22 -14 C-10 -8 -4 2 0 10Z" fill="#f7a8c4"/><path d="M0 10 C26 6 30 -6 22 -14 C10 -8 4 2 0 10Z" fill="#f7a8c4"/></g>`).join("")+
+   `<g transform="translate(620 100) rotate(-12)"><line x1="-16" y1="0" x2="16" y2="0" stroke="#3b6e8f" stroke-width="3"/><ellipse cx="-4" cy="-6" rx="10" ry="3.5" fill="#cfe9f5" opacity=".9"/><ellipse cx="-4" cy="6" rx="10" ry="3.5" fill="#cfe9f5" opacity=".9"/></g>`},
+ 9:{terms:["白露","秋分"],tag:"中秋月圓",sky:["#1c2a52","#3b4f8c"],ink:"#fdf3d6",fx:{type:"star",n:26},
+   art:()=>`<circle cx="650" cy="86" r="86" fill="#fff3c4" opacity=".12"/><circle cx="650" cy="86" r="58" fill="#fff3c4"/><circle cx="632" cy="74" r="9" fill="#efdca0" opacity=".6"/><circle cx="664" cy="102" r="6" fill="#efdca0" opacity=".6"/>`+
+   H.back("#24315e",168)+H.front("#141c3a",204)+
+   `<g transform="translate(560 182)" fill="#141c3a"><ellipse cx="0" cy="0" rx="17" ry="12"/><circle cx="14" cy="-10" r="8"/><ellipse cx="13" cy="-26" rx="3" ry="11" transform="rotate(-10 13 -26)"/><ellipse cx="19" cy="-25" rx="3" ry="10" transform="rotate(12 19 -25)"/></g>`+
+   `<g transform="translate(740 120)"><line x1="0" y1="-30" x2="0" y2="-18" stroke="#e8b33d" stroke-width="2"/><ellipse cx="0" cy="0" rx="15" ry="18" fill="#ff7a45"/><ellipse cx="0" cy="0" rx="15" ry="18" fill="#ffd36e" opacity=".25"/><line x1="0" y1="18" x2="0" y2="30" stroke="#e8b33d" stroke-width="2"/></g>`+
+   `<g transform="translate(470 214)"><circle r="16" fill="#c9d86a"/><path d="M-3 -16 q3 -8 9 -6" stroke="#5b8a3a" stroke-width="3" fill="none"/></g>`},
+ 10:{terms:["寒露","霜降"],tag:"柿柿如意",sky:["#ffe7c9","#fff6e8"],ink:"#5a2a10",fx:{type:"leaf",n:16},
+   art:()=>H.back("#f0c48f",172)+H.front("#f7dcb3",206)+H.cloud(480,56,.9)+
+   `<path d="M820 30 C740 44 690 60 630 70 C590 78 560 92 520 110 M690 60 C680 90 676 104 672 124 M600 76 C604 100 600 116 594 134" stroke="#5b3a2e" stroke-width="5" fill="none" stroke-linecap="round"/>`+
+   [[672,140],[594,150],[760,62],[520,126],[640,92]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="17" fill="#f2731d"/><circle cx="${x-5}" cy="${y-5}" r="5" fill="#ffb067" opacity=".7"/><path d="M${x-8} ${y-15} l8 4 l8 -4 l-8 -3z" fill="#3e6b2a"/>`).join("")+
+   [[710,50,-30],[560,94,40],[630,60,10]].map(([x,y,r])=>`<ellipse cx="${x}" cy="${y}" rx="14" ry="6" fill="#7a9a3a" transform="rotate(${r} ${x} ${y})"/>`).join("")},
+ 11:{terms:["立冬","小雪"],tag:"芒花搖曳",sky:["#efe4d3","#e7eef2"],ink:"#3a2e22",fx:{type:"seed",n:18},
+   art:()=>H.back("#c9b79a",160)+H.front("#ddcfb6",202)+H.cloud(560,60,1.2,"#ffffff",.7)+
+   Array.from({length:22},(_,i)=>{const x=430+i*17+(i%3)*5,h=70+(i*37%50),b=(i%2?1:-1)*(14+i%4*4);return `<path d="M${x} 240 Q${x+b*.3} ${240-h*.6} ${x+b} ${240-h}" stroke="#a88f6a" stroke-width="2" fill="none"/><path d="M${x+b} ${240-h} q${b*.4} 10 ${b*.2} 26" stroke="#f6eddc" stroke-width="7" stroke-linecap="round" fill="none" opacity=".95"/>`;}).join("")},
+ 12:{terms:["大雪","冬至"],tag:"冬至湯圓",sky:["#e2ebf6","#f8eef0"],ink:"#2c2f45",fx:{type:"snow",n:24},
+   art:()=>H.back("#c7d5e6",168)+H.front("#f5f8fc",206)+
+   `<g transform="translate(640 176)"><path d="M-20 -60 q-10 -14 0 -26 q10 -12 0 -24 M6 -62 q-10 -14 0 -26 q10 -12 0 -24" stroke="#ffffff" stroke-width="4" fill="none" stroke-linecap="round" opacity=".9"/>
+    <ellipse cx="0" cy="-34" rx="70" ry="14" fill="#fbe7d9"/>${[[-30,-38,"#ffffff"],[-6,-42,"#f7b6c8"],[18,-38,"#ffffff"],[38,-40,"#f7b6c8"],[6,-32,"#ffffff"]].map(([x,y,c])=>`<circle cx="${x}" cy="${y}" r="11" fill="${c}" stroke="#e9d6cc" stroke-width="1"/>`).join("")}
+    <path d="M-72 -34 Q-66 20 0 22 Q66 20 72 -34Z" fill="#c8453a"/><path d="M-60 -10 Q0 4 60 -10" stroke="#f2c14e" stroke-width="3" fill="none"/><rect x="-26" y="20" width="52" height="8" rx="3" fill="#a5352c"/></g>`}
+};
+const FX={
+  snow:i=>`width:${4+i%4*2}px;height:${4+i%4*2}px;border-radius:50%;background:#fff;opacity:.9`,
+  petal:i=>`width:9px;height:6px;border-radius:60% 0 60% 0;background:${i%2?"#f7a8c4":"#fbd0dc"}`,
+  blossom:i=>`width:8px;height:8px;border-radius:50%;background:#fff;box-shadow:0 0 0 2px rgba(255,255,255,.5)`,
+  leaf:i=>`width:12px;height:7px;border-radius:70% 0 70% 0;background:${["#f2731d","#d9542b","#e8a23a"][i%3]}`,
+  rain:i=>`width:1.5px;height:14px;background:rgba(80,130,110,.45)`,
+  seed:i=>`width:10px;height:3px;border-radius:2px;background:#f6eddc;opacity:.9`,
+  spark:i=>`width:5px;height:5px;border-radius:50%;background:${i%2?"#ffd36e":"#ff9d5c"}`,
+  bubble:i=>`width:${6+i%3*3}px;height:${6+i%3*3}px;border-radius:50%;border:1.5px solid rgba(255,255,255,.8)`,
+  firefly:i=>`width:5px;height:5px;border-radius:50%;background:#fff6a8;box-shadow:0 0 8px 3px rgba(255,236,140,.7)`,
+  star:i=>`width:${2+i%3}px;height:${2+i%3}px;border-radius:50%;background:#fff;box-shadow:0 0 6px 1px rgba(255,255,255,.6)`
+};
+function fxHtml(f){
+  const mode=f.type==="bubble"||f.type==="firefly"?"up":f.type==="star"?"tw":"";
+  let h="";for(let i=0;i<f.n;i++){
+    const left=(i*37+11)%100, d=f.type==="rain"?1.1+(i%4)*.25:7+(i*13%9), dl=-(i*1.7%d), sw=((i%2?1:-1)*(10+i*7%30))+"px", y=(i*29%55)+"%";
+    h+=`<i style="left:${left}%;--d:${d}s;--dl:${dl.toFixed(1)}s;--sw:${sw};--y:${y};${FX[f.type](i)}"></i>`;}
+  return `<div class="fx ${mode}" aria-hidden="true">${h}</div>`;
+}
+function renderHero(sm,yr,mo){
+  const t=SEASONS[sm]||SEASONS[1],r=document.documentElement.style;
+  r.setProperty("--sky1",t.sky[0]);r.setProperty("--sky2",t.sky[1]);r.setProperty("--ink",t.ink);
+  const night=sm===9;r.setProperty("--halo-s",night?"rgba(0,0,0,.35)":t.sky[0]);
+  $("#stage").innerHTML=`<svg viewBox="0 0 800 240" preserveAspectRatio="xMaxYMax slice">${t.art()}</svg>`;
+  $("#fxLayer").innerHTML=fxHtml(t.fx);
+  const el=$("#hero");
+  el.innerHTML=`<div class="mh-yr">${yr} 年 · 惠韻牙醫</div>
+      <div class="mh-mo">${mo}<small>月回饋</small></div>
+      <div class="mh-terms">${t.terms.map(x=>`<span class="mh-term">${x}</span>`).join("")}</div>
+      <div class="mh-tag">${t.tag}</div>`;
+  el.setAttribute("role","img");el.setAttribute("aria-label",`${yr} 年 ${mo} 月回饋　${t.terms.join("、")}　${t.tag}`);
+}
+
+renderHero(RM.m===12?1:RM.m+1,RM.y,RM.m);
+(function(){const b=$("#themeBtn");const set=n=>{document.documentElement.setAttribute("data-theme",n);b.textContent=n==="dark"?"切換淺色":"切換深色";};
+  try{const s=localStorage.getItem("hy_theme");if(s)set(s);}catch(e){}
+  b.onclick=()=>{const n=document.documentElement.getAttribute("data-theme")==="dark"?"light":"dark";set(n);try{localStorage.setItem("hy_theme",n)}catch(e){}};})();
 
 firebase.initializeApp(FB_CONFIG);
 const auth=firebase.auth(), db=firebase.firestore();
@@ -122,9 +300,9 @@ function renderLogin(){
     ${!sel?"":first?`<div class="note">${esc(sel.name)}，第一次使用，請設定你的密碼</div>
       <div class="row" style="margin-top:10px"><div class="field"><label for="p1">設定密碼</label><input id="p1" type="password" autocomplete="new-password"></div>
       <div class="field"><label for="p2">再輸入一次</label><input id="p2" type="password" autocomplete="new-password"></div>
-      <button class="btn pri" id="go" type="button">設定並進入</button></div>`
+      <button class="btn primary" id="go" type="button">設定並進入</button></div>`
     :`<div class="row" style="margin-top:14px"><div class="field"><label for="pw">密碼</label><input id="pw" type="password" autocomplete="current-password" placeholder="輸入你的密碼"></div>
-      <button class="btn pri" id="go" type="button">進入</button></div>
+      <button class="btn primary" id="go" type="button">進入</button></div>
       <button class="btn ghost mini" id="forgot" type="button" style="margin-top:8px">忘記密碼？</button>`}
     <div class="err" id="lerr"></div>`;
   c.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{S.sel=b.dataset.p;renderLogin();(c.querySelector("#pw")||c.querySelector("#p1"))?.focus();});
@@ -177,7 +355,7 @@ function renderForm(){
   <section class="card"><h2>4. 這個月我覺得自己做得比較不好的一件事</h2><textarea id="worse" maxlength="500" placeholder="例如：有一次器械準備不夠完整…">${esc(D.worse)}</textarea></section>
   <section class="card"><label class="talk"><input type="checkbox" id="talk" ${D.talk?"checked":""}><div><b>我想跟劉醫師聊一聊</b><span>勾選後劉醫師會找時間跟你聊，想聊的內容可以先寫在下面（選填）。</span></div></label>
     <textarea id="talkTopic" maxlength="300" placeholder="想聊的事（選填）" style="margin-top:10px" ${D.talk?"":"hidden"}>${esc(D.talkTopic||"")}</textarea></section>
-  <div class="bar"><div class="in"><button class="btn pri" id="submit" type="button">送出</button><button class="btn ghost" id="logout" type="button">登出</button><span class="err" id="ferr"></span></div></div>`;
+  <div class="sendbar"><div class="in"><button class="btn primary" id="submit" type="button">送出</button><button class="btn ghost" id="logout" type="button">登出</button><span class="err" id="ferr"></span></div></div>`;
   a.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{
     const k=b.dataset.sc,v=+b.dataset.v;
     if(k==="self")D.self=v; else D.peers[k.slice(2)]=v;
