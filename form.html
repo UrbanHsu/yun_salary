@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>惠韻每月回饋</title>
+<link rel="icon" type="image/png" sizes="192x192" href="icon-round-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="manifest" href="form.webmanifest">
+<meta name="theme-color" content="#14483C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="惠韻每月回饋">
+<style>
+:root{--ink:#0F1F1A;--ink2:#3A544B;--ink3:#6B837A;--paper:#E9EEEC;--surface:#fff;--surface2:#F5F8F7;
+  --pine:#14483C;--pine-d:#0B2E26;--celadon:#7FAE9D;--celadon-l:#DCE9E4;--brass:#A8761F;--brass-l:#E7C56A;--brass-bg:#FBF3DF;
+  --seal:#A6332B;--line:#CBD6D1;--line-s:#E2EAE7;--sans:"Noto Sans TC","PingFang TC","Microsoft JhengHei",system-ui,sans-serif}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--sans);font-size:15px;line-height:1.6;-webkit-text-size-adjust:100%}
+[hidden]{display:none!important}
+button,input,textarea{font-family:inherit;font-size:15px}
+button{cursor:pointer}
+:focus-visible{outline:2px solid var(--brass);outline-offset:2px}
+header{background:var(--pine-d);color:#EAF2EF;padding:calc(14px + env(safe-area-inset-top,0px)) 18px 14px;border-bottom:3px solid var(--brass)}
+header .in{max-width:720px;margin:0 auto;display:flex;align-items:center;gap:12px}
+.mark{width:28px;height:28px;border-radius:50%;flex:none;background:radial-gradient(circle at 34% 30%,var(--brass-l),var(--brass) 62%,#7A5514)}
+header h1{font-size:17px;margin:0;letter-spacing:.06em}
+header small{display:block;font-size:12px;color:var(--celadon);font-weight:400;letter-spacing:.1em}
+main{max-width:720px;margin:0 auto;padding:18px 16px 60px;display:flex;flex-direction:column;gap:14px}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:18px}
+.card h2{font-size:16px;margin:0 0 4px;color:var(--pine-d);display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.sub{font-size:13px;color:var(--ink3);margin-bottom:12px}
+.hello{font-size:15px;color:var(--ink2);padding:2px 4px}
+.hello b{color:var(--pine)}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{border:1px solid var(--line);background:var(--surface2);color:var(--ink);border-radius:999px;padding:9px 16px;font-weight:600}
+.chip[aria-pressed="true"]{background:var(--pine);color:#fff;border-color:var(--pine)}
+.chip .ok{font-size:11px;color:var(--pine);margin-left:6px}
+.chip[aria-pressed="true"] .ok{color:var(--brass-l)}
+.field{display:flex;flex-direction:column;gap:5px;flex:1 1 200px;min-width:0}
+.field label{font-size:12.5px;color:var(--ink3);font-weight:600}
+input[type=password],input[type=text]{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:10px 12px;width:100%;min-width:0;color:var(--ink)}
+textarea{border:1px solid var(--line);background:var(--surface2);border-radius:8px;padding:10px 12px;width:100%;min-height:92px;resize:vertical;color:var(--ink);line-height:1.6}
+.row{display:flex;flex-wrap:wrap;gap:12px;align-items:flex-end}
+.btn{border:1px solid var(--line);background:var(--surface);color:var(--ink2);border-radius:9px;padding:10px 16px;font-weight:600}
+.btn.pri{background:var(--pine);border-color:var(--pine);color:#fff}
+.btn.ghost{background:transparent}
+.btn.mini{padding:5px 11px;font-size:13px}
+.err{color:var(--seal);font-size:13.5px;margin-top:8px;min-height:0}
+.err:empty{display:none}
+.note{color:var(--pine);font-weight:700;font-size:14px;margin-top:10px}
+/* 0–10 分數按鈕 */
+.scale{display:grid;grid-template-columns:repeat(11,1fr);gap:4px}
+.scale button{border:1px solid var(--line);background:var(--surface2);color:var(--ink2);border-radius:7px;padding:9px 0;font-weight:700;font-variant-numeric:tabular-nums;font-size:14px}
+.scale button[aria-pressed="true"]{background:var(--pine);border-color:var(--pine);color:#fff}
+.scale-cap{display:flex;justify-content:space-between;font-size:11.5px;color:var(--ink3);margin-top:4px}
+.peer{border-top:1px solid var(--line-s);padding:14px 0 10px}
+.peer:first-of-type{border-top:0;padding-top:4px}
+.peer .nm{font-weight:700;margin-bottom:8px;display:flex;align-items:baseline;gap:8px}
+.peer .nm span{font-size:12px;color:var(--ink3);font-weight:400}
+.peer input[type=text]{margin-top:8px;font-size:14px}
+.talk{display:flex;gap:10px;align-items:flex-start;padding:12px 14px;border:1px solid var(--line);border-radius:10px;background:var(--surface2);cursor:pointer}
+.talk input{width:20px;height:20px;margin-top:2px;accent-color:var(--pine);flex:none}
+.talk b{display:block}
+.talk span{font-size:13px;color:var(--ink3)}
+.done{display:flex;gap:14px;align-items:center}
+.done .ic{font-size:34px}
+.done b{color:var(--pine);font-size:17px}
+.bar{position:sticky;bottom:0;background:linear-gradient(180deg,transparent,var(--paper) 30%);padding:16px 0 calc(8px + env(safe-area-inset-bottom,0px))}
+.bar .in{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--pine-d);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;opacity:0;transition:opacity .2s;pointer-events:none;z-index:50}
+.toast.on{opacity:1}
+.privacy{font-size:12.5px;color:var(--ink3);text-align:center}
+@media(max-width:420px){.scale button{padding:8px 0;font-size:13px}}
+</style>
+</head>
+<body>
+<header><div class="in"><div class="mark"></div><h1>惠韻每月回饋<small id="hMonth">　</small></h1></div></header>
+<main>
+  <div class="hello" id="hello"></div>
+  <section class="card" id="loginCard" hidden></section>
+  <div id="formArea" hidden></div>
+  <section class="card" id="doneCard" hidden></section>
+  <p class="privacy">你填的內容只有劉醫師看得到，同事看不到彼此的評分。</p>
+</main>
+<div class="toast" id="toast" role="status"></div>
+
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script>
+const FB_CONFIG={apiKey:"AIzaSyBxWB3V5uusSCggBglQBKCog3GWib7ktNE",authDomain:"yun-salary.firebaseapp.com",projectId:"yun-salary",
+  storageBucket:"yun-salary.firebasestorage.app",messagingSenderId:"978214452774",appId:"1:978214452774:web:d5aa54c4f47b508175f0e7"};
+const DOMAIN="@staff.yun-salary.app";
+const emailOf=id=>id.toLowerCase()+DOMAIN;
+const pwX=p=>"hy:"+p+":hy";                 // Firebase 密碼至少 6 碼，內部補齊
+const $=s=>document.querySelector(s);
+const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[m]));
+function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),2200);}
+// 填的是「上個月」的回饋（每月初填上月）
+function reportMonth(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return {y:d.getFullYear(),m:d.getMonth()+1,key:""+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")};}
+const RM=reportMonth();
+$("#hMonth").textContent=`${RM.y} 年 ${RM.m} 月`;
+
+firebase.initializeApp(FB_CONFIG);
+const auth=firebase.auth(), db=firebase.firestore();
+const S={roster:[],registry:{},status:{},sel:null,me:null,data:null};
+
+/* ---------- 登入 ---------- */
+async function loadPublic(){
+  const [r,g,s]=await Promise.all([db.doc("meta/roster").get(),db.doc("meta/registry").get(),db.doc("formStatus/"+RM.key).get()]);
+  S.roster=(r.exists&&r.data().people)||[];
+  S.registry=(g.exists&&g.data())||{};
+  S.status=(s.exists&&s.data().submitted)||{};
+}
+function renderLogin(){
+  const c=$("#loginCard"); c.hidden=false; $("#formArea").hidden=true; $("#doneCard").hidden=true;
+  $("#hello").textContent=`${RM.m} 月辛苦了！花幾分鐘回顧一下這個月吧。`;
+  if(!S.roster.length){c.innerHTML=`<h2>系統準備中</h2><div class="sub">名單還沒建立，請稍後再試，或洽劉醫師。</div>`;return;}
+  const sel=S.sel&&S.roster.find(p=>p.id===S.sel), first=sel&&!S.registry[sel.id];
+  c.innerHTML=`<h2>登入</h2><div class="sub">先選你的名字，再輸入密碼。</div>
+    <div class="chips">${S.roster.map(p=>`<button type="button" class="chip" data-p="${esc(p.id)}" aria-pressed="${S.sel===p.id}">${esc(p.name)}${S.status[p.id]?'<span class="ok">✓ 已填</span>':""}</button>`).join("")}</div>
+    ${!sel?"":first?`<div class="note">${esc(sel.name)}，第一次使用，請設定你的密碼</div>
+      <div class="row" style="margin-top:10px"><div class="field"><label for="p1">設定密碼</label><input id="p1" type="password" autocomplete="new-password"></div>
+      <div class="field"><label for="p2">再輸入一次</label><input id="p2" type="password" autocomplete="new-password"></div>
+      <button class="btn pri" id="go" type="button">設定並進入</button></div>`
+    :`<div class="row" style="margin-top:14px"><div class="field"><label for="pw">密碼</label><input id="pw" type="password" autocomplete="current-password" placeholder="輸入你的密碼"></div>
+      <button class="btn pri" id="go" type="button">進入</button></div>
+      <button class="btn ghost mini" id="forgot" type="button" style="margin-top:8px">忘記密碼？</button>`}
+    <div class="err" id="lerr"></div>`;
+  c.querySelectorAll("[data-p]").forEach(b=>b.onclick=()=>{S.sel=b.dataset.p;renderLogin();(c.querySelector("#pw")||c.querySelector("#p1"))?.focus();});
+  if(!sel)return;
+  const err=t=>{$("#lerr").textContent=t;};
+  const go=async()=>{
+    const b=$("#go");b.disabled=true;
+    try{
+      if(first){
+        const a=$("#p1").value,z=$("#p2").value;
+        if(!a){err("請輸入你想用的密碼。");b.disabled=false;return;}
+        if(a!==z){err("兩次輸入的密碼不一樣。");$("#p2").value="";b.disabled=false;return;}
+        try{await auth.createUserWithEmailAndPassword(emailOf(sel.id),pwX(a));}
+        catch(e){err(e.code==="auth/email-already-in-use"?"這個名字已經設定過密碼，請重新整理後用密碼登入。":"設定失敗，請確認網路後再試。");b.disabled=false;return;}
+        try{await db.doc("meta/registry").set({[sel.id]:true},{merge:true});}catch(e){}
+        toast("密碼已設定，下次請用這組密碼登入");
+      }else{
+        try{await auth.signInWithEmailAndPassword(emailOf(sel.id),pwX($("#pw").value));}
+        catch(e){err(e.code==="auth/too-many-requests"?"嘗試太多次，請稍等幾分鐘再試。":"密碼不正確，請再試一次。");$("#pw").value="";b.disabled=false;return;}
+      }
+      S.me=sel; await openForm();
+    }catch(e){err("發生錯誤："+(e.message||e));b.disabled=false;}
+  };
+  $("#go").onclick=go;
+  c.querySelectorAll("input").forEach(i=>i.onkeydown=e=>{if(e.key==="Enter")go();});
+  const f=$("#forgot");if(f)f.onclick=()=>err("請找劉醫師幫你重設，重設後再登入一次就能設定新密碼。");
+}
+
+/* ---------- 填單 ---------- */
+async function openForm(){
+  const d=await db.doc(`forms/${RM.key}_${S.me.id.toLowerCase()}`).get();
+  S.data=d.exists?d.data():{self:null,peers:{},peerNotes:{},best:"",worse:"",talk:false,talkTopic:""};
+  S.data.peers=S.data.peers||{};S.data.peerNotes=S.data.peerNotes||{};
+  renderForm();
+}
+const scaleHtml=(key,val)=>`<div class="scale" role="group">${Array.from({length:11},(_,i)=>`<button type="button" data-sc="${key}" data-v="${i}" aria-pressed="${val===i}">${i}</button>`).join("")}</div>
+  <div class="scale-cap"><span>0 很不滿意</span><span>10 非常好</span></div>`;
+function renderForm(){
+  $("#loginCard").hidden=true;$("#doneCard").hidden=true;
+  const me=S.me,D=S.data,others=S.roster.filter(p=>p.id!==me.id);
+  $("#hello").innerHTML=`<b>${esc(me.name)}</b>，${RM.m} 月辛苦了！${S.status[me.id]?"你已經送出過，可以修改後再送一次。":""}`;
+  const a=$("#formArea");a.hidden=false;
+  a.innerHTML=`
+  <section class="card"><h2>1. 我這個月的工作自評</h2><div class="sub">整體來說，你給自己這個月幾分？</div>${scaleHtml("self",D.self)}</section>
+  <section class="card"><h2>2. 給同事的評分</h2><div class="sub">每位同事打一個總分；想說的話可以寫在下面（選填）。</div>
+    ${others.map(p=>`<div class="peer"><div class="nm">${esc(p.name)}</div>${scaleHtml("p:"+p.id,D.peers[p.id]??null)}
+      <input type="text" data-note="${esc(p.id)}" maxlength="100" placeholder="想對同事說的話（選填）" value="${esc(D.peerNotes[p.id]||"")}"></div>`).join("")||'<div class="sub">目前沒有其他同事。</div>'}
+  </section>
+  <section class="card"><h2>3. 這個月我覺得自己做得最好的一件事</h2><textarea id="best" maxlength="500" placeholder="例如：主動幫忙新同事熟悉流程…">${esc(D.best)}</textarea></section>
+  <section class="card"><h2>4. 這個月我覺得自己做得比較不好的一件事</h2><textarea id="worse" maxlength="500" placeholder="例如：有一次器械準備不夠完整…">${esc(D.worse)}</textarea></section>
+  <section class="card"><label class="talk"><input type="checkbox" id="talk" ${D.talk?"checked":""}><div><b>我想跟劉醫師聊一聊</b><span>勾選後劉醫師會找時間跟你聊，想聊的內容可以先寫在下面（選填）。</span></div></label>
+    <textarea id="talkTopic" maxlength="300" placeholder="想聊的事（選填）" style="margin-top:10px" ${D.talk?"":"hidden"}>${esc(D.talkTopic||"")}</textarea></section>
+  <div class="bar"><div class="in"><button class="btn pri" id="submit" type="button">送出</button><button class="btn ghost" id="logout" type="button">登出</button><span class="err" id="ferr"></span></div></div>`;
+  a.querySelectorAll("[data-sc]").forEach(b=>b.onclick=()=>{
+    const k=b.dataset.sc,v=+b.dataset.v;
+    if(k==="self")D.self=v; else D.peers[k.slice(2)]=v;
+    b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
+  });
+  a.querySelectorAll("[data-note]").forEach(i=>i.oninput=()=>{D.peerNotes[i.dataset.note]=i.value;});
+  $("#best").oninput=e=>D.best=e.target.value;
+  $("#worse").oninput=e=>D.worse=e.target.value;
+  $("#talk").onchange=e=>{D.talk=e.target.checked;$("#talkTopic").hidden=!D.talk;};
+  $("#talkTopic").oninput=e=>D.talkTopic=e.target.value;
+  $("#logout").onclick=async()=>{await auth.signOut();S.me=null;S.sel=null;await loadPublic();renderLogin();scrollTo(0,0);};
+  $("#submit").onclick=submit;
+}
+async function submit(){
+  const D=S.data,me=S.me,others=S.roster.filter(p=>p.id!==me.id);
+  $("#ferr").textContent="";
+  const miss=[];
+  if(D.self==null)miss.push("自評分");
+  const noPeer=others.filter(p=>D.peers[p.id]==null);
+  if(noPeer.length)miss.push("同事評分（"+noPeer.map(p=>p.name).join("、")+"）");
+  if(!D.best.trim())miss.push("做得最好的一件事");
+  if(!D.worse.trim())miss.push("做得比較不好的一件事");
+  if(miss.length){$("#ferr").textContent="還沒填："+miss.join("、");toast("還有欄位沒填");return;}
+  const b=$("#submit");b.disabled=true;b.textContent="送出中…";
+  try{
+    const peers={},notes={};
+    others.forEach(p=>{peers[p.id]=D.peers[p.id];if((D.peerNotes[p.id]||"").trim())notes[p.id]=D.peerNotes[p.id].trim();});
+    await db.doc(`forms/${RM.key}_${me.id.toLowerCase()}`).set({person:me.id,name:me.name,month:RM.key,self:D.self,peers,peerNotes:notes,
+      best:D.best.trim(),worse:D.worse.trim(),talk:!!D.talk,talkTopic:D.talk?(D.talkTopic||"").trim():"",updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+    await db.doc("formStatus/"+RM.key).set({submitted:{[me.id]:true}},{merge:true});
+    S.status[me.id]=true;
+    $("#formArea").hidden=true;
+    const dc=$("#doneCard");dc.hidden=false;
+    dc.innerHTML=`<div class="done"><div class="ic">🌿</div><div><b>${esc(me.name)}，謝謝你！</b><div class="sub" style="margin:2px 0 0">${RM.m} 月的回饋已送出${D.talk?"，劉醫師會找時間跟你聊聊":""}。</div></div></div>
+      <div class="row" style="margin-top:14px"><button class="btn" id="edit" type="button">我要修改</button><button class="btn ghost" id="out" type="button">登出</button></div>`;
+    $("#edit").onclick=()=>renderForm();
+    $("#out").onclick=async()=>{await auth.signOut();S.me=null;S.sel=null;await loadPublic();renderLogin();};
+    $("#hello").textContent="";scrollTo({top:0,behavior:"smooth"});
+  }catch(e){$("#ferr").textContent="送出失敗，請確認網路後再試一次。";b.disabled=false;b.textContent="送出";}
+}
+
+(async()=>{
+  try{await loadPublic();}catch(e){$("#loginCard").hidden=false;$("#loginCard").innerHTML=`<h2>連線失敗</h2><div class="sub">請確認網路後重新整理。</div>`;return;}
+  await auth.signOut().catch(()=>{});
+  renderLogin();
+})();
+</script>
+</body>
+</html>

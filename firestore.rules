@@ -1,13 +1,13 @@
 rules_version = '2';
 
-// 惠韻牙醫診所 助理薪資系統
-// 只有白名單內的 Google 帳號可以讀寫薪資資料。
-// 使用方式：把下面 allowed() 裡的 Email 換成實際要放行的帳號，
+// 惠韻牙醫診所 助理薪資系統＋員工每月回饋
+// 使用方式：把 allowed() 裡的 Email 換成實際要放行的管理者帳號，
 // 然後在 Firebase 主控台 → Firestore Database → 規則，整段貼上並「發布」。
 
 service cloud.firestore {
   match /databases/{database}/documents {
 
+    // 管理者（Google 帳號白名單）
     function allowed() {
       return request.auth != null
         && request.auth.token.email_verified == true
@@ -16,10 +16,42 @@ service cloud.firestore {
              'EMAIL_2@gmail.com'
            ];
     }
+    // 員工（form.html 用「代號@staff.yun-salary.app」帳號登入）
+    function isStaff() {
+      return request.auth != null
+        && request.auth.token.email.matches('^[a-z0-9]+@staff[.]yun-salary[.]app$');
+    }
+    function staffId() { return request.auth.token.email.split('@')[0]; }
 
-    // 薪資主檔（payroll/state）
+    // 薪資主檔（payroll/state）：只有管理者
     match /payroll/{doc} {
       allow read, write: if allowed();
+    }
+
+    // 填單名單（只有名字，給員工登入頁選名字用）
+    match /meta/roster {
+      allow read: if true;
+      allow write: if allowed();
+    }
+    // 誰已設定過密碼：所有人可看，員工只能加自己
+    match /meta/registry {
+      allow read: if true;
+      allow create, update: if allowed() || (isStaff()
+        && request.resource.data.diff(resource == null ? {} : resource.data).affectedKeys().hasOnly([staffId()]));
+      allow delete: if allowed();
+    }
+    // 每月回饋：forms/{YYYYMM}_{代號}，員工只能讀寫自己那份
+    match /forms/{docId} {
+      allow read, write: if allowed()
+        || (isStaff() && docId.matches('^[0-9]{6}_' + staffId() + '$'));
+    }
+    // 填寫進度（只有誰已送出）：所有人可看，員工只能把自己標成已送出
+    match /formStatus/{month} {
+      allow read: if true;
+      allow create: if allowed() || (isStaff() && request.resource.data.submitted.keys().hasOnly([staffId()]));
+      allow update: if allowed() || (isStaff()
+        && request.resource.data.submitted.diff(resource.data.submitted).affectedKeys().hasOnly([staffId()]));
+      allow delete: if allowed();
     }
 
     // 其他路徑一律禁止

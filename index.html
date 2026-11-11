@@ -480,6 +480,7 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
   <button data-v="month" class="on">月薪資表</button>
   <button data-v="slip">薪資單</button>
   <button data-v="line">LINE 推播</button>
+  <button data-v="fb">員工回饋</button>
   <button data-v="remit">匯款分配</button>
   <button data-v="lookup">項目查閱</button>
   <button data-v="leave">特休帳</button>
@@ -586,6 +587,11 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
     <section class="view" id="v-line">
       <div class="bar"><h2 id="lnTitle">LINE 推播</h2><span class="sub">薪資單一對一傳給本人的 LINE</span></div>
       <div id="lnWrap"></div>
+    </section>
+
+    <section class="view" id="v-fb">
+      <div class="bar"><h2 id="fbTitle">員工回饋</h2><span class="sub">員工每月填寫的自評、互評與想說的話，只有管理者看得到</span></div>
+      <div id="fbWrap"></div>
     </section>
 
     <section class="view" id="v-cost">
@@ -2977,6 +2983,65 @@ async function renderLine(){
     busy(false);renderLine();};
 }
 
+
+/* ===== 員工回饋（form.html 填寫的每月自評／互評） ===== */
+const FORM_URL='https://urbanhsu.github.io/yun_salary/form.html';
+async function syncRoster(force){
+  if(!FB.db||!DB)return;
+  const people=activeStaff().map(s=>({id:s.id,name:s.name}));
+  const sig=JSON.stringify(people);
+  if(!force&&syncRoster._last===sig)return;
+  try{await FB.db.doc('meta/roster').set({people,updatedAt:new Date().toISOString()});syncRoster._last=sig;}catch(e){console.warn('roster',e);}
+}
+const FBK={key:null,list:null};
+async function renderFeedback(){
+  const box=document.getElementById('fbWrap');if(!box)return;
+  const key=`${DB.year}${String(DB.month).padStart(2,'0')}`;
+  document.getElementById('fbTitle').textContent=`員工回饋　${DB.year} 年 ${DB.month} 月`;
+  if(FBK.key!==key){
+    box.innerHTML='<div class="empty">讀取中…</div>';
+    try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));FBK.key=key;}
+    catch(e){box.innerHTML=`<div class="warn hi"><b>讀不到員工回饋</b>　${esc(e.message||e)}（請確認 Firestore 規則已更新）</div>`;return;}
+  }
+  const staff=activeStaff(), F=Object.fromEntries(FBK.list.map(x=>[x.person,x]));
+  const recv={};staff.forEach(s=>recv[s.id]={sum:0,n:0,notes:[]});
+  FBK.list.forEach(f=>{Object.entries(f.peers||{}).forEach(([t,v])=>{if(recv[t]&&typeof v==='number'){recv[t].sum+=v;recv[t].n++;}});
+    Object.entries(f.peerNotes||{}).forEach(([t,v])=>{if(recv[t]&&v)recv[t].notes.push({from:f.name,text:v});});});
+  const done=staff.filter(s=>F[s.id]), talk=FBK.list.filter(f=>f.talk);
+  const avg=s=>recv[s.id].n?(recv[s.id].sum/recv[s.id].n).toFixed(1):'—';
+  box.innerHTML=`
+  <div class="kpis">
+    <div class="kpi acc"><div class="k">已填寫</div><div class="v">${done.length}<span class="u">/ ${staff.length} 人</span></div>
+      <div class="note">${staff.filter(s=>!F[s.id]).map(s=>esc(s.name)).join('、')||'全部完成'}</div></div>
+    <div class="kpi"><div class="k">想跟劉醫師聊聊</div><div class="v" style="color:${talk.length?'var(--seal)':'inherit'}">${talk.length}<span class="u">人</span></div>
+      <div class="note">${talk.map(f=>esc(f.name)).join('、')||'—'}</div></div>
+    <div class="kpi"><div class="k">填單網址</div><div class="note" style="word-break:break-all;margin-top:6px">${FORM_URL}</div>
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button></div></div>
+  </div>
+  <div class="tscroll" style="margin-bottom:14px"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th><th>自評</th><th>同事平均</th><th style="text-align:left">想聊聊</th></tr></thead><tbody>
+    ${staff.map(s=>{const f=F[s.id];return `<tr><td class="name">${esc(s.name)}</td><td class="n">${f?f.self:'<span style="color:var(--ink3)">未填</span>'}</td>
+      <td class="n">${avg(s)}<span style="color:var(--ink3);font-size:11px"> ${recv[s.id].n?`（${recv[s.id].n} 人）`:''}</span></td>
+      <td>${f&&f.talk?'<b style="color:var(--seal)">想聊聊</b>':''}</td></tr>`;}).join('')}
+  </tbody></table></div>
+  <div class="staffcards">
+    ${staff.filter(s=>F[s.id]||recv[s.id].notes.length).map(s=>{const f=F[s.id]||{};return `<div class="sc">
+      <div class="h"><span class="nm">${esc(s.name)}</span><div class="spacer"></div><span class="amt">自評 ${f.self??'—'}　同事 ${avg(s)}</span></div>
+      <div style="padding:10px 14px 13px;font-size:13px;line-height:1.7">
+        ${f.talk?`<div class="warn hi" style="margin-bottom:8px"><b>想跟劉醫師聊聊</b>${f.talkTopic?'：'+esc(f.talkTopic):''}</div>`:''}
+        ${f.best?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得最好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.best)}</div>`:''}
+        ${f.worse?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得比較不好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.worse)}</div>`:''}
+        ${recv[s.id].notes.length?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">同事想說的話</div>${recv[s.id].notes.map(n=>`<div>・${esc(n.text)} <span style="color:var(--ink3);font-size:11.5px">— ${esc(n.from)}</span></div>`).join('')}`:''}
+      </div></div>`;}).join('')||'<div class="empty">這個月還沒有人填寫</div>'}
+  </div>
+  ${FBK.list.length?`<details style="margin-top:14px"><summary style="cursor:pointer;font-size:13px;color:var(--ink2)">互評原始分數（列＝評分者）</summary>
+    <div class="tscroll" style="margin-top:8px"><table class="grid flat"><thead><tr class="hd"><th class="name">評分者＼被評</th>${staff.map(s=>`<th>${esc(s.name)}</th>`).join('')}</tr></thead><tbody>
+    ${FBK.list.map(f=>`<tr><td class="name">${esc(f.name)}</td>${staff.map(s=>`<td class="n">${s.id===f.person?'–':(f.peers||{})[s.id]??'·'}</td>`).join('')}</tr>`).join('')}
+    </tbody></table></div></details>`:''}`;
+  document.getElementById('fbCopy').onclick=async()=>{try{await navigator.clipboard.writeText(FORM_URL);toast('已複製填單網址');}catch(e){prompt('填單網址：',FORM_URL);}};
+  document.getElementById('fbSync').onclick=async()=>{await syncRoster(true);toast('填單名單已更新（在職 '+activeStaff().length+' 人）');};
+  document.getElementById('fbReload').onclick=()=>{FBK.key=null;renderFeedback();};
+}
+
 /* ===== 介面 ===== */
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');
   clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2400);}
@@ -3053,6 +3118,7 @@ function renderAll(){
   if(VIEW==='slip'){renderSlipCtl();renderSlips();}
   if(VIEW==='remit')renderRemit();
   if(VIEW==='line')renderLine();
+  if(VIEW==='fb')renderFeedback();
   if(VIEW==='setup')renderSetup();
   renderFabs();
 }
@@ -3077,6 +3143,7 @@ async function boot(){
     if(s.bDay===undefined)s.bDay='';});
   pinLockedMonths();
   renderAll();
+  syncRoster();
   if(firstRun)setTimeout(()=>toast('這是全新的資料庫，請用右上角「匯入備份」載入薪資資料'),600);
   if(readFailed){                       // 讀不到雲端就鎖住儲存，等使用者處理
     Store.blocked=true;

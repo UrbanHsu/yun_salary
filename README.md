@@ -15,6 +15,9 @@
 
 ## 檔案
 
+- `form.html` — 員工每月回饋填單（自評、互評、最好／待加強的一件事、想跟劉醫師聊聊）；後台「員工回饋」分頁檢視
+- `line-flex.js` — LINE 薪資單卡片格式（後台「LINE 推播」分頁使用）
+
 - `index.html` — 整個系統（HTML／CSS／JS 都在這一個檔案裡）
 - `firestore.rules` — Firestore 安全規則，需手動貼到 Firebase 主控台發布
 
