@@ -479,6 +479,7 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
 <nav class="tabs" id="tabs">
   <button data-v="month" class="on">月薪資表</button>
   <button data-v="slip">薪資單</button>
+  <button data-v="line">LINE 推播</button>
   <button data-v="remit">匯款分配</button>
   <button data-v="lookup">項目查閱</button>
   <button data-v="leave">特休帳</button>
@@ -580,6 +581,11 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
       <div class="bar"><h2 id="sTitle">薪資單</h2><div class="spacer"></div>
         <span class="sub">每張下方可複製圖片或用 LINE 傳給本人</span></div>
       <div class="slips" id="slipWrap"></div>
+    </section>
+
+    <section class="view" id="v-line">
+      <div class="bar"><h2 id="lnTitle">LINE 推播</h2><span class="sub">薪資單一對一傳給本人的 LINE</span></div>
+      <div id="lnWrap"></div>
     </section>
 
     <section class="view" id="v-cost">
@@ -2847,6 +2853,130 @@ function pinLockedMonths(){
   if(n)save();
 }
 
+
+/* ===== LINE 推播（共用「惠惠聯合診所薪資系統」官方帳號與推播中心） ===== */
+const LINE_CENTER_URL='https://hh-line-center.huihui-clinic.workers.dev';
+const LINE_SYSTEM='huiyun';
+const LINE_ADD_FRIEND_URL='https://lin.ee/nmhN9bY';
+const LN={status:null,results:null,busy:false};
+async function lineApi(path,body){
+  const u=FB.auth&&FB.auth.currentUser; if(!u)throw new Error('尚未登入');
+  const t=await u.getIdToken();
+  const r=await fetch(LINE_CENTER_URL+path,{method:'POST',headers:{authorization:'Bearer '+t,'content-type':'application/json'},body:JSON.stringify(body||{})});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok)throw new Error(j.error==='unauthorized'?'推播中心不認得這個登入帳號（請洽管理者把帳號加入推播中心）':(j.error||'HTTP '+r.status));
+  return j;
+}
+function lineRow(st,c){
+  const R=Math.round, inc=[], ded=[];
+  inc.push({label:'底薪',amount:R(c.base)});
+  if(c.coinPay)inc.push({label:'金幣獎金',amount:R(c.coinPay),note:`${n1(c.coins)} 枚`});
+  if(c.guarantee)inc.push({label:'保障差額',amount:R(c.guarantee)});
+  if(c.duty)inc.push({label:'職務津貼',amount:R(c.duty)});
+  if(c.otPay)inc.push({label:'加班費',amount:R(c.otPay),note:`${(c.otMin/60).toFixed(2)} 小時`});
+  if(c.perfect)inc.push({label:'全勤獎金',amount:R(c.perfect)});
+  if(c.bonus)inc.push({label:'紅利獎金',amount:R(c.bonus)});
+  if(c.gift)inc.push({label:'生日禮金',amount:R(c.gift)});
+  if(c.special)inc.push({label:'特殊獎金',amount:R(c.special),note:c.specialNote||''});
+  if(c.lateCut)ded.push({label:'遲到不支薪',amount:-R(c.lateCut),note:`${n1(c.latePaidMin)} 分`});
+  if(c.leaveCut)ded.push({label:'請假不支薪',amount:-R(c.leaveCut),note:`${n1(c.sessions)} 診`});
+  ded.push({label:'健保自付',amount:-R(c.nhiSelf)});
+  ded.push({label:'勞保自付',amount:-R(c.labSelf)});
+  return {id:st.id,name:st.name,net:R(c.net),cash:0,income:inc,deduct:ded,adjust:[],
+    incomeSum:R(c.gross+c.otPay+c.perfect+c.bonus+c.gift+c.special),
+    deductSum:-R(c.lateCut+c.leaveCut+c.nhiSelf+c.labSelf)};
+}
+let _flexMod=null;
+async function flexFor(r){
+  _flexMod=_flexMod||await import('./line-flex.js?v=1');
+  return _flexMod.slipFlexMessage(r,{clinic:DB.clinic||'惠韻牙醫診所',year:DB.year,month:DB.month,
+    footer:'薪資屬個人資料，請勿外流或探詢他人薪資。如有疑問請直接洽院方。'});
+}
+async function loadLineStatus(ensureCodes){
+  LN.status=await lineApi('/api/status',{system:LINE_SYSTEM,people:activeStaff().map(s=>({id:s.id,name:s.name})),ensureCodes});
+}
+function lnInvite(st,code){
+  return `${st.name} 您好，薪資單之後會改用 LINE 傳送給您本人。\n\n1. 加入官方帳號：${LINE_ADD_FRIEND_URL}\n2. 在對話裡傳送您的綁定碼：${code}\n\n看到「綁定完成」就可以了。綁定碼只給您本人使用，請勿轉傳。`;
+}
+async function renderLine(){
+  const box=document.getElementById('lnWrap'); if(!box)return;
+  const m=DB.month, M=DB.months[mk2(m)];
+  document.getElementById('lnTitle').textContent=`LINE 推播　${DB.year} 年 ${m} 月`;
+  if(!LN.status){
+    box.innerHTML='<div class="empty">讀取綁定狀態中…</div>';
+    try{await loadLineStatus(false);}catch(e){box.innerHTML=`<div class="warn hi"><b>連不上推播中心</b>　${esc(e.message)}</div>`;return;}
+  }
+  const S=Object.fromEntries((LN.status.people||[]).map(x=>[x.id,x]));
+  const staff=activeStaff();
+  if(M)MSES=monthSessions(DB.year,m);
+  const rows=M?staff.map(st=>lineRow(st,calc(st,rowOf(M,st),DB.rules))):[];
+  const pushed=(M&&M.linePushed)||{};
+  const res=LN.results||{};
+  box.innerHTML=`
+  <div class="card" style="margin-bottom:14px">
+    <div class="lkhead"><h3>綁定狀態</h3><span class="u">${staff.filter(s=>S[s.id]&&S[s.id].bound).length} / ${staff.length} 已綁定</span><div class="spacer"></div>
+      <button class="btn sm" id="lnCodes">幫所有未綁定的人產生綁定碼</button><button class="btn sm" id="lnRefresh">重新整理</button></div>
+    <div style="font-size:12px;color:var(--ink3);margin-bottom:8px">每人一組 6 位數綁定碼，私下交給本人；加好友（${LINE_ADD_FRIEND_URL}）後把碼傳到官方帳號即完成。綁定碼用過即失效。</div>
+    <div class="tscroll"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th><th style="text-align:left">狀態</th><th>綁定碼</th><th style="text-align:left">操作</th></tr></thead><tbody>
+    ${staff.map(st=>{const x=S[st.id]||{};return `<tr><td class="name">${esc(st.name)}</td>
+      <td>${x.bound?`<b style="color:var(--pine)">已綁定</b> <span style="color:var(--ink3);font-size:12px">${esc(x.displayName||'')}</span>`:'<span style="color:var(--brass)">未綁定</span>'}</td>
+      <td class="n"><b>${x.code||'—'}</b></td>
+      <td>${x.bound?`<button class="btn sm" data-lnun="${st.id}">解除綁定</button>`
+        :`${x.code?`<button class="btn sm" data-lncp="${st.id}">複製邀請文字</button> `:''}<button class="btn sm" data-lnre="${st.id}">${x.code?'重新產生':'產生綁定碼'}</button>`}</td></tr>`;}).join('')}
+    </tbody></table></div></div>
+
+  <div class="card">
+    <div class="lkhead"><h3>推播 ${m} 月薪資單</h3><span class="u">只傳給勾選且已綁定的人；手機通知只顯示「薪資單已送達」，不顯示金額</span></div>
+    ${!M?'<div class="empty">此月份尚未建立薪資表</div>':`
+    ${M.locked?'':'<div class="warn"><b>本月尚未鎖定（未發放）</b>　建議確認數字、鎖定後再推播。</div>'}
+    <div class="tscroll"><table class="grid flat"><thead><tr class="hd"><th class="name"><input type="checkbox" id="lnAll" checked></th><th style="text-align:left">助理</th><th>實發</th><th style="text-align:left">LINE</th><th style="text-align:left">本月推播</th></tr></thead><tbody>
+    ${rows.map(r=>{const b=S[r.id]&&S[r.id].bound,x=res[r.id];return `<tr><td class="name"><input type="checkbox" data-lnpk="${r.id}" ${b&&!pushed[r.id]?'checked':''} ${b?'':'disabled'}></td>
+      <td>${esc(r.name)}</td><td class="n">${n0(r.net)}</td><td>${b?'已綁定':'<span style="color:var(--ink3)">未綁定</span>'}</td>
+      <td>${x?(x.ok?'<b style="color:var(--pine)">剛剛送出 ✓</b>':`<span style="color:var(--seal)">失敗</span> <span style="font-size:11px;color:var(--ink3)">${esc(x.error||JSON.stringify(x.detail||x.status))}</span>`)
+        :pushed[r.id]?`<span style="font-size:12px;color:var(--ink3)">已於 ${new Date(pushed[r.id]).toLocaleString('zh-TW')} 送出</span>`:'—'}</td></tr>`;}).join('')}
+    </tbody></table></div>
+    <div style="display:flex;gap:8px;align-items:center;margin-top:10px;flex-wrap:wrap">
+      <button class="btn" id="lnCheck">檢查卡片格式</button><button class="btn pri" id="lnPush">推播給勾選的人</button>
+      <span id="lnMsg" style="font-size:12px;color:var(--seal)"></span></div>`}
+  </div>`;
+  const busy=on=>{LN.busy=on;box.querySelectorAll('button').forEach(b=>b.disabled=on);};
+  const msg=t=>{const e=document.getElementById('lnMsg');if(e)e.textContent=t||'';};
+  const act=async fn=>{busy(true);try{await fn();}catch(e){toast(e.message);}busy(false);renderLine();};
+  document.getElementById('lnRefresh').onclick=()=>act(()=>loadLineStatus(false));
+  document.getElementById('lnCodes').onclick=()=>act(async()=>{await loadLineStatus(true);toast('已產生綁定碼');});
+  box.querySelectorAll('[data-lnre]').forEach(b=>b.onclick=()=>act(async()=>{const st=staff.find(s=>s.id===b.dataset.lnre);
+    await lineApi('/api/regen',{system:LINE_SYSTEM,id:st.id,name:st.name});await loadLineStatus(false);}));
+  box.querySelectorAll('[data-lnun]').forEach(b=>b.onclick=()=>{const st=staff.find(s=>s.id===b.dataset.lnun);
+    if(!confirm(`確定解除 ${st.name} 的 LINE 綁定？之後要重新給她綁定碼。`))return;
+    act(async()=>{await lineApi('/api/unbind',{system:LINE_SYSTEM,id:st.id});await loadLineStatus(false);});});
+  box.querySelectorAll('[data-lncp]').forEach(b=>b.onclick=async()=>{const st=staff.find(s=>s.id===b.dataset.lncp);const t=lnInvite(st,S[st.id].code);
+    try{await navigator.clipboard.writeText(t);toast('已複製，貼到 LINE 私訊給本人');}catch(e){prompt('複製下面文字：',t);}});
+  if(!M)return;
+  const all=document.getElementById('lnAll');
+  all.onchange=()=>box.querySelectorAll('[data-lnpk]:not([disabled])').forEach(c=>c.checked=all.checked);
+  const picked=()=>[...box.querySelectorAll('[data-lnpk]:checked')].map(c=>rows.find(r=>r.id===c.dataset.lnpk));
+  document.getElementById('lnCheck').onclick=async()=>{msg('');busy(true);
+    try{const list=(picked().length?picked():rows).slice(0,5);const j=await lineApi('/api/validate',{messages:await Promise.all(list.map(flexFor))});
+      toast(j.ok?'卡片格式正確 ✓':'格式有問題');if(!j.ok)msg(JSON.stringify(j.detail));}catch(e){msg(e.message);}busy(false);};
+  document.getElementById('lnPush').onclick=async()=>{msg('');const list=picked();if(!list.length){toast('沒有勾選任何人');return;}
+    const again=list.filter(r=>pushed[r.id]);
+    if(!confirm(`要把 ${m} 月薪資單推播給 ${list.length} 人？\n${list.map(r=>r.name).join('、')}${again.length?`\n\n⚠ 其中 ${again.map(r=>r.name).join('、')} 本月已經送過，會再收到一次。`:''}`))return;
+    busy(true);
+    try{
+      const items=[];for(const r of list)items.push({id:r.id,messages:[await flexFor(r)],retryKey:crypto.randomUUID()});
+      const j=await lineApi('/api/push',{system:LINE_SYSTEM,items});
+      const rs=Object.fromEntries(j.results.map(x=>[x.id,x]));LN.results=rs;
+      const okN=j.results.filter(x=>x.ok).length,now=new Date().toISOString();
+      M.linePushed=Object.assign({},M.linePushed||{});j.results.filter(x=>x.ok).forEach(x=>M.linePushed[x.id]=now);save();
+      const bound=Object.fromEntries((LN.status.people||[]).map(x=>[x.id,x.bound]));
+      const lines=list.map(r=>(rs[r.id]&&rs[r.id].ok?'✓ ':'✗ ')+r.name+(rs[r.id]&&rs[r.id].ok?'':rs[r.id]&&rs[r.id].error==='not_bound'?'（未綁定）':'（失敗）'));
+      const rest=rows.filter(r=>!list.includes(r)).map(r=>'－ '+r.name+(bound[r.id]?'（本次未勾選）':'（未綁定）'));
+      lineApi('/api/push',{system:LINE_SYSTEM,items:[],notify:`${DB.clinic||'惠韻牙醫診所'} ${m} 月薪資單推播結果（${okN}/${list.length} 送達）\n${[...lines,...rest].join('\n')}`}).catch(()=>{});
+      toast(`送出 ${okN} / ${list.length}`);
+    }catch(e){msg(e.message);}
+    busy(false);renderLine();};
+}
+
 /* ===== 介面 ===== */
 function toast(t){const el=document.getElementById('toast');el.textContent=t;el.classList.add('on');
   clearTimeout(el._t);el._t=setTimeout(()=>el.classList.remove('on'),2400);}
@@ -2922,6 +3052,7 @@ function renderAll(){
   if(VIEW==='comply')renderComply();
   if(VIEW==='slip'){renderSlipCtl();renderSlips();}
   if(VIEW==='remit')renderRemit();
+  if(VIEW==='line')renderLine();
   if(VIEW==='setup')renderSetup();
   renderFabs();
 }
