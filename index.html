@@ -480,7 +480,7 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
   <button data-v="month" class="on">月薪資表</button>
   <button data-v="slip">薪資單</button>
   <button data-v="line">LINE 推播</button>
-  <button data-v="fb">員工回饋</button>
+  <button data-v="fb">員工回饋</button><!-- v20261111b -->
   <button data-v="remit">匯款分配</button>
   <button data-v="lookup">項目查閱</button>
   <button data-v="leave">特休帳</button>
@@ -2991,7 +2991,8 @@ async function syncRoster(force){
   const people=activeStaff().map(s=>({id:s.id,name:s.name}));
   const sig=JSON.stringify(people);
   if(!force&&syncRoster._last===sig)return;
-  try{await FB.db.doc('meta/roster').set({people,updatedAt:new Date().toISOString()});syncRoster._last=sig;}catch(e){console.warn('roster',e);}
+  try{await FB.db.doc('meta/roster').set({people,updatedAt:new Date().toISOString()});syncRoster._last=sig;return {ok:true,n:people.length};}
+  catch(e){console.warn('roster',e);return {ok:false,err:(e&&(e.code||e.message))||String(e)};}
 }
 const FBK={key:null,list:null};
 async function renderFeedback(){
@@ -3000,6 +3001,7 @@ async function renderFeedback(){
   document.getElementById('fbTitle').textContent=`員工回饋　${DB.year} 年 ${DB.month} 月`;
   if(FBK.key!==key){
     box.innerHTML='<div class="empty">讀取中…</div>';
+    syncRoster(true).then(r=>{if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單同步失敗：'+r.err;}});
     try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));FBK.key=key;}
     catch(e){box.innerHTML=`<div class="warn hi"><b>讀不到員工回饋</b>　${esc(e.message||e)}（請確認 Firestore 規則已更新）</div>`;return;}
   }
@@ -3016,7 +3018,7 @@ async function renderFeedback(){
     <div class="kpi"><div class="k">想跟劉醫師聊聊</div><div class="v" style="color:${talk.length?'var(--seal)':'inherit'}">${talk.length}<span class="u">人</span></div>
       <div class="note">${talk.map(f=>esc(f.name)).join('、')||'—'}</div></div>
     <div class="kpi"><div class="k">填單網址</div><div class="note" style="word-break:break-all;margin-top:6px">${FORM_URL}</div>
-      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button></div></div>
+      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button></div><div id="fbSyncErr" style="color:var(--seal);font-size:12px;margin-top:6px"></div></div>
   </div>
   <div class="tscroll" style="margin-bottom:14px"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th><th>自評</th><th>同事平均</th><th style="text-align:left">想聊聊</th></tr></thead><tbody>
     ${staff.map(s=>{const f=F[s.id];return `<tr><td class="name">${esc(s.name)}</td><td class="n">${f?f.self:'<span style="color:var(--ink3)">未填</span>'}</td>
@@ -3038,7 +3040,9 @@ async function renderFeedback(){
     ${FBK.list.map(f=>`<tr><td class="name">${esc(f.name)}</td>${staff.map(s=>`<td class="n">${s.id===f.person?'–':(f.peers||{})[s.id]??'·'}</td>`).join('')}</tr>`).join('')}
     </tbody></table></div></details>`:''}`;
   document.getElementById('fbCopy').onclick=async()=>{try{await navigator.clipboard.writeText(FORM_URL);toast('已複製填單網址');}catch(e){prompt('填單網址：',FORM_URL);}};
-  document.getElementById('fbSync').onclick=async()=>{await syncRoster(true);toast('填單名單已更新（在職 '+activeStaff().length+' 人）');};
+  document.getElementById('fbSync').onclick=async()=>{const r=await syncRoster(true);
+    toast(r&&r.ok?'填單名單已更新（在職 '+r.n+' 人）':'名單更新失敗：'+((r&&r.err)||'尚未登入或資料未載入'));
+    if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單更新失敗：'+r.err;}};
   document.getElementById('fbReload').onclick=()=>{FBK.key=null;renderFeedback();};
 }
 
