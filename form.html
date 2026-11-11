@@ -353,7 +353,7 @@ async function openForm(){
   renderForm();
 }
 const scaleHtml=(key,val)=>`<div class="scale" role="group">${Array.from({length:11},(_,i)=>`<button type="button" data-sc="${key}" data-v="${i}" aria-pressed="${val===i}">${i}</button>`).join("")}</div>
-  <div class="scale-cap"><span>0 很不滿意</span><span>10 非常好</span></div>`;
+  <div class="scale-cap"><span>0 不滿意</span><span>10 非常好</span></div>`;
 function renderForm(){
   $("#loginCard").hidden=true;$("#doneCard").hidden=true;
   const me=S.me,D=S.data,others=S.roster.filter(p=>p.id!==me.id);
@@ -366,9 +366,9 @@ function renderForm(){
         <input type="text" class="note" data-att="${esc(p.id)}" data-k="note" maxlength="100" placeholder="備註（例如：10/5 上午請假）" value="${esc(v.note||"")}"></div>`;}).join("")}
     <div class="att-act"><button class="btn primary" id="attSave" type="button">儲存出缺勤</button><span class="att-ok" id="attOk"></span></div></section>`:""}
   <section class="card"><h2>1. 我這個月的工作自評</h2><div class="sub">整體來說，你給自己這個月幾分？</div>${scaleHtml("self",D.self)}</section>
-  <section class="card"><h2>2. 給同事的評分</h2><div class="sub">每位同事打一個總分；想說的話可以寫在下面（選填）。</div>
+  <section class="card"><h2>2. 給同事的評分</h2><div class="sub">每位同事打一個總分，可以簡單寫下這樣評分的理由（選填）。</div>
     ${others.map(p=>`<div class="peer"><div class="nm">${esc(p.name)}</div>${scaleHtml("p:"+p.id,D.peers[p.id]??null)}
-      <input type="text" data-note="${esc(p.id)}" maxlength="100" placeholder="想對同事說的話（選填）" value="${esc(D.peerNotes[p.id]||"")}"></div>`).join("")||'<div class="sub">目前沒有其他同事。</div>'}
+      <input type="text" data-note="${esc(p.id)}" maxlength="100" placeholder="這樣評分的理由（選填）" value="${esc(D.peerNotes[p.id]||"")}"></div>`).join("")||'<div class="sub">目前沒有其他同事。</div>'}
   </section>
   <section class="card"><h2>3. 這個月我覺得自己做得最好的一件事</h2><textarea id="best" maxlength="500" placeholder="例如：主動幫同事分擔工作、安撫緊張病人的情緒…">${esc(D.best)}</textarea></section>
   <section class="card"><h2>4. 這個月我覺得自己做得比較不好的一件事</h2><textarea id="worse" maxlength="500" placeholder="例如：有一次器械準備不夠完整…">${esc(D.worse)}</textarea></section>

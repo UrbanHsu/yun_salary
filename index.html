@@ -590,7 +590,7 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
     </section>
 
     <section class="view" id="v-fb">
-      <div class="bar"><h2 id="fbTitle">員工回饋</h2><span class="sub">員工每月填寫的自評、互評與想說的話，只有管理者看得到</span></div>
+      <div class="bar"><h2 id="fbTitle">員工回饋</h2><span class="sub">員工每月填寫的自評、互評與評分理由，只有管理者看得到</span></div>
       <div id="fbWrap"></div>
     </section>
 
@@ -3012,7 +3012,7 @@ async function renderFeedback(){
   const staff=activeStaff(), F=Object.fromEntries(FBK.list.map(x=>[x.person,x]));
   const recv={};staff.forEach(s=>recv[s.id]={sum:0,n:0,notes:[]});
   FBK.list.forEach(f=>{Object.entries(f.peers||{}).forEach(([t,v])=>{if(recv[t]&&typeof v==='number'){recv[t].sum+=v;recv[t].n++;}});
-    Object.entries(f.peerNotes||{}).forEach(([t,v])=>{if(recv[t]&&v)recv[t].notes.push({from:f.name,text:v});});});
+    Object.entries(f.peerNotes||{}).forEach(([t,v])=>{if(recv[t]&&v)recv[t].notes.push({from:f.name,text:v,score:(f.peers||{})[t]});});});
   const done=staff.filter(s=>F[s.id]), talk=FBK.list.filter(f=>f.talk);
   const avg=s=>recv[s.id].n?(recv[s.id].sum/recv[s.id].n).toFixed(1):'—';
   box.innerHTML=`
@@ -3045,7 +3045,7 @@ async function renderFeedback(){
         ${f.talk?`<div class="warn hi" style="margin-bottom:8px"><b>想跟劉醫師聊聊</b>${f.talkTopic?'：'+esc(f.talkTopic):''}</div>`:''}
         ${f.best?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得最好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.best)}</div>`:''}
         ${f.worse?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得比較不好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.worse)}</div>`:''}
-        ${recv[s.id].notes.length?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">同事想說的話</div>${recv[s.id].notes.map(n=>`<div>・${esc(n.text)} <span style="color:var(--ink3);font-size:11.5px">— ${esc(n.from)}</span></div>`).join('')}`:''}
+        ${recv[s.id].notes.length?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">同事的評分理由</div>${recv[s.id].notes.map(n=>`<div>・${esc(n.text)} <span style="color:var(--ink3);font-size:11.5px">— ${esc(n.from)}${n.score!=null?`，給 ${n.score} 分`:''}</span></div>`).join('')}`:''}
       </div></div>`;}).join('')||'<div class="empty">這個月還沒有人填寫</div>'}
   </div>
   ${FBK.list.length?`<details style="margin-top:14px"><summary style="cursor:pointer;font-size:13px;color:var(--ink2)">互評原始分數（列＝評分者）</summary>
