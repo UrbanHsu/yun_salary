@@ -134,6 +134,15 @@ input[type=text]{border:1px solid var(--line);background:var(--surface-2);color:
 .done b{color:var(--good);font-size:17px}
 .sendbar{position:sticky;bottom:0;padding:16px 0 calc(8px + env(safe-area-inset-bottom,0px));background:linear-gradient(180deg,transparent,var(--page-bg) 35%)}
 .sendbar .in{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.att-card{display:flex;flex-direction:column;gap:12px}
+.att-p{border:1px solid var(--line);border-radius:12px;padding:12px 14px;background:var(--surface-2)}
+.att-p .nm{font-weight:800;margin-bottom:8px}
+.att-g{display:grid;grid-template-columns:repeat(auto-fill,minmax(92px,1fr));gap:8px}
+.att-g label{display:flex;flex-direction:column;gap:3px;font-size:12px;color:var(--muted);font-weight:600}
+.att-g input{border:1px solid var(--line);background:var(--surface);color:var(--fg);border-radius:8px;padding:7px 8px;font-size:15px;font-variant-numeric:tabular-nums;width:100%;min-width:0}
+.att-p input.note{margin-top:8px}
+.att-act{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.att-ok{color:var(--good);font-size:13px;font-weight:700}
 .privacy{font-size:12.5px;color:var(--muted);text-align:center}
 .toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--fg);color:var(--bg);padding:10px 18px;border-radius:999px;font-size:13px;font-weight:600;opacity:0;transition:opacity .25s;pointer-events:none;z-index:50}
 .toast.on{opacity:1}
@@ -281,12 +290,13 @@ renderHero(RM.m===12?1:RM.m+1,RM.y,RM.m);
 
 firebase.initializeApp(FB_CONFIG);
 const auth=firebase.auth(), db=firebase.firestore();
-const S={roster:[],registry:{},status:{},sel:null,me:null,data:null};
+const S={roster:[],attBy:null,registry:{},status:{},sel:null,me:null,data:null,att:null};
 
 /* ---------- 登入 ---------- */
 async function loadPublic(){
   const [r,g,s]=await Promise.all([db.doc("meta/roster").get(),db.doc("meta/registry").get(),db.doc("formStatus/"+RM.key).get()]);
   S.roster=(r.exists&&r.data().people)||[];
+  S.attBy=(r.exists&&r.data().attendanceBy)||null;
   S.registry=(g.exists&&g.data())||{};
   S.status=(s.exists&&s.data().submitted)||{};
 }
@@ -336,6 +346,10 @@ async function openForm(){
   const d=await db.doc(`forms/${RM.key}_${S.me.id.toLowerCase()}`).get();
   S.data=d.exists?d.data():{self:null,peers:{},peerNotes:{},best:"",worse:"",talk:false,talkTopic:""};
   S.data.peers=S.data.peers||{};S.data.peerNotes=S.data.peerNotes||{};
+  S.att=null;
+  if(S.attBy&&S.attBy===S.me.id){
+    try{const a=await db.doc("attendance/"+RM.key).get();S.att=(a.exists&&a.data().rows)||{};}catch(e){S.att={};}
+  }
   renderForm();
 }
 const scaleHtml=(key,val)=>`<div class="scale" role="group">${Array.from({length:11},(_,i)=>`<button type="button" data-sc="${key}" data-v="${i}" aria-pressed="${val===i}">${i}</button>`).join("")}</div>
@@ -346,12 +360,17 @@ function renderForm(){
   $("#hello").innerHTML=`<b>${esc(me.name)}</b>，${RM.m} 月辛苦了！${S.status[me.id]?"你已經送出過，可以修改後再送一次。":""}`;
   const a=$("#formArea");a.hidden=false;
   a.innerHTML=`
+  ${S.att?`<section class="card att-card" id="attCard"><div><h2>本月出缺勤登記（全體助理）</h2><div class="sub">由你幫大家登記 ${RM.m} 月的出缺勤，劉醫師會帶入薪資表。請假以「診」為單位，半天＝1 診；沒有就留空。</div></div>
+    ${S.roster.map(p=>{const v=S.att[p.id]||{};const inp=(k,l,st)=>`<label>${l}<input type="number" inputmode="decimal" min="0" step="${st}" data-att="${esc(p.id)}" data-k="${k}" value="${v[k]??""}"></label>`;
+      return `<div class="att-p"><div class="nm">${esc(p.name)}</div><div class="att-g">${inp("late","遲到（分）",1)}${inp("lateCount","遲到（次）",1)}${inp("ot","加班（分）",1)}${inp("annual","特休（診）",0.5)}${inp("personal","事假（診）",0.5)}${inp("sick","病假（診）",0.5)}${inp("mens","生理假（診）",0.5)}${inp("typhoon","颱風假（診）",0.5)}</div>
+        <input type="text" class="note" data-att="${esc(p.id)}" data-k="note" maxlength="100" placeholder="備註（例如：10/5 上午請假）" value="${esc(v.note||"")}"></div>`;}).join("")}
+    <div class="att-act"><button class="btn primary" id="attSave" type="button">儲存出缺勤</button><span class="att-ok" id="attOk"></span></div></section>`:""}
   <section class="card"><h2>1. 我這個月的工作自評</h2><div class="sub">整體來說，你給自己這個月幾分？</div>${scaleHtml("self",D.self)}</section>
   <section class="card"><h2>2. 給同事的評分</h2><div class="sub">每位同事打一個總分；想說的話可以寫在下面（選填）。</div>
     ${others.map(p=>`<div class="peer"><div class="nm">${esc(p.name)}</div>${scaleHtml("p:"+p.id,D.peers[p.id]??null)}
       <input type="text" data-note="${esc(p.id)}" maxlength="100" placeholder="想對同事說的話（選填）" value="${esc(D.peerNotes[p.id]||"")}"></div>`).join("")||'<div class="sub">目前沒有其他同事。</div>'}
   </section>
-  <section class="card"><h2>3. 這個月我覺得自己做得最好的一件事</h2><textarea id="best" maxlength="500" placeholder="例如：主動幫忙新同事熟悉流程…">${esc(D.best)}</textarea></section>
+  <section class="card"><h2>3. 這個月我覺得自己做得最好的一件事</h2><textarea id="best" maxlength="500" placeholder="例如：主動幫同事分擔工作、安撫緊張病人的情緒…">${esc(D.best)}</textarea></section>
   <section class="card"><h2>4. 這個月我覺得自己做得比較不好的一件事</h2><textarea id="worse" maxlength="500" placeholder="例如：有一次器械準備不夠完整…">${esc(D.worse)}</textarea></section>
   <section class="card"><label class="talk"><input type="checkbox" id="talk" ${D.talk?"checked":""}><div><b>我想跟劉醫師聊一聊</b><span>勾選後劉醫師會找時間跟你聊，想聊的內容可以先寫在下面（選填）。</span></div></label>
     <textarea id="talkTopic" maxlength="300" placeholder="想聊的事（選填）" style="margin-top:10px" ${D.talk?"":"hidden"}>${esc(D.talkTopic||"")}</textarea></section>
@@ -362,6 +381,11 @@ function renderForm(){
     b.parentElement.querySelectorAll("button").forEach(x=>x.setAttribute("aria-pressed",x===b));
   });
   a.querySelectorAll("[data-note]").forEach(i=>i.oninput=()=>{D.peerNotes[i.dataset.note]=i.value;});
+  a.querySelectorAll("[data-att]").forEach(i=>i.oninput=()=>{const p=i.dataset.att,k=i.dataset.k;S.att[p]=S.att[p]||{};
+    if(k==="note")S.att[p].note=i.value;else{const v=i.value===""?null:+i.value;if(v==null)delete S.att[p][k];else S.att[p][k]=v;}$("#attOk").textContent="尚未儲存";});
+  if($("#attSave"))$("#attSave").onclick=async()=>{const b=$("#attSave");b.disabled=true;
+    try{await db.doc("attendance/"+RM.key).set({month:RM.key,by:S.me.id,byName:S.me.name,rows:S.att,updatedAt:firebase.firestore.FieldValue.serverTimestamp()});
+      $("#attOk").textContent="已儲存 ✓";toast("出缺勤已儲存");}catch(e){$("#attOk").textContent="儲存失敗，請再試一次";}b.disabled=false;};
   $("#best").oninput=e=>D.best=e.target.value;
   $("#worse").oninput=e=>D.worse=e.target.value;
   $("#talk").onchange=e=>{D.talk=e.target.checked;$("#talkTopic").hidden=!D.talk;};

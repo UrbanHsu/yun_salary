@@ -45,6 +45,11 @@ service cloud.firestore {
       allow read, write: if allowed()
         || (isStaff() && docId.matches('^[0-9]{6}_' + staffId() + '$'));
     }
+    // 出缺勤登記：attendance/{YYYYMM}，只有名單上指定的負責人與管理者可以讀寫
+    match /attendance/{month} {
+      allow read, write: if allowed()
+        || (isStaff() && get(/databases/$(database)/documents/meta/roster).data.attendanceBy == staffId());
+    }
     // 填寫進度（只有誰已送出）：所有人可看，員工只能把自己標成已送出
     match /formStatus/{month} {
       allow read: if true;

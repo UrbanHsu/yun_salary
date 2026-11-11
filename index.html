@@ -2989,12 +2989,15 @@ const FORM_URL='https://urbanhsu.github.io/yun_salary/form.html';
 async function syncRoster(force){
   if(!FB.db||!DB)return;
   const people=activeStaff().map(s=>({id:s.id,name:s.name}));
-  const sig=JSON.stringify(people);
+  if(DB.attendanceBy===undefined){const d=activeStaff().find(s=>s.name==='陳沛吟');DB.attendanceBy=d?d.id:'';}
+  const attendanceBy=DB.attendanceBy||'';
+  const sig=JSON.stringify([people,attendanceBy]);
   if(!force&&syncRoster._last===sig)return;
-  try{await FB.db.doc('meta/roster').set({people,updatedAt:new Date().toISOString()});syncRoster._last=sig;return {ok:true,n:people.length};}
+  try{await FB.db.doc('meta/roster').set({people,attendanceBy,updatedAt:new Date().toISOString()});syncRoster._last=sig;return {ok:true,n:people.length};}
   catch(e){console.warn('roster',e);return {ok:false,err:(e&&(e.code||e.message))||String(e)};}
 }
-const FBK={key:null,list:null};
+const FBK={key:null,list:null,att:null};
+const ATT_F=[['late','遲到分','lateTotal'],['lateCount','遲到次','lateCount'],['ot','加班分','otMin'],['annual','特休','leaveAnnual'],['personal','事假','leavePersonal'],['sick','病假','leaveSick'],['mens','生理假','leaveMens'],['typhoon','颱風假','leaveTyphoon']];
 async function renderFeedback(){
   const box=document.getElementById('fbWrap');if(!box)return;
   const key=`${DB.year}${String(DB.month).padStart(2,'0')}`;
@@ -3002,7 +3005,8 @@ async function renderFeedback(){
   if(FBK.key!==key){
     box.innerHTML='<div class="empty">讀取中…</div>';
     syncRoster(true).then(r=>{if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單同步失敗：'+r.err;}});
-    try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));FBK.key=key;}
+    try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));
+      const a=await FB.db.doc('attendance/'+key).get();FBK.att=a.exists?a.data():null;FBK.key=key;}
     catch(e){box.innerHTML=`<div class="warn hi"><b>讀不到員工回饋</b>　${esc(e.message||e)}（請確認 Firestore 規則已更新）</div>`;return;}
   }
   const staff=activeStaff(), F=Object.fromEntries(FBK.list.map(x=>[x.person,x]));
@@ -3019,6 +3023,15 @@ async function renderFeedback(){
       <div class="note">${talk.map(f=>esc(f.name)).join('、')||'—'}</div></div>
     <div class="kpi"><div class="k">填單網址</div><div class="note" style="word-break:break-all;margin-top:6px">${FORM_URL}</div>
       <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button></div><div id="fbSyncErr" style="color:var(--seal);font-size:12px;margin-top:6px"></div></div>
+  </div>
+
+  <div class="card" style="margin-bottom:14px">
+    <div class="lkhead"><h3>出缺勤登記</h3><span class="u">${FBK.att?`${esc(FBK.att.byName||'')} 登記${FBK.att.updatedAt&&FBK.att.updatedAt.toDate?'，'+FBK.att.updatedAt.toDate().toLocaleString('zh-TW'):''}`:'尚未登記'}</span><div class="spacer"></div>
+      <label style="font-size:12px;color:var(--ink2)">負責登記：<select id="fbAttBy" style="width:auto">${['<option value="">（不開放）</option>',...staff.map(s=>`<option value="${s.id}" ${DB.attendanceBy===s.id?'selected':''}>${esc(s.name)}</option>`)].join('')}</select></label>
+      ${FBK.att?`<button class="btn sm pri" id="fbAttApply">帶入 ${DB.month} 月薪資表</button>`:''}</div>
+    ${FBK.att?`<div class="tscroll"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th>${ATT_F.map(f=>`<th>${f[1]}</th>`).join('')}<th style="text-align:left">備註</th></tr></thead><tbody>
+      ${staff.map(s=>{const r=(FBK.att.rows||{})[s.id]||{};return `<tr><td class="name">${esc(s.name)}</td>${ATT_F.map(f=>`<td class="n">${r[f[0]]??''}</td>`).join('')}<td style="white-space:normal;font-size:12px">${esc(r.note||'')}</td></tr>`;}).join('')}
+    </tbody></table></div>`:'<div style="font-size:12.5px;color:var(--ink3)">負責的人登入填單頁後，會多一區「本月出缺勤登記」。</div>'}
   </div>
   <div class="tscroll" style="margin-bottom:14px"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th><th>自評</th><th>同事平均</th><th style="text-align:left">想聊聊</th></tr></thead><tbody>
     ${staff.map(s=>{const f=F[s.id];return `<tr><td class="name">${esc(s.name)}</td><td class="n">${f?f.self:'<span style="color:var(--ink3)">未填</span>'}</td>
@@ -3044,6 +3057,16 @@ async function renderFeedback(){
     toast(r&&r.ok?'填單名單已更新（在職 '+r.n+' 人）':'名單更新失敗：'+((r&&r.err)||'尚未登入或資料未載入'));
     if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單更新失敗：'+r.err;}};
   document.getElementById('fbReload').onclick=()=>{FBK.key=null;renderFeedback();};
+  document.getElementById('fbAttBy').onchange=async e=>{DB.attendanceBy=e.target.value;save();const r=await syncRoster(true);toast(r&&r.ok?'已更新負責登記的人':'更新失敗：'+((r&&r.err)||''));};
+  const ap=document.getElementById('fbAttApply');
+  if(ap)ap.onclick=()=>{
+    const M=getMonth(DB.month,true);
+    if(M.locked){toast(DB.month+' 月已鎖定（已發放），不能帶入');return;}
+    if((DB.rules.lateMode||'simple')==='detail')toast('注意：遲到是「逐筆明細」模式，遲到分鐘請在月薪資表手動輸入');
+    let n=0;staff.forEach(s=>{const r=(FBK.att.rows||{})[s.id];if(!r)return;M.rows[s.id]=M.rows[s.id]||{};
+      ATT_F.forEach(([k,,fld])=>{if(r[k]!=null&&!(fld==='lateTotal'&&(DB.rules.lateMode||'simple')==='detail')){M.rows[s.id][fld]=r[k];}});
+      if(r.note)M.rows[s.id].note=[M.rows[s.id].note,r.note].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join('；');n++;});
+    save();toast('已帶入 '+n+' 人的出缺勤，請到「月薪資表」確認');};
 }
 
 /* ===== 介面 ===== */
