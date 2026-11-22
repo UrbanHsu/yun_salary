@@ -168,10 +168,14 @@ input[type=text]{border:1px solid var(--line);background:var(--surface-2);color:
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script>
+<script charset="utf-8" src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 <script>
 const FB_CONFIG={apiKey:"AIzaSyBxWB3V5uusSCggBglQBKCog3GWib7ktNE",authDomain:"yun-salary.firebaseapp.com",projectId:"yun-salary",
   storageBucket:"yun-salary.firebasestorage.app",messagingSenderId:"978214452774",appId:"1:978214452774:web:d5aa54c4f47b508175f0e7"};
 const DOMAIN="@staff.yun-salary.app";
+// LINE 推播卡片打開時用 LIFF 自動登入；LIFF ID 是公開資訊，空白＝不啟用
+const LIFF_ID="2012744796-T8IXkC9c";
+const LINE_CENTER="https://hh-line-center.huihui-clinic.workers.dev";
 const emailOf=id=>id.toLowerCase()+DOMAIN;
 const pwX=p=>"hy:"+p+":hy";                 // Firebase 密碼至少 6 碼，內部補齊
 const $=s=>document.querySelector(s);
@@ -179,7 +183,17 @@ const esc=t=>String(t==null?"":t).replace(/[&<>"]/g,m=>({"&":"&amp;","<":"&lt;",
 function toast(t){const e=$("#toast");e.textContent=t;e.classList.add("on");clearTimeout(e._t);e._t=setTimeout(()=>e.classList.remove("on"),2200);}
 // 填的是「上個月」的回饋（每月初填上月）
 function reportMonth(){const d=new Date();d.setDate(1);d.setMonth(d.getMonth()-1);return {y:d.getFullYear(),m:d.getMonth()+1,key:""+d.getFullYear()+String(d.getMonth()+1).padStart(2,"0")};}
-const RM=reportMonth();
+let RM=reportMonth();
+// 推播卡片會帶 ?m=YYYYMM，指定要填哪個月（從 LIFF 進來時可能包在 liff.state 裡）
+function monthFromUrl(){
+  const q=new URLSearchParams(location.search);let m=q.get("m");
+  if(!m&&q.get("liff.state")){try{m=new URLSearchParams(decodeURIComponent(q.get("liff.state")).replace(/^[^?]*\?/,"")).get("m");}catch(e){}}
+  if(!/^\d{6}$/.test(m||""))return null;
+  const y=+m.slice(0,4),mo=+m.slice(4),now=new Date();
+  if(mo<1||mo>12||y<2024||y*100+mo>now.getFullYear()*100+now.getMonth()+1)return null;
+  return {y,m:mo,key:m};
+}
+function applyMonth(){const x=monthFromUrl();if(x&&x.key!==RM.key){RM=x;renderHero(RM.m===12?1:RM.m+1,RM.y,RM.m);}}
 /* ---------- 節氣插畫（與惠騰月報表共用） ---------- */
 const H={
   back:(c,y=170)=>`<path d="M0 ${y+20} Q140 ${y-30} 290 ${y+5} T560 ${y-10} T800 ${y-20} V240 H0Z" fill="${c}"/>`,
@@ -283,6 +297,7 @@ function renderHero(sm,yr,mo){
   el.setAttribute("role","img");el.setAttribute("aria-label",`${yr} 年 ${mo} 月回饋　${t.terms.join("、")}　${t.tag}`);
 }
 
+applyMonth();
 renderHero(RM.m===12?1:RM.m+1,RM.y,RM.m);
 (function(){const b=$("#themeBtn");const set=n=>{document.documentElement.setAttribute("data-theme",n);b.textContent=n==="dark"?"切換淺色":"切換深色";};
   try{const s=localStorage.getItem("hy_theme");if(s)set(s);}catch(e){}
@@ -305,7 +320,7 @@ function renderLogin(){
   $("#hello").textContent=`${RM.m} 月辛苦了！花幾分鐘回顧一下這個月吧。`;
   if(!S.roster.length){c.innerHTML=`<h2>系統準備中</h2><div class="sub">名單還沒建立，請稍後再試，或洽劉醫師。</div>`;return;}
   const sel=S.sel&&S.roster.find(p=>p.id===S.sel), first=sel&&!S.registry[sel.id];
-  c.innerHTML=`<h2>登入</h2><div class="sub">先選你的名字，再輸入密碼。</div>
+  c.innerHTML=`<h2>登入</h2>${S.liffMsg?`<div class="note" style="margin-bottom:10px">${esc(S.liffMsg)}</div>`:""}<div class="sub">先選你的名字，再輸入密碼。</div>
     <div class="chips">${S.roster.map(p=>`<button type="button" class="chip" data-p="${esc(p.id)}" aria-pressed="${S.sel===p.id}">${esc(p.name)}${S.status[p.id]?'<span class="ok">✓ 已填</span>':""}</button>`).join("")}</div>
     ${!sel?"":first?`<div class="note">${esc(sel.name)}，第一次使用，請設定你的密碼</div>
       <div class="row" style="margin-top:10px"><div class="field"><label for="p1">設定密碼</label><input id="p1" type="password" autocomplete="new-password"></div>
@@ -414,15 +429,43 @@ async function submit(){
     $("#formArea").hidden=true;
     const dc=$("#doneCard");dc.hidden=false;
     dc.innerHTML=`<div class="done"><div class="ic">🌿</div><div><b>${esc(me.name)}，謝謝你！</b><div class="sub" style="margin:2px 0 0">${RM.m} 月的回饋已送出${D.talk?"，劉醫師會找時間跟你聊聊":""}。</div></div></div>
-      <div class="row" style="margin-top:14px"><button class="btn" id="edit" type="button">我要修改</button><button class="btn ghost" id="out" type="button">登出</button></div>`;
+      <div class="row" style="margin-top:14px"><button class="btn" id="edit" type="button">我要修改</button>${S.viaLine?`<button class="btn ghost" id="closeLiff" type="button">關閉</button>`:`<button class="btn ghost" id="out" type="button">登出</button>`}</div>`;
     $("#edit").onclick=()=>renderForm();
+    if(S.viaLine){$("#closeLiff").onclick=()=>{try{liff.closeWindow();}catch(e){}};$("#hello").textContent="";scrollTo({top:0,behavior:"smooth"});return;}
     $("#out").onclick=async()=>{await auth.signOut();S.me=null;S.sel=null;await loadPublic();renderLogin();};
     $("#hello").textContent="";scrollTo({top:0,behavior:"smooth"});
   }catch(e){$("#ferr").textContent="送出失敗，請確認網路後再試一次。";b.disabled=false;b.textContent="送出";}
 }
 
+/* ---------- 從 LINE 打開：LIFF 自動登入 ---------- */
+const LIFF_ERR={invalid_token:"LINE 登入逾時，請從 LINE 的卡片重新打開。",not_bound:"這個 LINE 還沒綁定，請洽劉醫師；也可以先用名字和密碼登入。",
+  not_active:"你不在本月的填單名單上，請洽劉醫師。",not_configured:"系統設定中，請先用名字和密碼登入。"};
+async function liffInit(){
+  if(!LIFF_ID||!window.liff)return false;
+  try{await liff.init({liffId:LIFF_ID});}catch(e){return false;}
+  applyMonth();
+  return liff.isInClient();
+}
+async function liffLogin(){
+  const c=$("#loginCard");c.hidden=false;c.innerHTML=`<h2>LINE 登入中…</h2><div class="sub">請稍候。</div>`;
+  try{
+    const idToken=liff.getIDToken();if(!idToken)throw {code:"invalid_token"};
+    const r=await fetch(LINE_CENTER+"/api/liff-login",{method:"POST",headers:{"content-type":"application/json"},body:JSON.stringify({system:"huiyun",idToken})});
+    const j=await r.json().catch(()=>({}));
+    if(!j.token)throw {code:j.error||"server"};
+    await auth.signInWithCustomToken(j.token);
+    S.me=S.roster.find(p=>p.id===j.id)||{id:j.id,name:j.name||j.id};S.viaLine=true;
+    await openForm();return true;
+  }catch(e){
+    S.liffMsg=LIFF_ERR[e&&e.code]||"LINE 自動登入失敗，請改用名字和密碼登入。";
+    await auth.signOut().catch(()=>{});return false;
+  }
+}
+
 (async()=>{
+  const inLine=await liffInit();
   try{await loadPublic();}catch(e){$("#loginCard").hidden=false;$("#loginCard").innerHTML=`<h2>連線失敗</h2><div class="sub">請確認網路後重新整理。</div>`;return;}
+  if(inLine&&await liffLogin())return;
   await auth.signOut().catch(()=>{});
   renderLogin();
 })();

@@ -8,20 +8,32 @@ service cloud.firestore {
   match /databases/{database}/documents {
 
     // 管理者（Google 帳號白名單）
+    // 用 get() 讀 email：LINE 登入的助理沒有 email，直接讀會出錯
     function allowed() {
       return request.auth != null
-        && request.auth.token.email_verified == true
-        && request.auth.token.email in [
+        && request.auth.token.get('email_verified', false) == true
+        && request.auth.token.get('email', '') in [
              'EMAIL_1@gmail.com',
              'EMAIL_2@gmail.com'
            ];
     }
-    // 員工（form.html 用「代號@staff.yun-salary.app」帳號登入）
-    function isStaff() {
+    // 員工有兩種登入方式：
+    // 1. 從 LINE 推播卡片打開（LIFF）：推播中心發的 custom token，帶 sys 與 staffId，沒有 email
+    // 2. 一般瀏覽器：「代號@staff.yun-salary.app」帳號＋密碼
+    function isLineStaff() {
       return request.auth != null
-        && request.auth.token.email.matches('^[a-z0-9]+@staff[.]yun-salary[.]app$');
+        && request.auth.token.get('sys', '') == 'huiyun'
+        && request.auth.token.get('staffId', null) is string;
     }
-    function staffId() { return request.auth.token.email.split('@')[0]; }
+    function isPwStaff() {
+      return request.auth != null
+        && request.auth.token.get('email', '').matches('^[a-z0-9]+@staff[.]yun-salary[.]app$');
+    }
+    function isStaff() { return isLineStaff() || isPwStaff(); }
+    function staffId() {
+      return isLineStaff() ? request.auth.token.staffId
+                           : request.auth.token.email.split('@')[0];
+    }
 
     // 薪資主檔（payroll/state）：只有管理者
     match /payroll/{doc} {
