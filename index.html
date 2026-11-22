@@ -118,12 +118,13 @@ td.fixed{color:var(--ink);background:var(--surface2)}
   letter-spacing:0;font-family:var(--sans)}
 .zlk:hover{border-color:var(--celadon);color:var(--pine-d);background:var(--surface2)}
 .zlk.on{background:var(--seal);border-color:var(--seal);color:#fff;font-weight:700}
-.pen{display:inline-block;transform:scaleX(-1);font-style:normal;line-height:1}
+.pen{display:inline-block;width:1em;height:1em;vertical-align:-.14em;background:currentColor;font-style:normal;-webkit-mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.17 6.81a2.82 2.82 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E") center/contain no-repeat;mask:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M21.17 6.81a2.82 2.82 0 0 0-3.99-3.99L3.84 16.17a2 2 0 0 0-.5.83l-1.32 4.35a.5.5 0 0 0 .62.62l4.35-1.32a2 2 0 0 0 .83-.5z'/%3E%3Cpath d='m15 5 4 4'/%3E%3C/svg%3E") center/contain no-repeat}   /* 筆尖朝左下 */
 td.fixed.gold{color:var(--brass)}
 td.fixed.neg{color:var(--seal)}
 td.neg{color:var(--seal)}
 td.tot{font-weight:700;color:var(--pine-d);background:#F4F8F6}
 td.gold{color:var(--brass);font-weight:500}
+td.gold input.cell-in{color:var(--brass);font-weight:500}
 td.click{cursor:pointer;text-decoration:underline;text-decoration-style:dotted;text-underline-offset:3px;color:var(--pine)}
 td.click:hover{background:var(--celadon-l)!important}
 .lockstrip{display:flex;align-items:center;gap:12px;padding:9px 14px;border-radius:var(--r);border:1px solid var(--line);background:var(--surface);margin-bottom:12px}
@@ -149,7 +150,49 @@ td.click:hover{background:var(--celadon-l)!important}
 .pickbox .pt{font-size:11px;letter-spacing:.14em;color:var(--ink3);margin-bottom:8px}
 .pickgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:4px 12px}
 .pickgrid label{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink2);padding:2px 0}
-.lkblock{margin-bottom:18px}
+.lkblock{margin-bottom:22px}
+.lkgrp{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+.lkgl{font-size:12.5px;color:var(--ink3);width:3em;flex:none}
+#lookChips{margin-bottom:14px}
+.lkblock.card{padding:14px 16px 10px}
+.lklegend{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:13px;color:var(--ink2);margin:2px 0 6px}
+.lklegend span{white-space:nowrap}.lklegend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:6px;vertical-align:middle}
+.lklegend b{font-family:var(--mono);font-weight:600;color:var(--ink);margin-left:6px}.lklegend .u{color:var(--ink3);font-size:11.5px}
+.lkfig{position:relative;height:240px}
+table.lktbl{font-size:14.5px}table.lktbl th,table.lktbl td{padding:7px 10px}
+table.lktbl td.n{font-family:var(--mono);min-width:44px}
+table.lktbl td.lkfut{background:#FAFBFB}
+table.lktbl .lksum{background:var(--surface2);font-weight:700;color:var(--pine-d);border-left:1px solid var(--line);white-space:nowrap}
+table.lktbl td.lkheat{font-weight:600;border-radius:0}
+table.lktbl td.lkok{color:var(--pine);font-weight:700;font-size:16px}
+table.lktbl td.lkno{color:var(--ink3)}
+.lknote{font-size:11.5px;color:var(--ink3);margin-top:6px}
+.lksub{font-size:13.5px;font-weight:700;color:var(--pine-d);margin:18px 0 2px}
+.lksm{display:flex;flex-direction:column;gap:2px;margin-top:6px}
+.lksm-r{display:grid;grid-template-columns:9em minmax(0,1fr);align-items:end;gap:10px;border-bottom:1px solid var(--line-s);padding:4px 0}
+.lksm-n{font-size:14px;font-weight:600;display:flex;align-items:center;gap:7px;align-self:center}
+.lksm-n i{width:10px;height:10px;border-radius:3px;flex:none}
+.lksm-n b{font-family:var(--mono);font-weight:600;color:var(--ink2);margin-left:auto;padding-right:6px}
+.lksm-b{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:6px;height:64px;align-items:end}
+.lksm-c{height:100%;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;border-radius:3px}
+.lksm-c.fut{background:#FAFBFB}
+.lksm-bar{display:block;width:min(70%,28px);border-radius:3px 3px 0 0}
+.lksm-v{font-family:var(--mono);font-size:11.5px;color:var(--ink);line-height:1.3}
+.lksm-ax{border-bottom:0}.lksm-ax .lksm-b{height:auto}.lksm-ax .lksm-c{font-size:11px;color:var(--ink3);justify-content:center}
+.lksm-ax .u{font-size:11px;color:var(--ink3);font-weight:400}
+.lkprog{display:flex;flex-direction:column;gap:10px;padding:4px 0}
+.lkpr{display:grid;grid-template-columns:5em minmax(0,1fr) auto;align-items:center;gap:12px;font-size:14px}
+.lkpr .nm{font-weight:600}
+.lkpr .bar{height:12px;background:var(--surface2);border:1px solid var(--line-s);border-radius:6px;overflow:hidden}
+.lkpr .bar i{display:block;height:100%;background:var(--pine);border-radius:6px}
+.lkpr .tx{font-size:13px;color:var(--ink2);white-space:nowrap}.lkpr .tx b{font-family:var(--mono);color:var(--ink)}.lkpr .tx b.left{color:var(--seal)}
+table.lklist{font-size:14px}table.lklist th,table.lklist td{padding:7px 12px}
+@media(max-width:600px){.lkpr{grid-template-columns:4em minmax(0,1fr)}.lkpr .tx{grid-column:1/-1;white-space:normal}}.lkfig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+.lktip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);box-shadow:0 6px 18px rgba(15,31,26,.12);border-radius:6px;padding:8px 10px;font-size:12.5px;min-width:150px;z-index:3}
+.lktip b{display:block;margin-bottom:3px;color:var(--pine-d)}
+.lktip .r{display:flex;justify-content:space-between;gap:12px;line-height:1.7}
+.lktip .r span:first-child{display:flex;align-items:center;gap:6px;color:var(--ink2)}.lktip .r span:last-child{font-family:var(--mono)}
+.lktip i{width:10px;height:3px;border-radius:2px;display:inline-block}
 .remitcols{display:grid;grid-template-columns:repeat(auto-fit,minmax(320px,1fr));gap:14px}
 .rbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
 .rbox .h{padding:10px 14px;background:var(--pine);color:#fff;display:flex;align-items:center;gap:9px}
@@ -453,7 +496,75 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
   .slip{break-inside:avoid;border:1px solid #999}
   @page{margin:12mm}
 }
+.attby{font-size:12px;color:var(--ink2);white-space:nowrap}.attby select{width:auto}
+@media print{#mAtt{display:none}}
+table.qtbl input.qin{width:58px;text-align:right;font-family:var(--mono);font-size:12.5px;padding:3px 5px;border:1px solid var(--line);border-radius:var(--r);background:var(--surface)}
+table.qtbl input.qin:focus{border-color:var(--pine);outline:none;box-shadow:0 0 0 2px var(--celadon-l)}
+table.qtbl input.qin.txt{width:120px;text-align:left;font-family:var(--sans)}
+table.qtbl th.gs,table.qtbl td.gs{border-left:1px solid var(--line-s)}
+.fbline{display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px;color:var(--ink2);margin-bottom:10px}
+.fbline b{color:var(--pine-d)}.fbline .spacer{flex:1}.fbline .u{font-size:11.5px;color:var(--ink3);word-break:break-all}
+table.fbtbl td{vertical-align:top}
+.fbh{font-size:14px;font-weight:700;color:var(--pine-d);margin:16px 0 8px}.fbline+.fbh{margin-top:4px}
+.fbscore{display:inline-block;max-width:100%}
+.fbscore table.grid{font-size:17px}
+.fbscore table.grid th,.fbscore table.grid td{padding:10px 18px}
+.fbscore table.grid thead th{font-size:14px}
+.fbscore table.grid thead tr.grp th{font-size:12.5px;letter-spacing:.08em}
+.fbscore table.grid thead tr.hd th{top:0;position:static}
+.fbscore table.grid td.n{min-width:72px;font-family:var(--mono);font-weight:600}
+.fbtalk{background:var(--seal-bg);border:1px solid #E4B7B2;border-left:5px solid var(--seal);border-radius:var(--r);padding:12px 16px;margin:4px 0 6px}
+.fbtalk-h{font-size:15px;font-weight:700;color:var(--seal);margin-bottom:6px}
+.fbtalk-h b{font-size:18px}
+.fbtalk-r{display:flex;gap:12px;font-size:14px;line-height:1.7;color:#5E211B}
+.fbtalk-r b{min-width:4.5em;flex:none}
+.fbtalk.none{background:var(--surface2);border-color:var(--line-s);border-left-color:var(--line);color:var(--ink3);font-size:13px;padding:8px 14px}
+table.fbtbl td.fbt{white-space:normal;min-width:170px;max-width:320px;font-size:12.5px;line-height:1.6}
+table.fbtbl tr.fbnone td{background:#FAFBFB}
+table.qlv .qnew{font-size:11px;color:var(--ink3);margin-top:3px;font-family:var(--mono)}
+table.qlv td{vertical-align:top}
+table.qlv .u{color:var(--ink3)}
+table.qlv tfoot td.sep{font-size:12px;font-weight:500;color:var(--ink2)}
+table.qtbl .dman{font-size:10.5px;color:var(--ink3);margin-left:5px;font-family:var(--sans)}
+table.qtbl td.qnote{white-space:normal;font-size:12px;color:var(--ink3);min-width:90px}
+table.qtbl .qauto{color:var(--ink3)}
+table.qtbl td.gold .qauto{color:var(--brass)}
+table.qtbl input.qin.gold,table.qtbl td input.qin[data-qk=perfect],table.qtbl td input.qin[data-qk=bonus],table.qtbl td input.qin[data-qk=special]{color:var(--brass);font-weight:500}
+/* 跟下方薪資表同一套：一欄淺灰、一欄白，標題列不另外上色 */
+table.qtbl td.za,table.qtbl td.zb{background:var(--surface2)}
+table.qtbl td.za.alt,table.qtbl td.zb.alt{background:var(--surface)}
+table.qtbl tbody tr:hover td{background:#F7FAF9}
+/* 年度用人成本：每月走勢折線圖 */
+.ybonus{margin-top:14px;padding:12px 16px}
+.ybonus summary{cursor:pointer;font-family:var(--serif);font-weight:700;color:var(--pine-d);letter-spacing:.05em}
+.ybonus summary .u{font-family:var(--sans);font-weight:400;font-size:12px;color:var(--ink3);margin-left:6px}
+.ybgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px 16px;margin-top:12px}
+.ybgrid label{display:flex;align-items:center;justify-content:space-between;gap:8px;font-size:13px}
+.ybgrid input{width:100px;text-align:right;font-family:var(--mono);padding:4px 6px}
+.ych{margin:0 0 6px;padding:14px 16px 12px}
+.ych-top{display:flex;flex-wrap:wrap;gap:10px 14px;align-items:center;margin-bottom:8px}
+.ych-top h3{font-family:var(--serif);font-size:15px;font-weight:700;margin:0 6px 0 0;letter-spacing:.05em;color:var(--pine-d)}
+.seg{display:inline-flex;flex-wrap:wrap;border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.seg button{background:var(--surface);border:0;border-right:1px solid var(--line-s);padding:6px 11px;color:var(--ink2);font-size:12.5px;min-height:32px}
+.seg button:last-child{border-right:0}
+.seg button:hover{background:var(--surface2)}
+.seg button[aria-pressed="true"]{background:var(--pine);color:#fff}
+.ych-legend{display:flex;flex-wrap:wrap;gap:4px 14px;font-size:12px;color:var(--ink2);margin-bottom:2px}
+.ych-legend span{white-space:nowrap}
+.ych-legend i{display:inline-block;width:14px;height:3px;border-radius:2px;margin-right:5px;vertical-align:middle}
+.ych-fig{position:relative;height:280px}
+.ych-fig svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;touch-action:pan-y}
+.ych-tip{position:absolute;pointer-events:none;background:var(--surface);border:1px solid var(--line);box-shadow:0 6px 18px rgba(15,31,26,.12);border-radius:6px;padding:8px 10px;font-size:12px;min-width:150px;z-index:3}
+.ych-tip b{display:block;margin-bottom:3px;color:var(--pine-d)}
+.ych-tip .r{display:flex;gap:10px;align-items:center;justify-content:space-between;line-height:1.7}
+.ych-tip .r span:first-child{display:flex;align-items:center;gap:6px;color:var(--ink2)}
+.ych-tip .r span:last-child{font-family:var(--mono);color:var(--ink)}
+.ych-tip i{width:10px;height:3px;border-radius:2px;display:inline-block}
+.ych-note{font-size:11.5px;color:var(--ink3);margin-top:4px}
+.ysec{margin-top:22px}
+@media print{.ych{display:none}}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
 </style>
 </head>
 <body>
@@ -483,10 +594,8 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
   <button data-v="fb">員工回饋</button><!-- v20261111b -->
   <button data-v="remit">匯款分配</button>
   <button data-v="lookup">項目查閱</button>
-  <button data-v="leave">特休帳</button>
   <button data-v="year">年度統計</button>
-  <button data-v="cost">雇主成本</button>
-  <button data-v="comply">投保合規</button>
+  <button data-v="comply">勞健保</button>
   <button data-v="setup">設定</button>
 </nav>
 
@@ -522,17 +631,16 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
     <section class="view on" id="v-month">
       <div class="bar">
         <h2 id="mTitle">月薪資表</h2><div class="spacer"></div>
-        <button class="btn" id="btnCopyPrev">複製上月</button>
-        <button class="btn" id="btnCsv">匯出 CSV</button>
       </div>
       <div class="lockstrip" id="lockStrip"></div>
+      <div id="mAtt"></div>
       <div class="warns" id="mWarns"></div>
       <div class="tscroll" id="mTableWrap"></div>
       <div class="legend">
         <span>填入遲到總分，扣薪分自動計算</span>
         <span id="lateHint"></span>
         <span>診數：1 診 = 半個工作日</span>
-        <span>表格預設唯讀。右下角「編輯」開出勤欄位，給付項目、代扣、獎金請點該區標題上的 ✎；按「儲存」全部鎖回</span>
+        <span>出勤、獎金在上方修改；給付項目請點標題上的 <i class="pen"></i>；代扣在「勞健保」頁修改</span>
         <span>全勤、紅利獎金、生日禮金自動帶入</span>
       </div>
     </section>
@@ -547,11 +655,8 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
     </section>
 
     <section class="view" id="v-lookup">
-      <div class="bar"><h2>項目查閱</h2><span class="sub">點選想看的項目，可複選</span><div class="spacer"></div>
-        <button class="btn" id="btnLookPick">選擇顯示的項目</button>
-        <button class="btn" id="btnCsvLookup">匯出 CSV</button></div>
+      <div class="bar"><h2>項目查閱</h2><span class="sub">點一個項目就顯示它的圖表</span></div>
       <div id="lookChips"></div>
-      <div id="lookPicker"></div>
       <div id="lookWrap"></div>
     </section>
 
@@ -572,10 +677,15 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
     </section>
 
     <section class="view" id="v-year">
-      <div class="bar"><h2 id="yTitle">年度統計</h2><div class="spacer"></div>
+      <div class="bar"><h2 id="yTitle">年度用人成本</h2><span class="sub">薪資＋勞健保雇主負擔＋勞退＋補充保費</span><div class="spacer"></div>
         <button class="btn" id="btnCsvYear">匯出 CSV</button></div>
       <div class="kpis" id="yKpis"></div>
-      <div class="staffcards" id="yCards"></div>
+      <div class="card ych" id="yChartCard">
+        <div class="ych-top"><h3 id="ychTitle">每月用人成本</h3></div>
+        <div class="ych-fig" id="ychFig"><svg id="ychSvg" role="img" aria-label="每月用人成本折線圖"></svg><div class="ych-tip" id="ychTip" hidden></div></div>
+        <div class="ych-note" id="ychNote"></div>
+      </div>
+      <details class="card ybonus" id="yBonus"></details>
     </section>
 
     <section class="view" id="v-slip">
@@ -594,29 +704,15 @@ a.btn{display:inline-block;text-decoration:none;line-height:1.6;cursor:pointer}
       <div id="fbWrap"></div>
     </section>
 
-    <section class="view" id="v-cost">
-      <div class="bar"><h2 id="cTitle">雇主用人成本</h2><span class="sub">含勞健保雇主負擔與勞退 6% 提繳</span></div>
-      <div class="kpis" id="cKpis"></div>
-      <div class="tscroll" id="cWrap"></div>
-    </section>
 
     <section class="view" id="v-comply">
-      <div class="bar"><h2 id="qTitle">投保級距合規檢視</h2>
-        <span class="sub">比對現行投保與應申報級距</span><div class="spacer"></div>
-        <span style="font-size:12.5px;color:var(--ink2)">全部設為</span>
-        <select id="planAll" style="width:auto">
-          <option value="">－ 選擇級距 －</option>
-          <option value="__fit">各自的應申報級距</option>
-          <option value="__clear">同現行（清除預計）</option>
-        </select></div>
-      <div class="kpis" id="qKpis"></div>
-      <div class="tscroll" id="qWrap" style="border-radius:var(--r) var(--r) 0 0"></div>
-      <div id="qCaption" class="caption"></div>
-      <div class="compliance" id="qRisk"></div>
+      <div class="bar"><h2 id="qTitle">勞健保</h2><span class="sub">選新級距，就會顯示新舊每月保費差多少（只是試算，不會改到實際投保）</span></div>
+      <div class="tscroll" id="qWrap"></div>
+      <div id="qDed" style="margin-top:16px"></div>
     </section>
 
     <section class="view" id="v-setup">
-      <div class="bar"><h2>設定</h2><div class="spacer"></div><button class="btn" id="btnAddStaff">新增助理</button></div>
+      <div class="bar"><h2>設定</h2><div class="spacer"></div><label class="attby" id="attByBox"></label><button class="btn" id="btnAddStaff">新增助理</button></div>
       <div class="setgrid"><div class="card sect" id="staffPane"></div><div class="card sect" id="rulePane"></div></div>
     </section>
   </main>
@@ -977,8 +1073,8 @@ function cols(){
   {g:'加班與扣款',k:'leaveCut',t:'請假不支薪',type:'ro',f:c=>c.leaveCut?'-'+n0(c.leaveCut):'0',cls:'neg'},
   {g:'代扣',k:'nhiSelf',t:'健保自付',type:'in',step:1,cls:'neg',lock:'ins',ph:c=>c.autoNhi,rof:c=>c.nhiSelf?'-'+n0(c.nhiSelf):'0'},
   {g:'代扣',k:'labSelf',t:'勞保自付',type:'in',step:1,cls:'neg',lock:'ins',ph:c=>c.autoLab,rof:c=>c.labSelf?'-'+n0(c.labSelf):'0'},
-  {g:'獎金',k:'perfect',t:'全勤',    type:'in',step:100,lock:'bonus',ph:c=>c.autoPerfect,rof:c=>n0(c.perfect)},
-  {g:'獎金',k:'bonus',  t:'紅利獎金',type:'in',step:100,lock:'bonus',ph:c=>c.bonus,rof:c=>n0(c.bonus)},
+  {g:'獎金',k:'perfect',t:'全勤',    type:'in',step:100,lock:'bonus',ph:c=>c.autoPerfect,rof:c=>n0(c.perfect),cls:'gold'},
+  {g:'獎金',k:'bonus',  t:'紅利獎金',type:'in',step:100,lock:'bonus',ph:c=>c.bonus,rof:c=>n0(c.bonus),cls:'gold'},
   {g:'獎金',k:'gift',   t:'生日禮金',type:'ro',f:c=>n0(c.gift),cls:'gold'},
   {g:'獎金',k:'special',t:'特殊獎金',type:'in',step:500,lock:'bonus',rof:c=>blankNum(c.special),cls:'gold'},
   {g:'獎金',k:'specialNote',t:'發放事由',type:'txt',lock:'bonus',
@@ -1022,6 +1118,7 @@ function renderRail(){
   }
 }
 function renderMonth(){
+  renderAttPanel();
   const M=getMonth(DB.month,false);
   document.getElementById('mTitle').textContent=`${DB.year} 年 ${DB.month} 月`;
   const wrap=document.getElementById('mTableWrap'),strip=document.getElementById('lockStrip');
@@ -1035,8 +1132,12 @@ function renderMonth(){
           onclick="document.getElementById('btnRestore').click()">選擇備份檔匯入</button></div>`;
       return;
     }
-    wrap.innerHTML=`<div class="empty">這個月還沒有薪資資料。<br>
-      <button class="btn pri" style="margin-top:12px" onclick="createMonth()">建立 ${DB.month} 月薪資表</button></div>`;return;}
+    // 本月以前的月份：依設定的規則直接產生薪資表，不用手動建立
+    const now=new Date();
+    if(DB.year<now.getFullYear()||(DB.year===now.getFullYear()&&DB.month<=now.getMonth()+1)){
+      getMonth(DB.month,true);save();renderAll();return;}
+    wrap.innerHTML=`<div class="empty">${DB.month} 月還沒到，到了會自動產生薪資表。<br>
+      <button class="btn" style="margin-top:12px" onclick="createMonth()">現在先建立</button></div>`;return;}
   let _auto=autoBirthdayGift(M); if(autoBonus(M))_auto=true; if(autoCoins(M))_auto=true; if(_auto)save();
   strip.style.display='';
   const locked=M.locked;
@@ -1053,9 +1154,9 @@ function renderMonth(){
     if(g&&g.g===c.g){g.n++;if(c.lock&&!g.z)g.z=c.lock;}
     else groups.push({g:c.g,n:1,z:c.lock||null});});
   let h=`<table class="grid"><thead><tr class="grp"><th class="name"></th>`
-    +groups.map(g=>`<th colspan="${g.n}">${g.g}${g.z&&g.z!=='att'
+    +groups.map(g=>`<th colspan="${g.n}">${g.g}${g.z==='pay'
       ? `<button class="zlk${payEdit[g.z]?' on':''}" onclick="toggleZone('${g.z}')"
-          title="${payEdit[g.z]?'點此結束編輯，避免誤觸':'點此即可修改這一區'}">${payEdit[g.z]?'✓ 完成':'<i class="pen">✎</i>'}</button>`
+          title="${payEdit[g.z]?'點此結束編輯，避免誤觸':'點此即可修改這一區'}">${payEdit[g.z]?'✓ 完成':'<i class="pen"></i>'}</button>`
       : ''}</th>`).join('')+`</tr><tr class="hd"><th class="name">姓名</th>`
     +COLS.map((c,i)=>`<th class="n${i>0&&COLS[i-1].g!==c.g?' sep':''}">${c.t}</th>`).join('')+`</tr></thead><tbody>`;
   const tot={};
@@ -1081,7 +1182,7 @@ function renderMonth(){
           data-s="${st.id}" data-k="${col.k}" value="${esc(row[col.k]||'')}"
           placeholder="例如：年終、專案獎勵" ${locked?'disabled':''}></td>`;
       const ph=col.ph?` placeholder="${col.ph(c)}"`:'';
-      return `<td class="n${sep}"><input class="cell-in" type="number" step="${col.step||1}"
+      return `<td class="n${col.cls?' '+col.cls:''}${sep}"><input class="cell-in" type="number" step="${col.step||1}"
         data-s="${st.id}" data-k="${col.k}" value="${val}"${ph} ${locked?'disabled':''}></td>`;
     }).join('')+`</tr>`;
   });
@@ -1096,7 +1197,7 @@ function renderMonth(){
     if(!M2||M2.locked)return;
     if(TEXT_COLS.includes(k)){ M2.rows[s][k]=e.target.value; save(); return; }
     M2.rows[s][k]=e.target.value===''?(BLANK_COLS.includes(k)?'':0):+e.target.value;
-    refreshRow(s);save();
+    refreshRow(s);save();renderAttPanel();
   }));
   // 改底薪時詢問是否同步成往後的標準底薪
   wrap.querySelectorAll('.cell-in[data-k="base"]').forEach(inp=>
@@ -1171,7 +1272,6 @@ function renderWarnings(){
     }else if(c.lateCount>=3){
       W.push([0,`<b>${st.name}</b> 本月遲到 ${c.lateCount} 次、共 ${n1(c.lateTotal)} 分（最長一次 ${n1(c.lateMax)} 分），建議面談。`]);
     }
-    if(c.guarantee>0)W.push([0,`<b>${st.name}</b> 本月保障差額 ${n0(c.guarantee)}（金幣 ${c.coins} 枚僅達 ${n0(c.coinPay)}，保障額 ${n0(c.guarBase)}）。`]);
     if(c.bonus>st.insH*4)W.push([0,`<b>${st.name}</b> 獎金超過投保金額 4 倍，需扣二代健保補充保費 2.11%（約 ${n0((c.bonus-st.insH*4)*0.0211)} 元）。`]);
   });
   const gAmt=+R.birthdayGift||0;
@@ -1311,15 +1411,6 @@ function closeModal(){
 }
 
 /* ===== 其他按鈕 ===== */
-document.getElementById('btnCopyPrev').onclick=()=>{
-  const M=getMonth(DB.month,true);if(M.locked)return toast('此月份已鎖定');
-  const pm=DB.month===1?null:DB.months[mk2(DB.month-1)];
-  if(!pm)return toast('沒有上個月的資料');
-  activeStaff().forEach(st=>{const p=pm.rows[st.id];if(!p)return;
-    M.rows[st.id]={...p,lateLog:[],lateTotal:'',lateCount:'',leaveAnnual:'',leavePersonal:'',
-      leaveTyphoon:'',leaveSick:'',leaveMens:'',otMin:'',perfect:'',gift:0,giftBday:0,bonusAuto:1,coinsAuto:1,special:'',specialNote:'',note:''};});
-  save();renderAll();toast('已複製上月的金幣、津貼與獎金（出勤歸零）');
-};
 // 本月該發生日禮金的人：依「生日當月」或「生日次月」判定
 function giftTargetMonth(){
   if((DB.rules.giftMonth||'same')==='next')return DB.month===1?12:DB.month-1;
@@ -1410,6 +1501,12 @@ function lookState(){
 function lookFields(){
   return LOOKUP_FIELDS.filter(([k])=>!((DB.rules.lateMode||'simple')==='simple'&&k==='lateCount'));
 }
+// 項目查閱只列平常會看的：出勤、獎金、實發
+const LOOK_GROUPS=[
+  ['出勤',['la','lp','leaveSick','leaveMens','lt','lateTotal','otMin']],
+  ['獎金',['perfect','special','gift','coins']],
+  ['薪資',['net']]];
+const LOOK_KEYS=LOOK_GROUPS.flatMap(g=>g[1]);
 // 取某項目全年資料：{vals:{sid:[12個值或null]}, months:[有資料的月份]}
 function lookData(key){
   const vals={}, has=new Array(12).fill(false);
@@ -1431,62 +1528,184 @@ function lookData(key){
 function renderLookup(){
   lookState();
   const fields=lookFields();
-  const shown=fields.filter(f=>!DB.lookHidden.includes(f[0]));
-
-  // 項目膠囊
-  document.getElementById('lookChips').innerHTML='<div class="chips">'+shown.map(([k,t])=>{
-    const on=DB.lookPicked.includes(k);
-    return `<button class="chip2${on?' on':''}" onclick="lookToggle('${k}')">${t}</button>`;
-  }).join('')+'</div>';
-
-  // 選擇要顯示哪些項目
-  const pk=document.getElementById('lookPicker');
-  if(pk.dataset.open==='1'){
-    pk.innerHTML=`<div class="pickbox"><div class="pt">勾選要出現在上方的項目，取消勾選即收起</div>
-      <div class="pickgrid">${fields.map(([k,t])=>
-        `<label><input type="checkbox" ${DB.lookHidden.includes(k)?'':'checked'}
-          onchange="lookHide('${k}',this.checked)"> ${t}</label>`).join('')}</div></div>`;
-  }else pk.innerHTML='';
-
-  // 各項目表格
+  DB.lookPicked=DB.lookPicked.filter(k=>LOOK_KEYS.includes(k)).slice(0,1);
+  const nm=k=>{const f=fields.find(x=>x[0]===k);return f?f[1].replace('診數',''):k;};
+  document.getElementById('lookChips').innerHTML=LOOK_GROUPS.map(([g,keys])=>
+    `<div class="lkgrp"><span class="lkgl">${g}</span>${keys.filter(k=>fields.some(f=>f[0]===k)).map(k=>
+      `<button class="chip2${DB.lookPicked.includes(k)?' on':''}" onclick="lookToggle('${k}')">${nm(k)}</button>`).join('')}</div>`).join('');
   const wrap=document.getElementById('lookWrap');
-  if(!DB.lookPicked.length){
-    wrap.innerHTML='<div class="lknone">尚未選擇項目。點上方任一項目即可展開資料。</div>';return;
-  }
+  if(!DB.lookPicked.length){wrap.innerHTML='<div class="lknone">點上方的項目，就會列出每個人 1～12 月的數字。</div>';return;}
+  const staff=activeStaff();
+  // 顏色跟著人走（依名單順序），換項目也不會換色
+  const colOf=st=>LK_C[Math.max(0,DB.staff.indexOf(st))%LK_C.length];
+  const blocks=[];
   wrap.innerHTML=DB.lookPicked.map(key=>{
-    const meta=fields.find(f=>f[0]===key);
-    if(!meta)return '';
-    const [,title,unit]=meta, money=unit==='$';
-    const {vals,months}=lookData(key);
-    const head=`<div class="lkhead"><h3>${title}</h3><span class="u">${money?'元':unit}</span>
-      <span class="spacer"></span>
-      <button class="x" onclick="lookToggle('${key}')" title="收合">×</button></div>`;
-    if(!months.length)
-      return `<div class="lkblock">${head}<div class="lknone">${DB.year} 年沒有這個項目的資料。</div></div>`;
-    const rows=activeStaff().map(st=>{
-      const r=vals[st.id];
-      const sum=r.reduce((a,b)=>a+(b||0),0);
-      return `<tr><td class="name">${st.name}</td>`
-        +months.map(m=>{const v=r[m-1];
-          return `<td class="n${v?'':' calc'}">${v?(money?n0(v):n1(v)):'·'}</td>`;}).join('')
-        +`<td class="n sep tot${sum?'':' calc'}">${sum?(money?n0(sum):n1(sum)):'·'}</td></tr>`;
-    }).join('');
-    const tot=months.map(m=>activeStaff().reduce((a,st)=>a+(vals[st.id][m-1]||0),0));
-    const g=tot.reduce((a,b)=>a+b,0);
-    return `<div class="lkblock">${head}<div class="tscroll">
-      <table class="grid flat"><thead><tr class="hd"><th class="name">姓名</th>
-      ${months.map(m=>`<th class="n">${m}月</th>`).join('')}
-      <th class="n sep">合計</th></tr></thead>
-      <tbody>${rows}</tbody>
-      <tfoot><tr><td class="name">合計</td>
-      ${tot.map(v=>`<td class="n">${v?(money?n0(v):n1(v)):'·'}</td>`).join('')}
-      <td class="n sep">${g?(money?n0(g):n1(g)):'·'}</td></tr></tfoot></table></div></div>`;
+    const meta=fields.find(f=>f[0]===key);if(!meta)return '';
+    const [,title,unit]=meta, money=unit==='$', fmt=v=>money?n0(v):n1(v), U=money?'元':unit;
+    const type=LOOK_TYPE[key]||'line', {vals}=lookData(key), has=m=>!!DB.months[mk2(m)];
+    const head=`<div class="lkhead"><h3>${type==='prog'?'特休':title}</h3><span class="u">${type==='prog'?'單位：日':type==='check'?'':U?'單位：'+U:''}</span><span class="spacer"></span>
+      <button class="x" onclick="lookToggle('${key}')" title="收起">×</button></div>`;
+    const sumOf=v=>v.reduce((a,b)=>a+(b||0),0);
+    const mh=Array.from({length:12},(_,i)=>`<th class="n">${i+1}月</th>`).join('');
+    let body='';
+    if(type==='line'){
+      body=`<div class="lklegend">${staff.map(st=>`<span><i style="background:${colOf(st)}"></i>${esc(st.name)}<b>${fmt(sumOf(vals[st.id]))}</b></span>`).join('')}<span class="u">（名字後面是全年合計）</span></div>
+        <div class="lkfig" data-fig="${key}"${key==='net'?' style="height:320px"':''}><svg></svg><div class="lktip" hidden></div></div>${key==='net'?'<div class="lknote">縱軸只畫大家數字所在的範圍（不是從 0 開始），差一兩千元也看得出來</div>':''}`;
+      blocks.push(()=>lkChart(wrap.querySelector(`[data-fig="${key}"]`),staff.map(st=>({name:st.name,c:colOf(st),v:vals[st.id]})),v=>`${fmt(v)} ${U}`,unit==='診'?0.5:money?0:1,key==='net'));
+    }else if(type==='bars'){
+      body=lkSmall(staff,vals,fmt,U,has,colOf);
+    }else if(type==='gbars'){
+      body=`<div class="lklegend">${staff.map(st=>{const v=vals[st.id].filter(x=>x!=null),full=v.filter(x=>x>=500).length;
+          return `<span><i style="background:${colOf(st)}"></i>${esc(st.name)}<b>${fmt(sumOf(vals[st.id]))}</b><span class="u">　全額 ${full}/${v.length} 月</span></span>`;}).join('')}</div>
+        <div class="lkfig" data-fig="${key}" style="height:280px"><svg></svg><div class="lktip" hidden></div></div>`;
+      blocks.push(()=>lkGBars(wrap.querySelector(`[data-fig="${key}"]`),staff.map(st=>({name:st.name,c:colOf(st),v:vals[st.id]})),v=>`${fmt(v)} ${U}`,has,125));
+    }else if(type==='dots'){
+      body=`<div class="lklegend">${staff.map(st=>{const v=vals[st.id].filter(x=>x!=null),full=v.filter(x=>x>=500).length;
+          return `<span><i style="background:${colOf(st)}"></i>${esc(st.name)}<b>${fmt(sumOf(vals[st.id]))}</b><span class="u">　全額 ${full}/${v.length} 月</span></span>`;}).join('')}</div>
+        <div class="lkfig" data-fig="${key}" style="height:260px"><svg></svg><div class="lktip" hidden></div></div>
+        <div class="lknote">每個點是一個人一個月拿到的全勤：實心＝有拿到（高度＝金額），空心＝0。同一個月的點左右錯開，才不會疊在一起</div>`;
+      blocks.push(()=>lkDots(wrap.querySelector(`[data-fig="${key}"]`),staff.map(st=>({name:st.name,c:colOf(st),v:vals[st.id]})),has));
+    }else if(type==='prog'){
+      const spd=DB.rules.sessionsPerDay||2;
+      body=`<div class="lkprog">${staff.map(st=>{const A=annualLeave(st),used=sumOf(vals[st.id])/spd,ent=A.days||0,left=Math.max(0,ent-used);
+        const pct=ent?Math.min(100,used/ent*100):0;
+        return `<div class="lkpr"><span class="nm">${esc(st.name)}</span>
+          <div class="bar"><i style="width:${pct}%"></i></div>
+          <span class="tx">${ent?`已休 <b>${n1(used)}</b> 日 / 應有 ${n1(ent)} 日　剩 <b class="${left?'left':''}">${n1(left)}</b> 日`:`已休 <b>${n1(used)}</b> 日　<span class="u">（${esc(A.basis||'未設定應有天數')}）</span>`}</span></div>`;}).join('')}</div>
+        <h4 class="lksub">每個月請特休的分布（日）</h4>
+        ${lkSmall(staff,Object.fromEntries(staff.map(st=>[st.id,vals[st.id].map(v=>v==null?null:v/spd)])),n1,'日',has,colOf)}`;
+    }else if(type==='list'){
+      const items=[];
+      for(let m=1;m<=12;m++){const M=DB.months[mk2(m)];if(!M)continue;MSES=monthSessions(DB.year,m);
+        staff.forEach(st=>{const v=vals[st.id][m-1];if(!v)return;
+          const note=key==='special'?(calc(st,rowOf(M,st),DB.rules).specialNote||''):key==='gift'?(st.bMon?`${st.bMon}/${st.bDay||''} 生日`:''):'';
+          items.push({m,name:st.name,v,note});});}
+      body=items.length?`<div class="tscroll"><table class="grid flat lklist"><thead><tr class="hd"><th style="text-align:left">月份</th><th style="text-align:left">姓名</th><th class="n">${money?'金額':'數量'}</th><th style="text-align:left">${key==='special'?'發放事由':'備註'}</th></tr></thead><tbody>
+        ${items.map(x=>`<tr><td>${x.m} 月</td><td>${esc(x.name)}</td><td class="n${money?' gold':''}">${fmt(x.v)}${money?'':' '+U}</td><td>${esc(x.note)}</td></tr>`).join('')}
+        </tbody><tfoot><tr><td>合計</td><td>${items.length} 筆</td><td class="n">${fmt(items.reduce((a,b)=>a+b.v,0))}</td><td></td></tr></tfoot></table></div>`
+        :`<div class="lknone">${DB.year} 年還沒有${title}。</div>`;
+    }
+    return `<div class="lkblock card">${head}${body}</div>`;
   }).join('');
+  blocks.forEach(f=>f());
+}
+// 每個項目用最好讀的方式：起伏用折線、零星的用長條圖、特休用進度條、全勤打勾、偶發的列清單
+const LOOK_TYPE={net:'line',coins:'line',bonus:'line',
+  leaveSick:'bars',lp:'bars',leaveMens:'bars',lateTotal:'bars',otMin:'bars',
+  la:'prog',perfect:'gbars',special:'list',gift:'list',lt:'list'};
+// 一人一排的小長條圖：大家用同一個高度比例，才比得出誰多誰少
+function lkSmall(staff,vals,fmt,U,has,colOf){
+  const sumOf=v=>v.reduce((a,b)=>a+(b||0),0);
+  const max=Math.max(0,...staff.flatMap(st=>vals[st.id].map(v=>v||0)));
+  return `<div class="lksm">${staff.map(st=>{const r=vals[st.id],t=sumOf(r),c=colOf(st);
+        return `<div class="lksm-r"><div class="lksm-n"><i style="background:${c}"></i>${esc(st.name)}<b>${t?fmt(t):'0'}</b></div>
+          <div class="lksm-b">${r.map((v,i)=>{const h=max&&v?Math.max(6,v/max*100):0;
+            return `<div class="lksm-c${has(i+1)?'':' fut'}" title="${i+1} 月：${v?fmt(v)+' '+U:'沒有'}">${v?`<span class="lksm-v">${fmt(v)}</span><span class="lksm-bar" style="height:${h}%;background:${c}"></span>`:''}</div>`;}).join('')}</div></div>`;}).join('')}
+        <div class="lksm-r lksm-ax"><div class="lksm-n"><span class="u">名字後面是全年合計</span></div><div class="lksm-b">${Array.from({length:12},(_,i)=>`<div class="lksm-c">${i+1}月</div>`).join('')}</div></div></div>`;
+}
+// 全勤：所有人畫在同一張圖；只有 0／125／250／500 四級，所以四級等距排開，同月的點左右錯開避免重疊
+function lkDots(fig,series,has){
+  const svg=fig.querySelector('svg'), tip=fig.querySelector('.lktip'), LV=[0,125,250,500];
+  const draw=()=>{
+    const W=fig.clientWidth,H=fig.clientHeight;if(!W)return;
+    const padL=46,padR=14,padT=14,padB=34,iw=W-padL-padR,ih=H-padT-padB,gw=iw/12,n=series.length||1;
+    const lvl=v=>{v=v||0;let k=0;LV.forEach((l,i)=>{if(v>=l)k=i;});return k;};
+    const Y=v=>padT+ih-lvl(v)/(LV.length-1)*ih;
+    const off=k=>n>1?(k-(n-1)/2)*Math.min(14,gw*0.6/(n-1)):0, X=(m,k)=>padL+gw*(m+.5)+off(k);
+    let g='';
+    LV.forEach(l=>{const y=Y(l);g+=`<line x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke="${l?'#E2EAE7':'#CBD6D1'}"/>`
+      +`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#6B837A" style="font-family:var(--mono)">${l}</text>`;});
+    for(let m=0;m<12;m++)g+=`<text x="${padL+gw*(m+.5)}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6B837A">${m+1}月</text>`;
+    series.forEach((s,k)=>{let d='',pen=false;
+      s.v.forEach((v,m)=>{if(v==null||!has(m+1)){pen=false;return;}d+=(pen?'L':'M')+X(m,k).toFixed(1)+' '+Y(v).toFixed(1);pen=true;});
+      g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="1.5" opacity=".4"/>`;});
+    series.forEach((s,k)=>s.v.forEach((v,m)=>{if(v==null||!has(m+1))return;
+      g+=v?`<circle cx="${X(m,k)}" cy="${Y(v)}" r="5" fill="${s.c}" stroke="#fff" stroke-width="1.5"/>`
+          :`<circle cx="${X(m,k)}" cy="${Y(0)}" r="4.5" fill="#fff" stroke="${s.c}" stroke-width="2"/>`;}));
+    g+=`<rect class="hl" x="0" y="${padT}" width="${gw}" height="${ih}" fill="#14483C" opacity="0"/><rect class="hit" x="${padL}" y="0" width="${iw}" height="${H}" fill="transparent"/>`;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=g;
+    const hit=svg.querySelector('.hit'),hl=svg.querySelector('.hl');
+    hit.onpointermove=hit.onpointerdown=e=>{const r=svg.getBoundingClientRect();const m=Math.max(0,Math.min(11,Math.floor((e.clientX-r.left-padL)/gw)));
+      hl.setAttribute('x',padL+gw*m);hl.setAttribute('opacity','.05');
+      tip.innerHTML=`<b>${m+1} 月全勤</b>`+(has(m+1)?series.map(s=>`<div class="r"><span><i style="background:${s.c}"></i>${esc(s.name)}</span><span>${s.v[m]==null?'—':n0(s.v[m]||0)}</span></div>`).join(''):'<div class="r"><span>還沒建立薪資表</span></div>');
+      tip.hidden=false;const tw=tip.offsetWidth,cx=padL+gw*(m+.5);let l=cx+gw/2+6;if(l+tw>W)l=cx-gw/2-tw-6;tip.style.left=Math.max(0,l)+'px';tip.style.top=padT+'px';};
+    hit.onpointerleave=()=>{tip.hidden=true;hl.setAttribute('opacity','0');};
+  };
+  if(fig._ro)fig._ro.disconnect();fig._ro=new ResizeObserver(draw);fig._ro.observe(fig);draw();
+}
+// 長條圖（大家合在一起）：每個月一組，每人一根，位置固定，數字標在長條上
+function lkGBars(fig,series,fmtTip,has,stepFix){
+  const svg=fig.querySelector('svg'), tip=fig.querySelector('.lktip');
+  const draw=()=>{
+    const W=fig.clientWidth,H=fig.clientHeight;if(!W)return;
+    const padL=46,padR=14,padT=18,padB=26,iw=W-padL-padR,ih=H-padT-padB,n=series.length||1;
+    const max=Math.max(0,...series.flatMap(s=>s.v.map(v=>v||0)));
+    let step=stepFix||ychNice(max||1).step, top=Math.max(step,Math.ceil((max||step)/step)*step);
+    const gw=iw/12, inner=gw*0.64, bw=Math.max(3,(inner-(n-1)*2)/n), Y=v=>padT+ih-(v/top)*ih;
+    let g='';
+    for(let v=0;v<=top+1e-9;v+=step){const y=Y(v);
+      g+=`<line x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke="${v?'#E2EAE7':'#CBD6D1'}"/>`
+        +`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#6B837A" style="font-family:var(--mono)">${n0(v)}</text>`;}
+    for(let m=0;m<12;m++){
+      const x0=padL+gw*m+(gw-inner)/2;
+      if(!has(m+1))g+=`<rect x="${padL+gw*m+2}" y="${padT}" width="${gw-4}" height="${ih}" fill="#FAFBFB"/>`;
+      if(m)g+=`<line x1="${padL+gw*m}" x2="${padL+gw*m}" y1="${padT}" y2="${padT+ih}" stroke="#F0F4F2"/>`;   // 月與月之間的淡分隔
+      g+=`<text x="${padL+gw*(m+.5)}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6B837A">${m+1}月</text>`;
+      series.forEach((s,k)=>{const v=s.v[m]||0;if(!v)return;const x=x0+k*(bw+2),y=Y(v),h=padT+ih-y,r=Math.min(3,bw/2,h);
+        g+=`<path d="M${x} ${padT+ih}V${y+r}Q${x} ${y} ${x+r} ${y}H${x+bw-r}Q${x+bw} ${y} ${x+bw} ${y+r}V${padT+ih}Z" fill="${s.c}"/>`;
+        if(bw>=9)g+=`<text x="${x+bw/2}" y="${y-3}" text-anchor="middle" font-size="9" fill="#3A544B" style="font-family:var(--mono)">${v}</text>`;});
+    }
+    g+=`<rect class="hl" x="0" y="${padT}" width="${gw}" height="${ih}" fill="#14483C" opacity="0"/><rect class="hit" x="${padL}" y="0" width="${iw}" height="${H}" fill="transparent"/>`;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=g;
+    const hit=svg.querySelector('.hit'),hl=svg.querySelector('.hl');
+    hit.onpointermove=hit.onpointerdown=e=>{const r=svg.getBoundingClientRect();const m=Math.max(0,Math.min(11,Math.floor((e.clientX-r.left-padL)/gw)));
+      hl.setAttribute('x',padL+gw*m);hl.setAttribute('opacity','.05');
+      tip.innerHTML=`<b>${m+1} 月</b>`+(has(m+1)?series.map(s=>`<div class="r"><span><i style="background:${s.c}"></i>${esc(s.name)}</span><span>${s.v[m]?fmtTip(s.v[m]):'0'}</span></div>`).join(''):'<div class="r"><span>還沒建立薪資表</span></div>');
+      tip.hidden=false;const tw=tip.offsetWidth,cx=padL+gw*(m+.5);let l=cx+gw/2+6;if(l+tw>W)l=cx-gw/2-tw-6;tip.style.left=Math.max(0,l)+'px';tip.style.top=padT+'px';};
+    hit.onpointerleave=()=>{tip.hidden=true;hl.setAttribute('opacity','0');};
+  };
+  if(fig._ro)fig._ro.disconnect();fig._ro=new ResizeObserver(draw);fig._ro.observe(fig);draw();
+}
+const LK_C=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300','#6250d6','#e34948'];
+function lkChart(fig,series,fmtTip,minStep,zoom){
+  const svg=fig.querySelector('svg'), tip=fig.querySelector('.lktip');
+  const draw=()=>{
+    const W=fig.clientWidth,H=fig.clientHeight;if(!W)return;
+    const padL=zoom?62:46,padR=14,padT=10,padB=26,iw=W-padL-padR,ih=H-padT-padB;
+    const max=Math.max(0,...series.flatMap(s=>s.v.filter(v=>v!=null)));
+    let {top,step}=ychNice(max||1), lo=0;
+    if(minStep&&step<minStep){step=minStep;top=Math.max(step,Math.ceil((max||step)/step)*step);}   // 診、次數不出現 0.25 這種刻度
+    // 實發：只畫大家數字所在的那一段，差一兩千也看得出來
+    const vs=series.flatMap(s=>s.v.filter(v=>v!=null&&v>0));
+    if(zoom&&vs.length){const mn=Math.min(...vs),mx=Math.max(...vs),span=Math.max(mx-mn,1000);
+      const r=ychNice(span);step=r.step/2;lo=Math.floor((mn-step/2)/step)*step;top=Math.ceil((mx+step/2)/step)*step;}
+    const X=m=>padL+iw*(m+.5)/12, Y=v=>padT+ih-((v-lo)/(top-lo))*ih;
+    let g='';
+    for(let v=lo;v<=top+1e-9;v+=step){const y=Y(v);
+      g+=`<line x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke="${v>lo?'#E2EAE7':'#CBD6D1'}"/>`
+        +`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#6B837A" style="font-family:var(--mono)">${zoom?n0(v):v>=10000?(+(v/10000).toFixed(1))+'萬':n1(v)}</text>`;}
+    for(let m=0;m<12;m++)g+=`<text x="${X(m)}" y="${H-8}" text-anchor="middle" font-size="11" fill="#6B837A">${m+1}月</text>`;
+    series.forEach(s=>{let d='',pen=false;
+      s.v.forEach((v,m)=>{if(v==null){pen=false;return;}d+=(pen?'L':'M')+X(m).toFixed(1)+' '+Y(v).toFixed(1);pen=true;});
+      g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      s.v.forEach((v,m)=>{if(v!=null)g+=`<circle cx="${X(m)}" cy="${Y(v)}" r="3.5" fill="${s.c}" stroke="#fff" stroke-width="1.5"/>`;});});
+    g+=`<line class="cx" x1="0" x2="0" y1="${padT}" y2="${padT+ih}" stroke="#6B837A" stroke-dasharray="3 3" visibility="hidden"/>`
+      +`<rect class="hit" x="${padL}" y="0" width="${iw}" height="${H}" fill="transparent"/>`;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=g;
+    const hit=svg.querySelector('.hit'),cx=svg.querySelector('.cx');
+    const show=e=>{const r=svg.getBoundingClientRect();const m=Math.max(0,Math.min(11,Math.floor((e.clientX-r.left-padL)/(iw/12))));
+      cx.setAttribute('x1',X(m));cx.setAttribute('x2',X(m));cx.setAttribute('visibility','visible');
+      const rows=series.filter(s=>s.v[m]!=null).sort((a,b)=>b.v[m]-a.v[m]);
+      tip.innerHTML=`<b>${m+1} 月</b>`+(rows.length?rows.map(s=>`<div class="r"><span><i style="background:${s.c}"></i>${esc(s.name)}</span><span>${fmtTip(s.v[m])}</span></div>`).join(''):'<div class="r"><span>沒有資料</span></div>');
+      tip.hidden=false;const tw=tip.offsetWidth;let l=X(m)+12;if(l+tw>W)l=X(m)-tw-12;tip.style.left=Math.max(0,l)+'px';tip.style.top=padT+'px';};
+    hit.onpointermove=show;hit.onpointerdown=show;hit.onpointerleave=()=>{tip.hidden=true;cx.setAttribute('visibility','hidden');};
+  };
+  if(fig._ro)fig._ro.disconnect();fig._ro=new ResizeObserver(draw);fig._ro.observe(fig);draw();
 }
 function lookToggle(k){
   lookState();
-  const i=DB.lookPicked.indexOf(k);
-  if(i<0)DB.lookPicked.push(k); else DB.lookPicked.splice(i,1);
+  // 一次只看一個項目：點新的就換過去，再點同一個就收起
+  DB.lookPicked=DB.lookPicked.includes(k)?[]:[k];
   save();renderLookup();
 }
 function lookHide(k,checked){
@@ -1499,12 +1718,6 @@ function lookHide(k,checked){
   }
   save();renderLookup();
 }
-document.getElementById('btnLookPick').onclick=()=>{
-  const pk=document.getElementById('lookPicker');
-  pk.dataset.open=pk.dataset.open==='1'?'0':'1';
-  renderLookup();
-};
-
 /* ===== 班表與應出勤診次 ===== */
 const SCHED=()=>(DB.rules.schedule&&DB.rules.schedule.length===7)?DB.rules.schedule:[0,2,2,1,2,2,1];
 const HOL=()=>new Set(DB.rules.holidays||[]);
@@ -1717,118 +1930,115 @@ function yearAgg(st){
   return a;
 }
 function renderYear(){
-  document.getElementById('yTitle').textContent=`${DB.year} 年度統計`;
-  const T={net:0,cost:0,bonus:0,ls:0,otMin:0,months:0,lateTotal:0,rest:0,restPay:0,yb:0};
+  document.getElementById('yTitle').textContent=`${DB.year} 年度用人成本`;
   DB.yearBonus=DB.yearBonus||{};
   const YB=DB.yearBonus[DB.year]=DB.yearBonus[DB.year]||{};
-  const spd=DB.rules.sessionsPerDay||2;
-  const hasCount=(DB.rules.lateMode||'simple')!=='simple';
-  const cards=activeStaff().map(st=>{
-    const a=yearAgg(st);
-    const A=annualLeave(st);
-    const rest=Math.max(0,A.days-a.la/spd);
-    const dayPay=a.months?(a.gross/a.months)/DB.rules.daysPerMonth:0;
-    const restPay=rest*dayPay;
-    T.rest+=rest;T.restPay+=restPay;
-    T.net+=a.net;T.cost+=a.cost+(+YB[st.id]||0);T.yb+=(+YB[st.id]||0);T.bonus+=a.bonus+a.perfect;T.ls+=a.ls;T.otMin+=a.otMin;
-    T.lateTotal+=a.lateTotal;T.months=Math.max(T.months,a.months);
-    return `<div class="sc">
-      <div class="h"><span class="nm">${st.name}</span><div class="spacer"></div><span class="amt">${n0(a.net)}</span></div>
-      <dl>
-        <dt>已結算月份</dt><dd>${a.months} 個月</dd>
-        <dt>實發總額</dt><dd>${n0(a.net)}</dd>
-        <dt>平均月實發</dt><dd>${a.months?n0(a.net/a.months):'—'}</dd>
-        <dt>金幣累計</dt><dd>${n1(a.coins)} 枚 / ${n0(a.coinPay)}</dd>
-        <dt>保障差額累計</dt><dd class="${a.guarantee>0?'warn-v':''}">${n0(a.guarantee)}</dd>
-        <dt>紅利＋全勤</dt><dd>${n0(a.bonus+a.perfect)}</dd>
-        <dt>生日禮金（非工資）</dt><dd>${n0(a.gift)}</dd>
-        <dt style="border-top:1px solid var(--line);padding-top:6px">${DB.year} 年應有特休</dt>
-          <dd style="border-top:1px solid var(--line);padding-top:6px">${A.days?`${n1(A.days)} 日 / ${n1(A.sessions)} 診`:'—'}</dd>
-        <dt>已休特休</dt><dd>${n1(a.la)} 診 / ${n1(a.la/spd)} 日</dd>
-        <dt>未休特休</dt><dd class="${rest>0?'warn-v':''}">${A.days?`${n1(rest)} 日`:'—'}</dd>
-        <dt>未休應補發工資</dt><dd class="${restPay>0?'warn-v':''}">${A.days?n0(restPay):'—'}</dd>
-        <dt style="border-top:1px solid var(--line);padding-top:6px">病假診數</dt>
-          <dd class="${a.ls>=8?'warn-v':''}" style="border-top:1px solid var(--line);padding-top:6px">${n1(a.ls)} 診</dd>
-        <dt>事假診數</dt><dd>${n1(a.lp)} 診</dd>
-        <dt>颱風假</dt><dd>${n1(a.lt)} 診</dd>
-        ${hasCount?`<dt>遲到次數</dt><dd class="${a.lateCount>=6?'warn-v':''}">${a.lateCount} 次</dd>`:''}
-        <dt>遲到總分鐘</dt><dd class="${a.lateTotal>=180?'warn-v':''}">${n1(a.lateTotal)} 分</dd>
-        ${hasCount?`<dt>平均每次遲到</dt><dd>${a.lateCount?Math.round(a.lateTotal/a.lateCount):0} 分</dd>`:''}
-        <dt>遲到扣薪分鐘</dt><dd>${n1(a.latePaidMin)} 分 / ${n0(a.lateCut)}</dd>
-        <dt>加班累計</dt><dd>${(a.otMin/60).toFixed(1)} 小時 / ${n0(a.otPay)}</dd>
-        <dt>代扣勞健保</dt><dd>${n0(a.nhiSelf+a.labSelf)}</dd>
-        <dt>雇主勞退提繳</dt><dd>${n0(a.pension)}</dd>
-        <dt style="border-top:1px solid var(--line);padding-top:6px">年終獎金</dt>
-          <dd style="border-top:1px solid var(--line);padding-top:6px">
-            <input type="number" step="1000" data-yb="${st.id}" value="${YB[st.id]||''}" placeholder="0"
-              style="width:82px;text-align:right;font-family:var(--mono);font-size:12.5px;padding:2px 5px"></dd>
-        <dt>年度用人成本</dt><dd>${n0(a.cost+(+YB[st.id]||0))}</dd>
-      </dl></div>`;
-  }).join('');
-  document.getElementById('yCards').innerHTML=cards||'<div class="empty">尚無助理資料</div>';
-  document.querySelectorAll('input[data-yb]').forEach(inp=>inp.addEventListener('change',e=>{
-    DB.yearBonus[DB.year][e.target.dataset.yb]=e.target.value===''?0:+e.target.value;
-    save();renderYear();}));
+  const D=ychData(), months=D.total.filter(v=>v!=null), sum=months.reduce((a,b)=>a+b,0);
+  const yb=Object.values(YB).reduce((a,b)=>a+(+b||0),0);
   document.getElementById('yKpis').innerHTML=`
-    <div class="kpi"><div class="k">年度實發總額</div><div class="v">${n0(T.net)}</div></div>
-    <div class="kpi"><div class="k">年度用人成本</div><div class="v">${n0(T.cost)}</div></div>
-    <div class="kpi"><div class="k">獎金發放合計</div><div class="v">${n0(T.bonus)}</div></div>
-    <div class="kpi acc"><div class="k">年終獎金合計</div><div class="v">${n0(T.yb)}</div></div>
-    <div class="kpi"><div class="k">全體病假</div><div class="v">${n1(T.ls)}<span class="u">診</span></div></div>
-    <div class="kpi"><div class="k">全體遲到</div><div class="v">${n1(T.lateTotal)}<span class="u">分</span></div></div>
-    <div class="kpi ${T.rest>0?'acc':''}"><div class="k">未休特休</div><div class="v">${n1(Math.round(T.rest*2)/2)}<span class="u">日</span></div>
-      <div class="note">年度終結應補發約 ${n0(T.restPay)} 元</div></div>
-    <div class="kpi"><div class="k">已結算</div><div class="v">${T.months}<span class="u">個月</span></div></div>`;
+    <div class="kpi acc"><div class="k">${DB.year} 年用人成本</div><div class="v">${n0(sum+yb)}</div>
+      <div class="note">${yb?`每月薪資成本 ${n0(sum)}＋年終 ${n0(yb)}`:'含勞健保雇主負擔、勞退、補充保費'}</div></div>
+    <div class="kpi"><div class="k">平均每月</div><div class="v">${months.length?n0(sum/months.length):'—'}</div><div class="note">不含年終</div></div>
+    <div class="kpi"><div class="k">已建立</div><div class="v">${months.length}<span class="u">個月</span></div></div>`;
+  const box=document.getElementById('yBonus'), open=box.open;
+  box.innerHTML=`<summary>年終獎金${yb?`　合計 ${n0(yb)}`:''}<span class="u">（另外加進全年成本）</span></summary>
+    <div class="ybgrid">${activeStaff().map(st=>`<label>${esc(st.name)}<input type="number" step="1000" min="0" data-yb="${st.id}" value="${YB[st.id]||''}" placeholder="0"></label>`).join('')||'<span class="u">尚無助理資料</span>'}</div>`;
+  box.open=open;
+  box.querySelectorAll('input[data-yb]').forEach(inp=>inp.addEventListener('change',e=>{
+    DB.yearBonus[DB.year][e.target.dataset.yb]=e.target.value===''?0:+e.target.value;save();renderYear();}));
 }
 
-/* ===== 雇主成本 ===== */
-function renderCost(){
-  MSES=monthSessions(DB.year,DB.month);
-  document.getElementById('cTitle').textContent=`${DB.year} 年 ${DB.month} 月　雇主用人成本`;
-  const M=getMonth(DB.month,false);
-  if(!M){document.getElementById('cWrap').innerHTML='<div class="empty">此月份尚未建立薪資表</div>';
-    document.getElementById('cKpis').innerHTML='';return;}
-  let rows='',T={payable:0,labBoss:0,nhiBoss:0,pension:0,cost:0,income:0,insH:0,absent:0,idle:0,leaveCut:0,work:0};
-  activeStaff().forEach(st=>{
-    const c=calc(st,rowOf(M,st),DB.rules);
-    T.payable+=c.payable;T.labBoss+=c.labBoss;T.nhiBoss+=c.nhiBoss;T.pension+=c.pension;T.cost+=c.cost;
-    T.income+=c.income;T.insH+=(+st.insH||0);
-    const work=Math.max(0,c.fullSes-c.absent);
-    T.absent+=c.absent;T.idle+=c.idleIns;T.leaveCut+=c.leaveCut;T.work+=work;
-    rows+=`<tr><td class="name">${st.name}</td><td class="n">${n0(c.payable)}</td>
-      <td class="n calc">${n0(c.nhiSelf+c.labSelf)}</td><td class="n tot">${n0(c.net)}</td>
-      <td class="n sep">${n0(c.labBoss)}</td><td class="n">${n0(c.nhiBoss)}</td>
-      <td class="n">${n0(c.pension)}</td><td class="n tot">${n0(c.cost)}</td>
-      <td class="n sep calc">${n1(work)} / ${n1(c.fullSes)}</td>
-      <td class="n tot">${work?n0(c.cost/work):'—'}</td>
-      <td class="n ${c.idleIns?'neg':'calc'}">${n0(c.idleIns)}</td>
-      <td class="n calc">${n0(c.leaveCut)}</td></tr>`;
-  });
-  document.getElementById('cWrap').innerHTML=`<table class="grid"><thead>
-    <tr class="grp"><th class="name"></th><th colspan="3">員工端</th><th colspan="4">雇主負擔</th>
-      <th colspan="4">出勤與單位成本</th></tr>
-    <tr class="hd"><th class="name">姓名</th><th class="n">應發合計</th><th class="n">代扣勞健保</th><th class="n">實發</th>
-    <th class="n sep">勞保+就保+職災</th><th class="n">健保</th><th class="n">勞退6%</th><th class="n">用人成本</th>
-    <th class="n sep">出勤診 / 應出勤</th><th class="n">每診成本</th><th class="n">缺勤空轉保費</th>
-    <th class="n">缺勤省下薪資</th></tr></thead><tbody>${rows}</tbody>
-    <tfoot><tr><td class="name">合計</td><td class="n">${n0(T.payable)}</td><td class="n"></td><td class="n"></td>
-    <td class="n sep">${n0(T.labBoss)}</td><td class="n">${n0(T.nhiBoss)}</td><td class="n">${n0(T.pension)}</td>
-    <td class="n">${n0(T.cost)}</td>
-    <td class="n sep">${n1(T.work)}</td><td class="n">${T.work?n0(T.cost/T.work):'—'}</td>
-    <td class="n">${n0(T.idle)}</td><td class="n">${n0(T.leaveCut)}</td></tr></tfoot></table>`;
-  const gap=Math.max(0,T.income-T.insH), supp=rhe(gap*DB.rules.suppRate);
-  document.getElementById('cKpis').innerHTML=`
-    <div class="kpi"><div class="k">本月用人成本</div><div class="v">${n0(T.cost+supp)}</div><div class="note">含補充保費</div></div>
-    <div class="kpi"><div class="k">應發薪資</div><div class="v">${n0(T.payable)}</div></div>
-    <div class="kpi"><div class="k">勞健保雇主負擔</div><div class="v">${n0(T.labBoss+T.nhiBoss)}</div></div>
-    <div class="kpi"><div class="k">勞退提繳</div><div class="v">${n0(T.pension)}</div></div>
-    <div class="kpi"><div class="k">平均每診成本</div><div class="v">${T.work?n0(T.cost/T.work):'—'}</div>
-      <div class="note">本月應出勤 ${n1(MSES)} 診／人　實出勤 ${n1(T.work)} 診</div></div>
-    <div class="kpi ${T.leaveCut-T.idle>=0?'acc':''}"><div class="k">缺勤淨值</div>
-      <div class="v">${T.leaveCut-T.idle>=0?'+':''}${n0(T.leaveCut-T.idle)}</div>
-      <div class="note">省下薪資 ${n0(T.leaveCut)} − 空轉保費 ${n0(T.idle)}</div></div>
-    <div class="kpi ${supp?'acc':''}"><div class="k">雇主補充保費</div><div class="v">${n0(supp)}</div>
-      <div class="note">${supp?`薪資總額 ${n0(T.income)} − 投保總額 ${n0(T.insH)} 之差額 × ${(DB.rules.suppRate*100).toFixed(2)}%`:'投保金額已達薪資總額，免繳'}</div></div>`;
+/* ===== 年度每月走勢（折線圖） ===== */
+const YCH_M=[
+  {k:'cost',t:'用人成本',u:'元',f:c=>c.cost},
+  {k:'net',t:'實發薪資',u:'元',f:c=>c.net},
+  {k:'boss',t:'雇主勞健保＋勞退',u:'元',f:c=>c.labBoss+c.nhiBoss+c.pension},
+  {k:'ot',t:'加班',u:'小時',f:c=>c.otMin/60},
+  {k:'late',t:'遲到',u:'分',f:c=>c.lateTotal},
+  {k:'leave',t:'病假＋事假',u:'診',f:c=>c.ls+c.lp}];
+const YCH_C=['#2a78d6','#eb6834','#1baf7a','#eda100','#e87ba4','#008300','#6250d6','#e34948'];
+const YCH={metric:'cost',mode:'total'};
+function ychFmt(v,u){if(v==null)return '—';return u==='元'?n0(v):u==='小時'?(+v).toFixed(1):n1(v);}
+function ychAxis(v,u){if(u!=='元')return ychFmt(v,u);return v>=10000?(+(v/10000).toFixed(1))+' 萬':n0(v);}
+function ychData(){
+  const met=YCH_M.find(m=>m.k===YCH.metric), keep=MSES;
+  const staff=DB.staff.filter(st=>{for(let m=1;m<=12;m++){const M=DB.months[mk2(m)];if(M&&M.rows[st.id])return true;}return false;});
+  const each=staff.map(st=>({id:st.id,name:st.name,v:Array(12).fill(null)}));
+  const total=Array(12).fill(null);
+  for(let m=1;m<=12;m++){
+    const M=DB.months[mk2(m)];if(!M)continue;
+    MSES=monthSessions(DB.year,m);
+    let sum=0,any=false,inc=0,ins=0;
+    staff.forEach((st,i)=>{if(!M.rows[st.id])return;const c=calc(st,rowOf(M,st),DB.rules);
+      const v=met.f(c);each[i].v[m-1]=v;sum+=v;any=true;inc+=c.income;ins+=(+st.insH||0);});
+    if(any&&met.k==='cost')sum+=rhe(Math.max(0,inc-ins)*DB.rules.suppRate);
+    total[m-1]=any?sum:null;
+  }
+  MSES=keep;
+  return {met,each,total,staff};
+}
+function ychNice(v){if(!(v>0))return {top:1,step:.25};const raw=v/4,p=10**Math.floor(Math.log10(raw)),r=raw/p;
+  const step=(r<=1?1:r<=2?2:r<=2.5?2.5:r<=5?5:10)*p;return {top:Math.ceil(v/step)*step,step};}
+function renderYearChart(){
+  const card=document.getElementById('yChartCard');if(!card)return;
+  const D=ychData(), met=D.met, each=YCH.mode==='each';
+  document.getElementById('ychTitle').textContent=`${DB.year} 每月${met.t}`;
+  const series=each
+    ? D.each.slice(0,8).map(e=>({name:e.name,v:e.v,c:''}))
+    : [{name:'全體合計',v:D.total,c:'#14483C'}];
+  // 顏色跟著人走：用他在名單裡的位置決定，不因篩選而重新上色
+  if(each){const used=new Set();series.forEach((s,i)=>{const idx=DB.staff.findIndex(x=>x.id===D.staff[i].id);let k=idx%8;while(used.has(k))k=(k+1)%8;used.add(k);s.c=YCH_C[k];});}
+  const notes=[];
+  if(!D.total.some(v=>v!=null))notes.push('今年還沒有建立任何月份的薪資表。');
+  else{
+    if(met.k==='cost')notes.push(each?'個人數字不含雇主補充保費。':'合計含雇主補充保費。');
+    if(each&&D.each.length>8)notes.push('人數超過 8 位，只顯示前 8 位。');
+  }
+  const noteTxt=notes.join('　');
+  const svg=document.getElementById('ychSvg'), fig=document.getElementById('ychFig'), tip=document.getElementById('ychTip');
+  const draw=()=>{
+    const W=fig.clientWidth,H=fig.clientHeight;if(!W)return;
+    const narrow=W<520, padL=narrow?44:58, padR=each&&!narrow?64:16, padT=12, padB=26;
+    const iw=W-padL-padR, ih=H-padT-padB;
+    const vals=series.flatMap(s=>s.v.filter(v=>v!=null));
+    const max=Math.max(0,...vals), min=vals.length?Math.min(...vals):0;
+    let {top,step}=ychNice(max), lo=0;
+    // 數字都集中在高處時（例如每月成本），不從 0 起算，起伏才看得出來
+    if(vals.length&&min>max*0.5){const r=ychNice(max-min);step=r.step;lo=Math.floor(min/step)*step-step;if(lo<0)lo=0;top=Math.ceil(max/step)*step;if(top===max)top+=step;}
+    const X=m=>padL+(iw*(m+.5)/12), Y=v=>padT+ih-((v-lo)/(top-lo))*ih;
+    document.getElementById('ychNote').textContent=noteTxt+(lo>0?`　縱軸從 ${ychAxis(lo,met.u)} 起算，不是 0。`:'');
+    let g='';
+    const sel=-1;
+    for(let v=lo;v<=top+1e-9;v+=step){const y=Y(v);
+      g+=`<line x1="${padL}" x2="${W-padR}" y1="${y}" y2="${y}" stroke="${v>lo?'#E2EAE7':'#CBD6D1'}" stroke-width="1"/>`
+        +`<text x="${padL-8}" y="${y+4}" text-anchor="end" font-size="11" fill="#6B837A" style="font-family:var(--mono)">${ychAxis(v,met.u)}</text>`;}
+    for(let m=0;m<12;m++)if(!narrow||m%2===0)
+      g+=`<text x="${X(m)}" y="${H-8}" text-anchor="middle" font-size="11" fill="${m===sel?'#14483C':'#6B837A'}" font-weight="${m===sel?700:400}">${m+1}月</text>`;
+    series.forEach(s=>{
+      let d='',pen=false;
+      s.v.forEach((v,m)=>{if(v==null){pen=false;return;}d+=(pen?'L':'M')+X(m).toFixed(1)+' '+Y(v).toFixed(1);pen=true;});
+      g+=`<path d="${d}" fill="none" stroke="${s.c}" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>`;
+      s.v.forEach((v,m)=>{if(v!=null)g+=`<circle cx="${X(m)}" cy="${Y(v)}" r="4" fill="${s.c}" stroke="#fff" stroke-width="2"/>`;});
+    });
+    if(each&&!narrow){ // 線尾直接標名字，避免重疊
+      const L=series.map(s=>{let m=11;while(m>=0&&s.v[m]==null)m--;return m<0?null:{s,m,y:Y(s.v[m])};}).filter(Boolean).sort((a,b)=>a.y-b.y);
+      for(let i=1;i<L.length;i++)if(L[i].y-L[i-1].y<14)L[i].y=L[i-1].y+14;
+      L.forEach(l=>{g+=`<text x="${W-padR+8}" y="${l.y+4}" font-size="11.5" fill="#3A544B">${esc(l.s.name)}</text>`;});
+    }
+    g+=`<line id="ychX" x1="0" x2="0" y1="${padT}" y2="${padT+ih}" stroke="#6B837A" stroke-width="1" stroke-dasharray="3 3" visibility="hidden"/>`;
+    g+=`<rect id="ychHit" x="${padL}" y="0" width="${iw}" height="${H}" fill="transparent"/>`;
+    svg.setAttribute('viewBox',`0 0 ${W} ${H}`);svg.innerHTML=g;
+    const hit=svg.querySelector('#ychHit'), xl=svg.querySelector('#ychX');
+    const monthAt=e=>{const r=svg.getBoundingClientRect();const x=e.clientX-r.left;return Math.max(0,Math.min(11,Math.floor((x-padL)/(iw/12))));};
+    const show=e=>{const m=monthAt(e);xl.setAttribute('x1',X(m));xl.setAttribute('x2',X(m));xl.setAttribute('visibility','visible');
+      const rows=series.map(s=>({s,v:s.v[m]})).filter(r=>r.v!=null).sort((a,b)=>b.v-a.v);
+      tip.innerHTML=`<b>${DB.year} 年 ${m+1} 月</b>`+(rows.length?rows.map(r=>`<div class="r"><span><i style="background:${r.s.c}"></i>${esc(r.s.name)}</span><span>${ychFmt(r.v,met.u)} ${met.u}</span></div>`).join(''):'<div class="r"><span>尚未建立</span></div>');
+      tip.hidden=false;const tw=tip.offsetWidth;let left=X(m)+12;if(left+tw>W)left=X(m)-tw-12;tip.style.left=Math.max(0,left)+'px';tip.style.top=padT+'px';};
+    hit.onpointermove=show;hit.onpointerdown=show;
+    hit.onpointerleave=()=>{tip.hidden=true;xl.setAttribute('visibility','hidden');};
+  };
+  if(!renderYearChart.ro){renderYearChart.ro=new ResizeObserver(()=>renderYearChart.draw&&renderYearChart.draw());renderYearChart.ro.observe(fig);}
+  renderYearChart.draw=draw;draw();
 }
 
 /* ===== 投保合規檢視 ===== */
@@ -1860,122 +2070,64 @@ function complyRows(){
       okPlan:plan.L>=should.L&&plan.H>=should.H&&plan.P>=should.P};
   });
 }
+// 本月代扣（健保、勞保自付）：平常顯示數字，按筆修改；空白＝依投保級距自動計算
+let dedEdit=false,dedMonth=null;
+function renderDed(){
+  const box=document.getElementById('qDed');if(!box)return;
+  const M=getMonth(DB.month,false);if(!M){box.innerHTML='';return;}
+  const key=attKey();if(dedMonth!==key){dedEdit=false;dedMonth=key;}
+  if(box.contains(document.activeElement)&&document.activeElement.tagName==='INPUT')return;
+  const lock=M.locked, ed=dedEdit&&!lock;
+  const cell=(st,row,k,auto)=>{const v=row[k],man=!(v==null||v==='');
+    return ed?`<td class="n"><input class="qin" type="number" min="0" step="1" data-ds="${st.id}" data-dk="${k}" value="${man?v:''}" placeholder="${auto}"></td>`
+      :`<td class="n neg">-${n0(man?+v:auto)}${man?'<span class="dman">手動</span>':''}</td>`;};
+  let T=0;
+  const body=activeStaff().map(st=>{const row=rowOf(M,st),c=calc(st,row,DB.rules);T+=c.nhiSelf+c.labSelf;
+    return `<tr><td class="name">${esc(st.name)}</td>${cell(st,row,'nhiSelf',c.autoNhi)}${cell(st,row,'labSelf',c.autoLab)}<td class="n">-${n0(c.nhiSelf+c.labSelf)}</td></tr>`;}).join('');
+  box.innerHTML=`<div class="card" style="margin-bottom:14px">
+    <div class="lkhead"><h3>${DB.month} 月代扣（員工自付）</h3><span class="u">空白會依投保級距自動計算</span><div class="spacer"></div>
+      ${lock?'<span class="u">此月份已鎖定</span>':`<button class="zlk${ed?' on':''}" id="dedPen">${ed?'✓ 完成':'<i class="pen"></i>'}</button>`}</div>
+    <div class="tscroll"><table class="grid flat qtbl"><thead><tr class="hd"><th class="name">助理</th><th>健保自付</th><th>勞保自付</th><th>合計</th></tr></thead>
+    <tbody>${body}</tbody><tfoot><tr><td class="name">合計</td><td></td><td></td><td class="n">-${n0(T)}</td></tr></tfoot></table></div></div>`;
+  const pb=document.getElementById('dedPen');if(pb)pb.onclick=()=>{dedEdit=!dedEdit;if(!dedEdit)save();box.innerHTML='';renderDed();};
+  box.querySelectorAll('input[data-ds]').forEach(i=>i.addEventListener('input',()=>{
+    const M2=getMonth(DB.month,false);if(!M2||M2.locked)return;
+    const row=M2.rows[i.dataset.ds];if(!row)return;
+    row[i.dataset.dk]=i.value===''?'':+i.value;save();}));
+}
 function renderComply(){
-  document.getElementById('qTitle').textContent=`投保級距合規檢視　（以 ${DB.year} 年 ${DB.month} 月薪資為基準）`;
-  const D=complyRows();
-  if(!D){document.getElementById('qWrap').innerHTML='<div class="empty">此月份尚未建立薪資表</div>';
-    document.getElementById('qKpis').innerHTML='';document.getElementById('qRisk').innerHTML='';return;}
-  planAllInit();
-  const R=DB.rules;
-  const T={bad:0,badPlan:0,income:0,w:0,
-    curL:0,curP:0,planL:0,planP:0,shouldL:0,shouldP:0,
-    curBoss:0,planBoss:0,shouldBoss:0, curSelf:0,planSelf:0,shouldSelf:0,
-    curH:0,planH:0,shouldH:0, curPen:0,planPen:0,shouldPen:0,
-    gapCurL:0,gapCurH:0,gapCurP:0, gapPlanL:0,gapPlanH:0,gapPlanP:0};
-  const rows=D.map(d=>{
-    if(!d.okCur)T.bad++; if(!d.okPlan)T.badPlan++;
-    T.income+=d.income;T.w+=d.w;
-    T.curL+=d.cur.L;T.curP+=d.cur.P;T.planL+=d.plan.L;T.planP+=d.plan.P;
-    T.shouldL+=d.should.L;T.shouldP+=d.should.P;
-    T.curBoss+=d.cur.boss;T.planBoss+=d.plan.boss;T.shouldBoss+=d.should.boss;
-    T.curSelf+=d.cur.self;T.planSelf+=d.plan.self;T.shouldSelf+=d.should.self;
-    T.curH+=d.cur.H;T.planH+=d.plan.H;T.shouldH+=d.should.H;
-    T.curPen+=d.cur.P*R.pensionRate;T.planPen+=d.plan.P*R.pensionRate;T.shouldPen+=d.should.P*R.pensionRate;
-    T.gapCurL+=d.gapCur.L;T.gapCurH+=d.gapCur.H;T.gapCurP+=d.gapCur.P;
-    T.gapPlanL+=d.gapPlan.L;T.gapPlanH+=d.gapPlan.H;T.gapPlanP+=d.gapPlan.P;
-    const dBoss=d.plan.boss-d.cur.boss, dSelf=d.plan.self-d.cur.self;
-    return `<tr><td class="name">${d.st.name}</td>
-      <td class="n">${n0(d.w)}</td>
-      <td class="n sep calc">${n0(d.cur.L)} / ${n0(d.cur.H)} / ${n0(d.cur.P)}</td>
-      <td class="n sep"><select class="cell-sel" data-pw="${d.st.id}">
-        <option value="">－ 同現行 －</option>
-        ${(PLAN_BR.includes(d.pw)?PLAN_BR:[...PLAN_BR,d.pw].filter(Boolean).sort((a,b)=>a-b))
-          .map(x=>`<option value="${x}"${x===d.pw?' selected':''}>${n0(x)}</option>`).join('')}
-      </select></td>
-      <td class="n ${d.okPlan?'':'gold'}">${n0(d.plan.L)} / ${n0(d.plan.H)} / ${n0(d.plan.P)}</td>
-      <td class="n sep tot">${dBoss>0?'+':''}${n0(dBoss)}</td>
-      <td class="n">${dSelf>0?'+':''}${n0(dSelf)}</td>
-      <td class="n sep ${d.okCur?'calc':'neg'}">${n0(d.should.L)} / ${n0(d.should.H)} / ${n0(d.should.P)}</td>
-      <td class="n ${d.okPlan?'calc':'neg'}">${d.okPlan?'已達標':'差 '+n0(d.should.boss-d.plan.boss)}</td>
-      <td style="white-space:nowrap">
-        <button class="btn sm" onclick="setPlan('${d.st.id}',${fit(PLAN_BR,d.w)})" title="把預計填成應申報級距">合規</button>
-        <button class="btn sm" onclick="applyPlan('${d.st.id}')" title="把預計寫入實際投保">套用</button></td></tr>`;
-  }).join('');
-  document.getElementById('qWrap').innerHTML=`<table class="grid"><thead>
-    <tr class="grp"><th class="name"></th><th></th><th>現行投保</th><th colspan="2">預計調整</th>
-    <th colspan="2">預計後每月增加</th><th colspan="2">全額合規</th><th></th></tr>
-    <tr class="hd"><th class="name">姓名</th><th class="n">月薪資總額</th>
-    <th class="n sep">勞保 / 健保 / 勞退</th>
-    <th class="n sep">預計申報薪資</th><th class="n">對應級距</th>
-    <th class="n sep">雇主</th><th class="n">員工</th>
-    <th class="n sep">應申報級距</th><th class="n">與合規差距</th><th></th></tr></thead>
+  renderDed();
+  const R=DB.rules, staff=activeStaff(), box=document.getElementById('qWrap');
+  if(!staff.length){box.innerHTML='<div class="empty">尚無助理資料</div>';return;}
+  // 每月保費（雇主負擔、員工自付），四捨六入五成雙同薪資計算
+  const fee=(st,L,H,P)=>({
+    boss:rhe(L*((R.laborRate+R.empRate)*R.laborBoss+R.occRate))+rhe(H*R.nhiRate*R.nhiBoss*R.nhiAvgDep)+rhe(P*R.pensionRate),
+    self:rhe(L*(R.laborRate+R.empRate)*R.laborSelf)+rhe(H*R.nhiRate*R.nhiSelf*(1+(+st.deps||0)))});
+  const lv=v=>({L:Math.min(fit(LAB_BR,v),LAB_BR[LAB_BR.length-1]),H:fit(NHI_BR,v),P:fit(PEN_BR,v)});
+  const sg=v=>v?`${v>0?'+':'−'}${n0(Math.abs(v))}`:'0';
+  const LIST=PLAN_BR.filter(v=>v>=25000&&v<=50000);   // 選單只列 25,000～50,000
+  const T={b:0,s:0,any:false};
+  const rows=staff.map(st=>{
+    const cur={L:+st.insL||0,H:+st.insH||0,P:+st.insP||0}, f0=fee(st,cur.L,cur.H,cur.P);
+    const pw=(st.planWage===''||st.planWage==null)?0:+st.planWage;
+    let nw='',db='',ds='';
+    if(pw){const n=lv(pw),f1=fee(st,n.L,n.H,n.P);T.any=true;T.b+=f1.boss-f0.boss;T.s+=f1.self-f0.self;
+      nw=(n.L===pw&&n.H===pw&&n.P===pw)?'':`<div class="qnew">勞保 ${n0(n.L)}／健保 ${n0(n.H)}／勞退 ${n0(n.P)}</div>`;
+      db=sg(f1.boss-f0.boss);ds=sg(f1.self-f0.self);}
+    const list=(pw&&!LIST.includes(pw))?[...LIST,pw].sort((a,b)=>a-b):LIST;
+    const opts=['<option value="">－ 不調整 －</option>',...list.map(v=>`<option value="${v}"${v===pw?' selected':''}>${n0(v)}</option>`)].join('');
+    return `<tr><td class="name">${esc(st.name)}</td>
+      <td class="n">${n0(cur.L)}</td><td class="n">${n0(cur.H)}</td><td class="n">${n0(cur.P)}</td>
+      <td class="n sep"><select class="cell-sel" data-plan="${st.id}">${opts}</select>${nw}</td>
+      <td class="n">${db}</td><td class="n">${ds}</td></tr>`;}).join('');
+  box.innerHTML=`<table class="grid qlv"><thead>
+    <tr class="grp"><th class="name"></th><th colspan="3">目前投保級距</th><th class="sep">新級距</th><th colspan="2">每月差多少</th></tr>
+    <tr class="hd"><th class="name">姓名</th><th class="n">勞保</th><th class="n">健保</th><th class="n">勞退</th><th class="n sep">選擇</th><th class="n">雇主</th><th class="n">員工</th></tr></thead>
     <tbody>${rows}</tbody>
-    <tfoot><tr><td class="name">合計 ${D.length} 人</td>
-      <td class="n">${n0(T.w)}</td>
-      <td class="n sep">${n0(T.curL)} / ${n0(T.curH)} / ${n0(T.curP)}</td>
-      <td class="n sep"></td>
-      <td class="n">${n0(T.planL)} / ${n0(T.planH)} / ${n0(T.planP)}</td>
-      <td class="n sep">${T.planBoss-T.curBoss>0?'+':''}${n0(T.planBoss-T.curBoss)}</td>
-      <td class="n">${T.planSelf-T.curSelf>0?'+':''}${n0(T.planSelf-T.curSelf)}</td>
-      <td class="n sep">${n0(T.shouldL)} / ${n0(T.shouldH)} / ${n0(T.shouldP)}</td>
-      <td class="n">${T.badPlan?'差 '+n0(T.shouldBoss-T.planBoss):'已達標'}</td>
-      <td></td></tr></tfoot></table>`;
-  document.getElementById('qWrap').querySelectorAll('select[data-pw]').forEach(sel=>
-    sel.addEventListener('change',e=>{
-      const st=DB.staff.find(x=>x.id===e.target.dataset.pw);
-      st.planWage=e.target.value===''?'':+e.target.value;save();renderComply();}));
-
-  const supp=insH=>rhe(Math.max(0,T.income-insH)*R.suppRate);
-  const _dummy=0;
-  const sCur=supp(T.curH), sPlan=supp(T.planH), sShould=supp(T.shouldH);
-  const tot=(boss,sp)=>boss+sp;
-  const mCur=tot(T.curBoss,sCur), mPlan=tot(T.planBoss,sPlan), mShould=tot(T.shouldBoss,sShould);
-  const mo=R.lookbackMonths||36;
-  const riskCur=(T.gapCurL*mo)*(1+(R.penaltyMult||4))+(T.gapCurH*mo)*4+T.gapCurP*mo;
-  const riskPlan=(T.gapPlanL*mo)*(1+(R.penaltyMult||4))+(T.gapPlanH*mo)*4+T.gapPlanP*mo;
-
-  const dSupp=sPlan-sCur, dBossAll=(T.planBoss-T.curBoss)+dSupp;
-  const cap=document.getElementById('qCaption');
-  if(cap)cap.innerHTML=`表列雇主增加合計 <b>${dBossAll-dSupp>=0?'+':''}${n0(T.planBoss-T.curBoss)}</b>
-    　補充保費變動 <b>${dSupp>=0?'+':''}${n0(dSupp)}</b>
-    　<span style="color:var(--pine-d)">每月實際淨增 <b style="font-size:14px">${dBossAll>=0?'+':''}${n0(dBossAll)}</b>
-    ，一年 ${dBossAll*12>=0?'+':''}${n0(dBossAll*12)}</span>
-    　其中勞退 ${n0((T.planPen-T.curPen)*12)}／年進入助理專戶`;
-  document.getElementById('qKpis').innerHTML=`
-    <div class="kpi"><div class="k">現況　每月雇主負擔</div><div class="v">${n0(mCur)}</div>
-      <div class="note">含補充保費 ${n0(sCur)}　低報 ${T.bad} 人</div></div>
-    <div class="kpi acc"><div class="k">預計方案　每月</div><div class="v">${n0(mPlan)}</div>
-      <div class="note">較現況 ${mPlan-mCur>=0?'+':''}${n0(mPlan-mCur)}　年 ${mPlan-mCur>=0?'+':''}${n0((mPlan-mCur)*12)}</div></div>
-    <div class="kpi"><div class="k">全額合規　每月</div><div class="v">${n0(mShould)}</div>
-      <div class="note">較現況 +${n0(mShould-mCur)}　年 +${n0((mShould-mCur)*12)}</div></div>
-    <div class="kpi acc"><div class="k">預計方案　勞退提繳增加</div><div class="v">${n0((T.planPen-T.curPen)*12)}</div>
-      <div class="note">每年，進入助理個人專戶</div></div>
-    <div class="kpi"><div class="k">預計方案　助理每月增加</div><div class="v">${n0(T.planSelf-T.curSelf)}</div></div>
-    <div class="kpi ${T.badPlan?'acc':''}"><div class="k">預計後仍低報</div><div class="v">${T.badPlan}<span class="u">／${D.length} 人</span></div></div>`;
-
-  document.getElementById('qRisk').innerHTML=`
-    <div class="riskbox">
-      <h4>回溯 ${Math.round(mo/12)} 年的風險估算（補繳＋罰鍰）</h4>
-      維持現況：<span class="rn">約 ${n0(riskCur)} 元</span><br>
-      採預計方案：<span class="rn">約 ${n0(riskPlan)} 元</span>${T.badPlan?`　<b>仍有 ${T.badPlan} 人低報，風險未消除</b>`:'　<b>已無低報</b>'}<br>
-      <div style="margin-top:8px;font-size:11.5px;opacity:.85">
-        法源：勞工保險條例第 72 條第 3 項（投保薪資以多報少，按短報保險費金額處 4 倍罰鍰）／
-        全民健康保險法（投保金額以多報少，追繳短繳保費並處 2–4 倍罰鍰）／
-        勞工退休金條例第 53 條（滯納金）、第 31 條（勞工得請求損害賠償）。<br>
-        另有給付短少的民事賠償：生育給付為投保薪資 2 個月、育嬰留停津貼為 8 成，
-        失能、職災、老年年金亦按投保薪資計算，短少部分依法由雇主賠償。<br>
-        以上為依現行費率與級距的估算，實際回溯年限與罰鍰倍數由主管機關認定，請諮詢勞資顧問或記帳士。
-      </div>
-    </div>
-    <div class="card" style="font-size:12.5px;line-height:1.8">
-      <b style="font-family:var(--serif);letter-spacing:.05em">關於分階段調整</b>
-      <ul style="margin:8px 0 0;padding-left:20px">
-        <li><b>投保薪資應以實際月薪資總額申報。</b>預計方案若低於應申報級距，仍屬以多報少，只是把風險縮小，不是消除。上表最後一欄會顯示還差多少。</li>
-        <li>若打算<b>以調降工資的方式讓投保基準下降</b>：工資屬勞動條件，調降須經勞工同意並留存書面；調降後投保薪資也應同步下調，兩者要一致，否則反而更難解釋。</li>
-        <li>薪資調整有申報時點：2–7 月調整者當年 8 月底前通知，8 月至次年 1 月調整者次年 2 月底前通知。</li>
-        <li>勞退提繳直接進入助理個人專戶且免計入所得，是分階段調整中最划算的一段。</li>
-      </ul>
-    </div>`;
+    ${T.any?`<tfoot><tr><td class="name">合計</td><td></td><td></td><td></td><td class="n sep">一年 雇主 ${sg(T.b*12)}　員工 ${sg(T.s*12)}</td><td class="n">${sg(T.b)}</td><td class="n">${sg(T.s)}</td></tr></tfoot>`:''}</table>`;
+  box.querySelectorAll('select[data-plan]').forEach(sel=>sel.onchange=e=>{
+    const st=DB.staff.find(x=>x.id===e.target.dataset.plan);if(!st)return;
+    st.planWage=e.target.value===''?'':+e.target.value;save();renderComply();});
 }
 function planAllInit(){
   const sel=document.getElementById('planAll');if(!sel||sel.dataset.ready)return;
@@ -2328,12 +2480,15 @@ function toggleStaffEdit(id){
   renderSetup();
 }
 function renderSetup(){
+  const ab=document.getElementById('attByBox');
+  if(ab){ab.innerHTML=`出缺勤由誰登記：<select id="attBy">${['<option value="">（不開放）</option>',...activeStaff().map(st=>`<option value="${st.id}" ${DB.attendanceBy===st.id?'selected':''}>${esc(st.name)}</option>`)].join('')}</select>`;
+    document.getElementById('attBy').onchange=async e=>{DB.attendanceBy=e.target.value;save();const r=await syncRoster(true);toast(r&&r.ok?'已更新負責登記的人':'更新失敗：'+((r&&r.err)||''));};}
   const dl=document.getElementById('dutyPresets');
   if(dl&&!dl.childElementCount)DUTY_PRESETS.forEach(n=>{
     const o=document.createElement('option');o.value=n;dl.appendChild(o);});
   const sp=document.getElementById('staffPane');
   sp.innerHTML=`<h3><span>助理資料</span><span class="spacer"></span>
-    <span class="h3note">按 <span class="pen">✎</span> 才能修改</span></h3>`
+    <span class="h3note">按 <i class="pen"></i> 才能修改</span></h3>`
     +DB.staff.map(st=>{
     const ed=!!staffEdit[st.id], D=ed?'':' disabled';
     const A=annualLeave(st);
@@ -2342,7 +2497,7 @@ function renderSetup(){
         <input class="ti" type="text" data-s="${st.id}" data-k="title" value="${st.title||''}" placeholder="職稱"${D}>
         <label class="ck"><input type="checkbox" data-s="${st.id}" data-k="active" ${st.active?'checked':''}${D}>在職</label>
         <button class="btn sm${ed?' on':''}" onclick="toggleStaffEdit('${st.id}')"
-          title="${ed?'完成修改並鎖定':'解鎖修改'}"><span class="pen">✎</span>${ed?' 完成':''}</button></div>`;
+          title="${ed?'完成修改並鎖定':'解鎖修改'}"><i class="pen"></i>${ed?' 完成':''}</button></div>`;
 
     /* ---- 鎖定時：精簡唯讀卡 ---- */
     if(!ed){
@@ -2440,7 +2595,7 @@ function renderSetup(){
   document.getElementById('rulePane').className='card sect'+(rEd?' ed':'');
   document.getElementById('rulePane').innerHTML=`<h3><span>計算規則</span><span class="spacer"></span>
     <button class="btn sm${rEd?' on':''}" onclick="toggleStaffEdit('__rules__')"
-      title="${rEd?'完成修改並鎖定':'解鎖修改'}"><span class="pen">✎</span>${rEd?' 完成':''}</button></h3>
+      title="${rEd?'完成修改並鎖定':'解鎖修改'}"><i class="pen"></i>${rEd?' 完成':''}</button></h3>
     <div class="frow"><label>主帳戶名稱</label><input type="text" data-t="bank1" value="${R.bank1||'台新'}" style="text-align:left"></div>
     <div class="frow"><label>次帳戶名稱</label><input type="text" data-t="bank2" value="${R.bank2||'玉山'}" style="text-align:left"></div>
     <div class="frow hint"><span>實發金額先撥主帳戶固定金額，餘額撥次帳戶。</span></div>
@@ -2524,7 +2679,7 @@ function renderSetup(){
     ${f('回溯月數','lookbackMonths',1,'用於投保合規頁的風險估算')}
     ${f('勞保罰鍰倍數','penaltyMult',1)}
     </div>
-    ${rEd?'':`<div class="frow hint keep" style="margin-top:10px"><span>請假扣薪比例、保費費率、投保基準組成等進階設定，按上方 <span class="pen">✎</span> 展開。</span></div>`}
+    ${rEd?'':`<div class="frow hint keep" style="margin-top:10px"><span>請假扣薪比例、保費費率、投保基準組成等進階設定，按上方 <i class="pen"></i> 展開。</span></div>`}
     <div style="margin-top:14px;display:flex;gap:8px;flex-wrap:wrap">
       <button class="btn pri" onclick="printDutySheet()">列印職務分工表</button>
       <button class="btn" onclick="restoreSeed()">還原為匯入的原始資料</button>
@@ -2787,33 +2942,6 @@ async function saveFile(name,data,type){
 }
 function dl(name,text,type){ saveFile(name,text,type); }
 const csvq=v=>`"${String(v).replace(/"/g,'""')}"`;
-document.getElementById('btnCsv').onclick=()=>{
-  const M=getMonth(DB.month,false);if(!M)return toast('此月份無資料');
-  const COLS=cols();
-  const lines=[['姓名',...COLS.map(c=>c.t)].map(csvq).join(',')];
-  activeStaff().forEach(st=>{const c=calc(st,rowOf(M,st),DB.rules);
-    lines.push([st.name,...COLS.map(col=>Math.round((c[col.k]||0)*1000)/1000)].map(csvq).join(','));});
-  dl(`薪資表_${DB.year}-${String(DB.month).padStart(2,'0')}.csv`,'\ufeff'+lines.join('\n'),'text/csv;charset=utf-8');
-};
-document.getElementById('btnCsvLookup').onclick=()=>{
-  lookState();
-  if(!DB.lookPicked.length)return toast('請先點選要查閱的項目');
-  const fields=lookFields(), lines=[];
-  DB.lookPicked.forEach(key=>{
-    const meta=fields.find(f=>f[0]===key); if(!meta)return;
-    const {vals,months}=lookData(key);
-    lines.push([meta[1]+'（'+(meta[2]==='$'?'元':meta[2])+'）'].map(csvq).join(','));
-    if(!months.length){lines.push(csvq('本年度無資料'),''); return;}
-    lines.push(['姓名',...months.map(m=>m+'月'),'合計'].map(csvq).join(','));
-    activeStaff().forEach(st=>{
-      const r=vals[st.id], sum=r.reduce((a,b)=>a+(b||0),0);
-      lines.push([st.name,...months.map(m=>r[m-1]?Math.round(r[m-1]*1000)/1000:''),
-        sum?Math.round(sum*1000)/1000:''].map(csvq).join(','));
-    });
-    lines.push('');
-  });
-  dl(`項目查閱_${DB.year}.csv`,'\ufeff'+lines.join('\n'),'text/csv;charset=utf-8');
-};
 document.getElementById('btnCsvYear').onclick=()=>{
   const F=[['已結算月份','months'],['實發總額','net'],['合計薪資','gross'],['金幣數','coins'],['金幣獎金','coinPay'],
     ['保障差額','guarantee'],['紅利獎金','bonus'],['生日禮金','gift'],['全勤獎金','perfect'],['病假診數','ls'],['事假診數','lp'],
@@ -2984,6 +3112,77 @@ async function renderLine(){
 }
 
 
+/* ===== 出缺勤登記（填單頁負責人登記 → 月薪資表檢查、帶入） ===== */
+const ATTC={key:null,data:null,err:'',open:false};
+const attKey=()=>`${DB.year}${String(DB.month).padStart(2,'0')}`;
+async function loadAtt(force){
+  const key=attKey();if(!FB.db||(!force&&ATTC.key===key))return;
+  ATTC.key=key;ATTC.data=null;ATTC.err='';
+  try{const a=await FB.db.doc('attendance/'+key).get();if(ATTC.key===key)ATTC.data=a.exists?a.data():null;}
+  catch(e){ATTC.err=(e&&(e.code||e.message))||String(e);}
+  if(VIEW==='month'&&ATTC.key===attKey())renderAttPanel();
+}
+// 上方快速填寫：出勤（自動帶入登記）＋本月獎金，改的就是下方薪資表的同一份資料
+const QB=[['perfect','全勤',100],['bonus','紅利獎金',100],['special','特殊獎金',500]];
+const QE={att:false,bonus:false,m:null};
+const Q_SHADE=new Set(['leaveAnnual','leavePersonal','leaveSick','leaveMens','leaveTyphoon','special','specialNote']);   // 有底色的欄：各種假、特殊獎金與事由   // 上方兩區各自的編輯狀態
+function attSig(A){return JSON.stringify((A&&A.rows)||{});}
+// 負責人登記或更新後，自動把數字帶進薪資表（同一份登記只帶一次，之後你改的不會被蓋掉）
+function autoImportAtt(M){
+  const A=ATTC.data;if(!A||!M||M.locked)return false;
+  const sig=attSig(A);if(M.attSig===sig)return false;
+  const detail=(DB.rules.lateMode||'simple')==='detail';
+  // 新功能上線前就有的月份：薪資表裡已經有出勤數字（之前手動帶入或改過），不自動覆蓋，只記下目前這份登記
+  if(M.attSig===undefined&&activeStaff().some(st=>{const r=M.rows[st.id]||{};
+      return ATT_F.some(([,,fld])=>r[fld]!==''&&r[fld]!=null&&+r[fld]!==0);})){M.attSig=sig;save();return false;}
+  activeStaff().forEach(st=>{const r=(A.rows||{})[st.id]||{},row=rowOf(M,st);
+    ATT_F.forEach(([k,,fld])=>{if(fld==='lateTotal'&&detail)return;row[fld]=r[k]!=null?r[k]:'';});
+    if(r.note&&!(row.note||'').includes(r.note))row.note=[row.note,r.note].filter(Boolean).join('；');});
+  M.attSig=sig;save();
+  toast(`已帶入${A.byName?' '+A.byName+' ':''}登記的出缺勤`);
+  return true;
+}
+function renderAttPanel(){
+  const box=document.getElementById('mAtt');if(!box)return;
+  if(ATTC.key!==attKey()){box.innerHTML='';loadAtt();return;}
+  const M=getMonth(DB.month,false);
+  if(!M){box.innerHTML='';return;}
+  if(autoImportAtt(M)){renderMonth();return;}
+  if(box.contains(document.activeElement)&&document.activeElement.tagName==='INPUT'&&box.dataset.m===attKey())return;   // 正在這裡輸入，不重畫
+  box.dataset.m=attKey();
+  if(QE.m!==attKey()){QE.att=false;QE.bonus=false;QE.m=attKey();}
+  const A=ATTC.data, lock=M.locked, R=DB.rules, detail=(R.lateMode||'simple')==='detail';
+  const when=A&&A.updatedAt&&A.updatedAt.toDate?A.updatedAt.toDate().toLocaleString('zh-TW',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'}):'';
+  const sub=ATTC.err?`<span style="color:var(--seal)">讀不到出缺勤登記：${esc(ATTC.err)}</span>`
+    :A?`${esc(A.byName||'')} ${when} 登記，已自動帶入${lock?'':'，要改請按 <i class="pen"></i>'}`:`還沒有人登記${lock?'':'，要填請按 <i class="pen"></i>'}`;
+  const show=(v,ph,k)=>(v===''||v==null)?(k==='perfect'?`<span class="qauto">${n0(ph||0)}</span>`:''):(+v===0?(k==='perfect'?'0':''):(k==='perfect'||k==='bonus'||k==='special'?n0(v):n1(v)));
+  const inp=(zone,sid,k,v,step,ph,i)=>(lock||!QE[zone])?`<td class="n ${zone==='bonus'?'zb gold':'za'}${Q_SHADE.has(k)?'':' alt'}">${show(v,ph,k)}</td>`
+    :`<td class="n ${zone==='bonus'?'zb':'za'}${Q_SHADE.has(k)?'':' alt'}"><input class="qin" type="number" min="0" step="${step}" data-qs="${sid}" data-qk="${k}" value="${v===''||v==null?'':v}"${ph!=null?` placeholder="${ph}"`:''}></td>`;
+  const pen=z=>lock?'':`<button class="zlk${QE[z]?' on':''}" data-qz="${z}" title="${QE[z]?'完成編輯':'修改這一區'}">${QE[z]?'✓ 完成':'<i class="pen"></i>'}</button>`;
+  const body=activeStaff().map(st=>{const row=rowOf(M,st),c=calc(st,row,R),an=A&&((A.rows||{})[st.id]||{}).note;
+    return `<tr><td class="name">${esc(st.name)}</td>`
+      +ATT_F.map(([k,,fld],i)=>fld==='lateTotal'&&detail?`<td class="n za alt">${n1(c.lateTotal||0)}</td>`
+        :inp('att',st.id,fld,row[fld],['late','lateCount','ot'].includes(k)?1:0.5,null,i)).join('')
+      +`<td class="qnote za alt">${esc(an||'')}</td>`
+      +QB.map(([k,,step],i)=>inp('bonus',st.id,k,row[k],step,k==='perfect'?c.autoPerfect:k==='bonus'?c.bonus:null,i)).join('').replace('<td class="n','<td class="gs n')
+      +`<td class="gold zb">${(lock||!QE.bonus)?esc(row.specialNote||''):`<input class="qin txt" type="text" maxlength="40" data-qs="${st.id}" data-qk="specialNote" value="${esc(row.specialNote||'')}" placeholder="發放事由">`}</td></tr>`;}).join('');
+  box.innerHTML=`<div class="card" style="margin-bottom:12px">
+    <div class="lkhead"><h3>出勤與獎金</h3><span class="u">${sub}</span></div>
+    <div class="tscroll"><table class="grid flat qtbl"><thead>
+      <tr class="grp"><th class="name"></th><th class="za" colspan="${ATT_F.length+1}">出缺勤 ${pen('att')}</th><th class="gs zb" colspan="${QB.length+1}">獎金 ${pen('bonus')}</th></tr>
+      <tr class="hd"><th class="name">助理</th>${ATT_F.map(f=>`<th class="za">${f[1]}</th>`).join('')}<th class="za" style="text-align:left">登記備註</th>${QB.map((q,i)=>`<th class="zb${i?'':' gs'}">${q[1]}</th>`).join('')}<th class="zb" style="text-align:left">發放事由</th></tr></thead>
+    <tbody>${body}</tbody></table></div></div>`;
+  box.querySelectorAll('[data-qz]').forEach(b=>b.onclick=()=>{const z=b.dataset.qz;QE[z]=!QE[z];
+    toast(QE[z]?(z==='att'?'出缺勤':'獎金')+'可以修改了，改完按 ✓ 完成':'已完成，改的內容已存入薪資表');box.dataset.m='';renderAttPanel();});
+  box.querySelectorAll('input.qin').forEach(i=>i.addEventListener('input',()=>{
+    const M2=getMonth(DB.month,false);if(!M2||M2.locked)return;
+    const row=M2.rows[i.dataset.qs],k=i.dataset.qk;if(!row)return;
+    if(k==='specialNote')row[k]=i.value;
+    else row[k]=i.value===''?(k==='bonus'?0:''):+i.value;
+    save();renderMonth();
+  }));
+}
+
 /* ===== 員工回饋（form.html 填寫的每月自評／互評） ===== */
 const FORM_URL='https://urbanhsu.github.io/yun_salary/form.html';
 async function syncRoster(force){
@@ -2996,7 +3195,7 @@ async function syncRoster(force){
   try{await FB.db.doc('meta/roster').set({people,attendanceBy,updatedAt:new Date().toISOString()});syncRoster._last=sig;return {ok:true,n:people.length};}
   catch(e){console.warn('roster',e);return {ok:false,err:(e&&(e.code||e.message))||String(e)};}
 }
-const FBK={key:null,list:null,att:null};
+const FBK={key:null,list:null};
 const ATT_F=[['late','遲到分','lateTotal'],['lateCount','遲到次','lateCount'],['ot','加班分','otMin'],['annual','特休','leaveAnnual'],['personal','事假','leavePersonal'],['sick','病假','leaveSick'],['mens','生理假','leaveMens'],['typhoon','颱風假','leaveTyphoon']];
 async function renderFeedback(){
   const box=document.getElementById('fbWrap');if(!box)return;
@@ -3005,8 +3204,7 @@ async function renderFeedback(){
   if(FBK.key!==key){
     box.innerHTML='<div class="empty">讀取中…</div>';
     syncRoster(true).then(r=>{if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單同步失敗：'+r.err;}});
-    try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));
-      const a=await FB.db.doc('attendance/'+key).get();FBK.att=a.exists?a.data():null;FBK.key=key;}
+    try{const q=await FB.db.collection('forms').where('month','==',key).get();FBK.list=[];q.forEach(d=>FBK.list.push(d.data()));FBK.key=key;}
     catch(e){box.innerHTML=`<div class="warn hi"><b>讀不到員工回饋</b>　${esc(e.message||e)}（請確認 Firestore 規則已更新）</div>`;return;}
   }
   const staff=activeStaff(), F=Object.fromEntries(FBK.list.map(x=>[x.person,x]));
@@ -3015,58 +3213,41 @@ async function renderFeedback(){
     Object.entries(f.peerNotes||{}).forEach(([t,v])=>{if(recv[t]&&v)recv[t].notes.push({from:f.name,text:v,score:(f.peers||{})[t]});});});
   const done=staff.filter(s=>F[s.id]), talk=FBK.list.filter(f=>f.talk);
   const avg=s=>recv[s.id].n?(recv[s.id].sum/recv[s.id].n).toFixed(1):'—';
+  const not=staff.filter(s=>!F[s.id]);
+  const gray=t=>`<span style="color:var(--ink3)">${t}</span>`;
+  const scoreRows=staff.map(s=>{const f=F[s.id];
+    return `<tr${f?'':' class="fbnone"'}><td class="name">${esc(s.name)}</td>
+      <td class="n">${f?f.self:gray('未填')}</td>
+      ${staff.map((r,i)=>{const fr=F[r.id];const v=r.id===s.id?'–':fr?((fr.peers||{})[s.id]??''):'';
+        return `<td class="n${i?'':' sep'}">${v===''?gray('·'):v}</td>`;}).join('')}</tr>`;}).join('');
+  const textRows=staff.map(s=>{const f=F[s.id];
+    return `<tr${f?'':' class="fbnone"'}><td class="name">${esc(s.name)}</td>
+      <td class="fbt">${f?(f.best?esc(f.best):''):gray('未填')}</td>
+      <td class="fbt">${f&&f.worse?esc(f.worse):''}</td>
+      <td class="fbt">${recv[s.id].notes.map(n=>`<div>${esc(n.from)}${n.score!=null?`（${n.score}）`:''}：${esc(n.text)}</div>`).join('')}</td></tr>`;}).join('');
   box.innerHTML=`
-  <div class="kpis">
-    <div class="kpi acc"><div class="k">已填寫</div><div class="v">${done.length}<span class="u">/ ${staff.length} 人</span></div>
-      <div class="note">${staff.filter(s=>!F[s.id]).map(s=>esc(s.name)).join('、')||'全部完成'}</div></div>
-    <div class="kpi"><div class="k">想跟劉醫師聊聊</div><div class="v" style="color:${talk.length?'var(--seal)':'inherit'}">${talk.length}<span class="u">人</span></div>
-      <div class="note">${talk.map(f=>esc(f.name)).join('、')||'—'}</div></div>
-    <div class="kpi"><div class="k">填單網址</div><div class="note" style="word-break:break-all;margin-top:6px">${FORM_URL}</div>
-      <div style="margin-top:6px;display:flex;gap:6px;flex-wrap:wrap"><button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button></div><div id="fbSyncErr" style="color:var(--seal);font-size:12px;margin-top:6px"></div></div>
-  </div>
-
-  <div class="card" style="margin-bottom:14px">
-    <div class="lkhead"><h3>出缺勤登記</h3><span class="u">${FBK.att?`${esc(FBK.att.byName||'')} 登記${FBK.att.updatedAt&&FBK.att.updatedAt.toDate?'，'+FBK.att.updatedAt.toDate().toLocaleString('zh-TW'):''}`:'尚未登記'}</span><div class="spacer"></div>
-      <label style="font-size:12px;color:var(--ink2)">負責登記：<select id="fbAttBy" style="width:auto">${['<option value="">（不開放）</option>',...staff.map(s=>`<option value="${s.id}" ${DB.attendanceBy===s.id?'selected':''}>${esc(s.name)}</option>`)].join('')}</select></label>
-      ${FBK.att?`<button class="btn sm pri" id="fbAttApply">帶入 ${DB.month} 月薪資表</button>`:''}</div>
-    ${FBK.att?`<div class="tscroll"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th>${ATT_F.map(f=>`<th>${f[1]}</th>`).join('')}<th style="text-align:left">備註</th></tr></thead><tbody>
-      ${staff.map(s=>{const r=(FBK.att.rows||{})[s.id]||{};return `<tr><td class="name">${esc(s.name)}</td>${ATT_F.map(f=>`<td class="n">${r[f[0]]??''}</td>`).join('')}<td style="white-space:normal;font-size:12px">${esc(r.note||'')}</td></tr>`;}).join('')}
-    </tbody></table></div>`:'<div style="font-size:12.5px;color:var(--ink3)">負責的人登入填單頁後，會多一區「本月出缺勤登記」。</div>'}
-  </div>
-  <div class="tscroll" style="margin-bottom:14px"><table class="grid flat"><thead><tr class="hd"><th class="name">助理</th><th>自評</th><th>同事平均</th><th style="text-align:left">想聊聊</th></tr></thead><tbody>
-    ${staff.map(s=>{const f=F[s.id];return `<tr><td class="name">${esc(s.name)}</td><td class="n">${f?f.self:'<span style="color:var(--ink3)">未填</span>'}</td>
-      <td class="n">${avg(s)}<span style="color:var(--ink3);font-size:11px"> ${recv[s.id].n?`（${recv[s.id].n} 人）`:''}</span></td>
-      <td>${f&&f.talk?'<b style="color:var(--seal)">想聊聊</b>':''}</td></tr>`;}).join('')}
-  </tbody></table></div>
-  <div class="staffcards">
-    ${staff.filter(s=>F[s.id]||recv[s.id].notes.length).map(s=>{const f=F[s.id]||{};return `<div class="sc">
-      <div class="h"><span class="nm">${esc(s.name)}</span><div class="spacer"></div><span class="amt">自評 ${f.self??'—'}　同事 ${avg(s)}</span></div>
-      <div style="padding:10px 14px 13px;font-size:13px;line-height:1.7">
-        ${f.talk?`<div class="warn hi" style="margin-bottom:8px"><b>想跟劉醫師聊聊</b>${f.talkTopic?'：'+esc(f.talkTopic):''}</div>`:''}
-        ${f.best?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得最好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.best)}</div>`:''}
-        ${f.worse?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">做得比較不好的一件事</div><div style="margin-bottom:8px;white-space:pre-wrap">${esc(f.worse)}</div>`:''}
-        ${recv[s.id].notes.length?`<div style="color:var(--ink3);font-size:11.5px;letter-spacing:.1em">同事的評分理由</div>${recv[s.id].notes.map(n=>`<div>・${esc(n.text)} <span style="color:var(--ink3);font-size:11.5px">— ${esc(n.from)}${n.score!=null?`，給 ${n.score} 分`:''}</span></div>`).join('')}`:''}
-      </div></div>`;}).join('')||'<div class="empty">這個月還沒有人填寫</div>'}
-  </div>
-  ${FBK.list.length?`<details style="margin-top:14px"><summary style="cursor:pointer;font-size:13px;color:var(--ink2)">互評原始分數（列＝評分者）</summary>
-    <div class="tscroll" style="margin-top:8px"><table class="grid flat"><thead><tr class="hd"><th class="name">評分者＼被評</th>${staff.map(s=>`<th>${esc(s.name)}</th>`).join('')}</tr></thead><tbody>
-    ${FBK.list.map(f=>`<tr><td class="name">${esc(f.name)}</td>${staff.map(s=>`<td class="n">${s.id===f.person?'–':(f.peers||{})[s.id]??'·'}</td>`).join('')}</tr>`).join('')}
-    </tbody></table></div></details>`:''}`;
+  <div class="fbline">已填 <b>${done.length}</b> / ${staff.length} 人${not.length?`　未填：${not.map(s=>esc(s.name)).join('、')}`:'　全部完成'}
+    <span class="spacer"></span><span class="u">${FORM_URL}</span>
+    <button class="btn sm" id="fbCopy">複製網址</button><button class="btn sm" id="fbSync">更新填單名單</button><button class="btn sm" id="fbReload">重新整理</button>
+    <span id="fbSyncErr" style="color:var(--seal);font-size:12px"></span></div>
+  ${talk.length?`<div class="fbtalk"><div class="fbtalk-h">想跟劉醫師聊聊　<b>${talk.length}</b> 人</div>
+    ${talk.map(f=>`<div class="fbtalk-r"><b>${esc(f.name)}</b><span>${f.talkTopic?esc(f.talkTopic):'（沒有寫想聊的內容）'}</span></div>`).join('')}</div>`
+    :(FBK.list.length?`<div class="fbtalk none">這個月沒有人勾選想跟劉醫師聊聊</div>`:'')}
+  <h3 class="fbh">分數</h3>
+  <div class="tscroll fbscore"><table class="grid flat fbtbl"><thead>
+    <tr class="grp"><th class="name"></th><th></th><th class="sep" colspan="${staff.length}">同事給的分數（每一欄＝評分的人）</th></tr>
+    <tr class="hd"><th class="name">姓名</th><th class="n">自評</th>
+      ${staff.map((r,i)=>`<th class="n${i?'':' sep'}">${esc(r.name)}</th>`).join('')}</tr></thead>
+    <tbody>${scoreRows}</tbody></table></div>
+  <h3 class="fbh">自評與互評</h3>
+  <div class="tscroll"><table class="grid flat fbtbl"><thead>
+    <tr class="hd"><th class="name">姓名</th><th style="text-align:left">做得最好的一件事</th><th style="text-align:left">做得比較不好的一件事</th><th style="text-align:left">同事的評分理由</th></tr></thead>
+    <tbody>${textRows}</tbody></table></div>`;
   document.getElementById('fbCopy').onclick=async()=>{try{await navigator.clipboard.writeText(FORM_URL);toast('已複製填單網址');}catch(e){prompt('填單網址：',FORM_URL);}};
   document.getElementById('fbSync').onclick=async()=>{const r=await syncRoster(true);
     toast(r&&r.ok?'填單名單已更新（在職 '+r.n+' 人）':'名單更新失敗：'+((r&&r.err)||'尚未登入或資料未載入'));
     if(r&&!r.ok){const w=document.getElementById('fbSyncErr');if(w)w.textContent='名單更新失敗：'+r.err;}};
   document.getElementById('fbReload').onclick=()=>{FBK.key=null;renderFeedback();};
-  document.getElementById('fbAttBy').onchange=async e=>{DB.attendanceBy=e.target.value;save();const r=await syncRoster(true);toast(r&&r.ok?'已更新負責登記的人':'更新失敗：'+((r&&r.err)||''));};
-  const ap=document.getElementById('fbAttApply');
-  if(ap)ap.onclick=()=>{
-    const M=getMonth(DB.month,true);
-    if(M.locked){toast(DB.month+' 月已鎖定（已發放），不能帶入');return;}
-    if((DB.rules.lateMode||'simple')==='detail')toast('注意：遲到是「逐筆明細」模式，遲到分鐘請在月薪資表手動輸入');
-    let n=0;staff.forEach(s=>{const r=(FBK.att.rows||{})[s.id];if(!r)return;M.rows[s.id]=M.rows[s.id]||{};
-      ATT_F.forEach(([k,,fld])=>{if(r[k]!=null&&!(fld==='lateTotal'&&(DB.rules.lateMode||'simple')==='detail')){M.rows[s.id][fld]=r[k];}});
-      if(r.note)M.rows[s.id].note=[M.rows[s.id].note,r.note].filter(Boolean).filter((v,i,a)=>a.indexOf(v)===i).join('；');n++;});
-    save();toast('已帶入 '+n+' 人的出缺勤，請到「月薪資表」確認');};
 }
 
 /* ===== 介面 ===== */
@@ -3102,9 +3283,9 @@ function renderFabs(){
   if(VIEW==='month'&&(!M||M.locked)){ b.hidden=true; return; }
   const on=editIsOn();
   b.classList.toggle('on',on);
-  b.innerHTML=on?'<span class="pen">✎</span> 完成編輯':'<span class="pen">✎</span> 編輯';
+  b.innerHTML=on?'<i class="pen"></i> 完成編輯':'<i class="pen"></i> 編輯';
   b.title=VIEW==='setup'?(on?'鎖回唯讀':'解鎖設定欄位')
-                        :(on?'鎖回唯讀':'解鎖出勤欄位，其他區請點標題上的 ✎');
+                        :(on?'鎖回唯讀':'解鎖出勤欄位，其他區請點標題上的筆');
 }
 document.getElementById('btnEdit').onclick=()=>{
   const on=!editIsOn();
@@ -3113,11 +3294,11 @@ document.getElementById('btnEdit').onclick=()=>{
     staffEdit.__rules__=on;
     renderSetup();
   }else{
-    payEdit.att=on;              // 給付項目、代扣、獎金仍須點該區的 ✎
+    payEdit.att=on;              // 給付項目、代扣、獎金仍須點該區的筆
     renderMonth();
   }
   renderFabs();
-  toast(on? (VIEW==='setup'?'欄位已解鎖，改完請按「儲存」':'出勤欄位已解鎖，其他區請點標題上的 ✎')
+  toast(on? (VIEW==='setup'?'欄位已解鎖，改完請按「儲存」':'出勤欄位已解鎖，其他區請點標題上的筆')
           : '已鎖回唯讀');
 };
 function go(v){
@@ -3139,8 +3320,7 @@ function renderAll(){
   if(VIEW==='month')renderMonth();
   if(VIEW==='lookup')renderLookup();
   if(VIEW==='leave')renderLeave();
-  if(VIEW==='year')renderYear();
-  if(VIEW==='cost')renderCost();
+  if(VIEW==='year'){renderYear();renderYearChart();}
   if(VIEW==='comply')renderComply();
   if(VIEW==='slip'){renderSlipCtl();renderSlips();}
   if(VIEW==='remit')renderRemit();
